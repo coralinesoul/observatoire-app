@@ -102,6 +102,67 @@
                 {{$message}}
             @enderror
     </div>
+    <div id="liens-container">
+        @if(isset($liens) && $liens->count() > 0)
+            @foreach($liens as $index => $lien)
+                <div class="form-group">
+                    <label for="link_name">Nom du lien n°{{ $index + 1 }}</label>
+                    <input type="text" class="form-control" id="link_name" name="link_name[]" value="{{ old('link_name.' . $index, $lien->link_name) }}">
+                    @error('link_name.' . $index)
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="link_url">URL du lien n°{{ $index + 1 }}</label>
+                    <input type="url" class="form-control" id="link_url" name="link_url[]" value="{{ old('link_url.' . $index, $lien->link_url) }}">
+                    @error('link_url.' . $index)
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            @endforeach
+        @else
+            <div class="form-group">
+                <label for="link_name">Nom du lien n°1</label>
+                <input type="text" class="form-control" id="link_name" name="link_name[]" value="">
+                @error('link_name.0')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="link_url">URL du lien n°1</label>
+                <input type="url" class="form-control" id="link_url" name="link_url[]" value="">
+                @error('link_url.0')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        @endif
+    </div>
+    <button type="button" id="add-link">Ajouter un lien</button>
+
     <hr>
     <button class="btn btn-primary">Enregistrer</button>
 </form>
+
+<script>
+    document.getElementById('add-link').addEventListener('click', function() {
+        var container = document.getElementById('liens-container');
+        var index = container.children.length / 2;
+    
+        var linkNameDiv = document.createElement('div');
+        linkNameDiv.className = 'form-group';
+        linkNameDiv.innerHTML = `
+            <label for="link_name">Nom du lien n°${index + 1}</label>
+            <input type="text" class="form-control" id="link_name" name="link_name[]" value="">
+        `;
+    
+        var linkUrlDiv = document.createElement('div');
+        linkUrlDiv.className = 'form-group';
+        linkUrlDiv.innerHTML = `
+            <label for="link_url">URL du lien n°${index + 1}</label>
+            <input type="url" class="form-control" id="link_url" name="link_url[]" value="">
+        `;
+    
+        container.appendChild(linkNameDiv);
+        container.appendChild(linkUrlDiv);
+    });
+    </script>

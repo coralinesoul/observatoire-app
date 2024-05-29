@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \App\Models\Source;
 use \App\Models\Theme;
+use \App\Models\Lien;
 
 /**
  * @mixin IdeHelperEtude
@@ -29,5 +30,8 @@ class Etude extends Model
     }
     public function themes() {
         return $this->belongsToMany(Theme::class);
+    }
+    public function liens() {
+        return $this->hasMany(Lien::class);
     }
 }

@@ -37,7 +37,8 @@ class CatalogueController extends Controller
         return view('catalogue.edit',[
             'etude'=>$etude,
             'sources'=>Source::select('id','name')->get(),
-            'themes'=>Theme::select('id','name')->get()
+            'themes'=>Theme::select('id','name')->get(),
+            'liens' => $etude->liens()->orderBy('position')->get()
         ]);
     }
 
@@ -46,6 +47,7 @@ class CatalogueController extends Controller
 
             return to_route('catalogue.find',['slug'=>$etude->slug,'id'=>$etude->id]);
         }
+
         return view('catalogue.find', [
             'etude'=>$etude
         ]);
@@ -55,6 +57,17 @@ class CatalogueController extends Controller
         $etude-> update($request->validated());
         $etude-> sources()->sync($request->validated('sources'));
         $etude-> themes()->sync($request->validated('themes'));
+
+        $etude->liens()->delete();
+
+        foreach ($request->link_name as $index => $linkName) {
+            $etude->liens()->create([
+                'link_name' => $linkName,
+                'link_url' => $request->link_url[$index],
+                'position' => $index + 1,
+            ]);
+        }
+
         return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été modifiée");
     } 
 }
