@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use \App\Models\Etude;
 use \App\Models\Source;
 use \App\Models\Theme;
+use \App\Models\User;
 use \App\Http\Requests\CatalogueFilterRequest;
 use \App\Http\Requests\FormEtudeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class CatalogueController extends Controller
 {
     public function index () {
+        
             return view('catalogue.index',[
             'etudes' => Etude::with('sources','themes')->paginate(4)
         ]);
