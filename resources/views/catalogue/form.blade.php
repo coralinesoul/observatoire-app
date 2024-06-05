@@ -24,7 +24,10 @@
     <label for="theme">Thème(s)</label>
         <select class="form-control" id="theme" name="themes[]" multiple>
             @foreach($themes as $theme)
-                <option @selected($themesIds->contains($theme->id)) value="{{$theme->id}}">{{$theme->name}}</option>
+            <option value="{{$theme->id}}" 
+                @if(in_array($theme->id, old('themes', $themesIds->toArray()))) selected @endif>
+                {{$theme->name}}
+            </option>
             @endforeach
         </select>
         @error('themes')
@@ -34,12 +37,18 @@
 
 @php
     $sourcesIds = $etude->sources()->pluck("id");
+    $zonesIds = $etude->zones()->pluck("id");
+    $typesIds = $etude->types()->pluck("id");
 @endphp
+
    <div class="form-group">
     <label for="source">Structure(s) productrice(s)</label>
         <select class="form-control" id="source" name="sources[]" multiple>
             @foreach($sources as $source)
-                <option @selected($sourcesIds->contains($source->id)) value="{{$source->id}}">{{$source->name}}</option>
+                <option value="{{$source->id}}" 
+                    @if(in_array($source->id, old('sources', $sourcesIds->toArray()))) selected @endif>
+                    {{$source->name}}
+                </option>
             @endforeach
         </select>
         @error('sources')
@@ -55,6 +64,20 @@
             {{$message}}
         @enderror
     </div>
+    <div class="form-group">
+        <label for="zone">Zone(s) géographique(s)</label>
+            <select class="form-control" id="zone" name="zones[]" multiple>
+                @foreach($zones as $zone)
+                    <option value="{{$zone->id}}" 
+                        @if(in_array($zone->id, old('zones', $zonesIds->toArray()))) selected @endif>
+                        {{$zone->name}}
+                    </option>
+                @endforeach
+            </select>
+            @error('zones')
+                {{$message}}
+            @enderror
+        </div>
     <div class="form-group">
         <label for="active">L'étude est t'elle toujours active ?</label>
             <input type="radio" name="active" value="1" id="oui" @checked(old('active', $etude->active) == 1)></input>
@@ -102,6 +125,73 @@
                 {{$message}}
             @enderror
     </div>
+    <div class="form-group">
+        <label for="type">Type des ressources associées</label>
+            <select class="form-control" id="type" name="types[]" multiple>
+                @foreach($types as $type)
+                    <option value="{{$type->id}}" 
+                        @if(in_array($type->id, old('types', $typesIds->toArray()))) selected @endif>
+                        {{$type->name}}
+                    </option>
+                @endforeach
+            </select>
+            @error('types')
+                {{$message}}
+            @enderror
+        </div>
+
+        <div id="contacts">
+            @if(old('contacts') || isset($contacts) && $contacts->count() > 0)
+                @php
+                    $oldContacts = old('contacts', $contacts ?? []);
+                @endphp
+                @foreach($oldContacts as $index => $contact)
+                    <div class="contact">
+                        <input type="text" name="contacts[{{ $index }}][nom]" placeholder="Nom" value="{{ old('contacts.' . $index . '.nom', $contact['nom'] ?? '') }}" required>
+                        <input type="text" name="contacts[{{ $index }}][prenom]" placeholder="Prénom" value="{{ old('contacts.' . $index . '.prenom', $contact['prenom'] ?? '') }}" required>
+                        <input type="email" name="contacts[{{ $index }}][mail]" placeholder="Email" value="{{ old('contacts.' . $index . '.mail', $contact['mail'] ?? '') }}" required>
+                        <label>Diffusion Mail:</label>
+                        <input type="radio" name="contacts[{{ $index }}][diffusion_mail]" value="1" {{ old('contacts.' . $index . '.diffusion_mail', $contact['diffusion_mail'] ?? '') == 1 ? 'checked' : '' }} required> Oui
+                        <input type="radio" name="contacts[{{ $index }}][diffusion_mail]" value="0" {{ old('contacts.' . $index . '.diffusion_mail', $contact['diffusion_mail'] ?? '') == 0 ? 'checked' : '' }} required> Non
+                    </div>
+                    @error('contacts.' . $index . '.nom')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @error('contacts.' . $index . '.prenom')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @error('contacts.' . $index . '.mail')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @error('contacts.' . $index . '.diffusion_mail')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                @endforeach
+            @else
+                <div class="contact">
+                    <input type="text" name="contacts[0][nom]" placeholder="Nom" required>
+                    <input type="text" name="contacts[0][prenom]" placeholder="Prénom" required>
+                    <input type="email" name="contacts[0][mail]" placeholder="Email" required>
+                    <label>Diffusion Mail:</label>
+                    <input type="radio" name="contacts[0][diffusion_mail]" value="1" required> Oui
+                    <input type="radio" name="contacts[0][diffusion_mail]" value="0" required> Non
+                </div>
+                @error('contacts.0.nom')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+                @error('contacts.0.prenom')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+                @error('contacts.0.mail')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+                @error('contacts.0.diffusion_mail')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            @endif
+        </div>
+        <button type="button" onclick="addContact()">Ajouter un contact</button>
+
     <div id="liens-container">
         @if(isset($liens) && $liens->count() > 0)
             @foreach($liens as $index => $lien)
@@ -165,4 +255,22 @@
         container.appendChild(linkNameDiv);
         container.appendChild(linkUrlDiv);
     });
+
+    let contactIndex = {{ isset($contacts) ? $contacts->count() : (old('contacts') ? count(old('contacts')) : 1) }};
+    function addContact() {
+        const contactsDiv = document.getElementById('contacts');
+        const newContact = document.createElement('div');
+        newContact.className = 'contact';
+        newContact.innerHTML = `
+            <input type="text" name="contacts[${contactIndex}][nom]" placeholder="Nom" required>
+            <input type="text" name="contacts[${contactIndex}][prenom]" placeholder="Prénom" required>
+            <input type="email" name="contacts[${contactIndex}][mail]" placeholder="Email" required>
+            <label>Diffusion Mail:</label>
+            <input type="radio" name="contacts[${contactIndex}][diffusion_mail]" value="1" required> Oui
+            <input type="radio" name="contacts[${contactIndex}][diffusion_mail]" value="0" required> Non
+        `;
+        contactsDiv.appendChild(newContact);
+        contactIndex++;
+    }
+
     </script>

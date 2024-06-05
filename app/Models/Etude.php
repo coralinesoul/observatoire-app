@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use \App\Models\Source;
 use \App\Models\Theme;
 use \App\Models\Lien;
+use \App\Models\Contact;
+use \App\Models\Zone;
+use \App\Models\Type;
 
 /**
  * @mixin IdeHelperEtude
@@ -33,5 +36,14 @@ class Etude extends Model
     }
     public function liens() {
         return $this->hasMany(Lien::class);
+    }
+    public function zones() {
+        return $this->belongsToMany(Zone::class);
+    }
+    public function types() {
+        return $this->belongsToMany(Type::class);
+    }
+    public function contacts() {
+        return $this->belongsToMany(Contact::class);
     }
 }
