@@ -34,7 +34,16 @@ class FormEtudeRequest extends FormRequest
             'stopyear' => ['nullable', 'integer'],
             'frequence'=> ['nullable'],
             'sources'=>['array','exists:sources,id','required'],
-            'themes'=>['array','exists:themes,id','required']
+            'zones'=>['array','exists:zones,id','required'],
+            'themes'=>['array','exists:themes,id','required'],
+            'types'=>['array','exists:types,id','required'],
+            'link_name' => 'nullable|array',
+            'link_url' => 'nullable|array',
+            'contacts' => 'required|array|min:1',
+            'contacts.*.nom' => 'required|string|max:255',
+            'contacts.*.prenom' => 'required|string|max:255',
+            'contacts.*.mail' => 'required|email|max:255',
+            'contacts.*.diffusion_mail' => 'required|boolean',
 
         ];
     }
