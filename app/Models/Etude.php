@@ -10,6 +10,8 @@ use \App\Models\Lien;
 use \App\Models\Contact;
 use \App\Models\Zone;
 use \App\Models\Type;
+use \App\Models\Parametre;
+use \App\Models\Matrice;
 
 /**
  * @mixin IdeHelperEtude
@@ -45,5 +47,11 @@ class Etude extends Model
     }
     public function contacts() {
         return $this->belongsToMany(Contact::class);
+    }
+    public function parametres() {
+        return $this->belongsToMany(Parametre::class);
+    }
+    public function matrices() {
+        return $this->belongsToMany(Matrice::class);
     }
 }

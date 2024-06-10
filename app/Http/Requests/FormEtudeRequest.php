@@ -36,6 +36,8 @@ class FormEtudeRequest extends FormRequest
             'sources'=>['array','exists:sources,id','required'],
             'zones'=>['array','exists:zones,id','required'],
             'themes'=>['array','exists:themes,id','required'],
+            'parametres'=>['array','exists:parametres,id','required'],
+            'matrices'=>['array','exists:matrices,id','required'],
             'types'=>['array','exists:types,id','required'],
             'link_name' => 'nullable|array',
             'link_url' => 'nullable|array',
