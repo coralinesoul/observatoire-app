@@ -19,6 +19,11 @@
 
 @php
     $themesIds = $etude->themes()->pluck("id");
+    $parametresIds = $etude->parametres()->pluck("id");
+    $matricesIds = $etude->matrices()->pluck("id");
+    $sourcesIds = $etude->sources()->pluck("id");
+    $zonesIds = $etude->zones()->pluck("id");
+    $typesIds = $etude->types()->pluck("id");
 @endphp
    <div class="form-group">
     <label for="theme">Thème(s)</label>
@@ -34,12 +39,34 @@
             {{$message}}
         @enderror
     </div>
-
-@php
-    $sourcesIds = $etude->sources()->pluck("id");
-    $zonesIds = $etude->zones()->pluck("id");
-    $typesIds = $etude->types()->pluck("id");
-@endphp
+    <div class="form-group">
+        <label for="parametre">Paramètre(s) suivi(s)</label>
+            <select class="form-control" id="parametre" name="parametres[]" multiple>
+                @foreach($parametres as $parametre)
+                    <option value="{{$parametre->id}}" 
+                        @if(in_array($parametre->id, old('parametres', $parametresIds->toArray()))) selected @endif>
+                        {{$parametre->name}}
+                    </option>
+                @endforeach
+            </select>
+            @error('parametres')
+                {{$message}}
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="matrice">Matrice(s) suivie(s)</label>
+                <select class="form-control" id="matrice" name="matrices[]" multiple>
+                    @foreach($matrices as $matrice)
+                        <option value="{{$matrice->id}}" 
+                            @if(in_array($parametre->id, old('matrices', $matricesIds->toArray()))) selected @endif>
+                            {{$matrice->name}}
+                        </option>
+                    @endforeach
+                </select>
+                @error('matrices')
+                    {{$message}}
+                @enderror
+            </div>
 
    <div class="form-group">
     <label for="source">Structure(s) productrice(s)</label>
