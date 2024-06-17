@@ -58,7 +58,7 @@
                 <select class="form-control" id="matrice" name="matrices[]" multiple>
                     @foreach($matrices as $matrice)
                         <option value="{{$matrice->id}}" 
-                            @if(in_array($parametre->id, old('matrices', $matricesIds->toArray()))) selected @endif>
+                            @if(in_array($matrice->id, old('matrices', $matricesIds->toArray()))) selected @endif>
                             {{$matrice->name}}
                         </option>
                     @endforeach

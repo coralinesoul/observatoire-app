@@ -31,14 +31,42 @@ class CatalogueController extends Controller
         });
     }
 
-    // Ajouter d'autres filtres ici si nécessaire
+    if ($request->has('theme')) {
+        $themeIds = $request->get('theme');
+        $query->whereHas('themes', function($q) use ($themeIds) {
+            $q->whereIn('id', $themeIds);
+        });
+    }
+
+    if ($request->has('zone')) {
+        $zoneIds = $request->get('zone');
+        $query->whereHas('zones', function($q) use ($zoneIds) {
+            $q->whereIn('id', $zoneIds);
+        });
+    }
+    if ($request->has('min_year') && $request->has('max_year')) {
+        $minYear = $request->get('min_year');
+        $maxYear = $request->get('max_year');
+        $query->where(function($q) use ($minYear, $maxYear) {
+            $q->whereBetween('startyear', [$minYear, $maxYear])
+              ->orWhereBetween('stopyear', [$minYear, $maxYear])
+              ->orWhere(function($q) use ($minYear, $maxYear) {
+                  $q->where('startyear', '<=', $minYear)
+                    ->where('stopyear', '>=', $maxYear);
+              });
+        });
+    }
 
     $etudes = $query->paginate(4);
-    $allSources = Source::select('id', 'name')->get(); // Pour le formulaire de filtrage
+    $allSources = Source::select('id', 'name')->get(); 
+    $allThemes = Theme::select('id', 'name')->get(); 
+    $allZones = Zone::select('id', 'name')->get(); 
 
     return view('catalogue.index', [
         'etudes' => $etudes,
         'allSources' => $allSources,
+        'allThemes'=>$allThemes,
+        'allZones'=>$allZones,
     ]);
 }
     public function create() {
@@ -55,6 +83,7 @@ class CatalogueController extends Controller
             'matrices' => Matrice::select('*')->get(),
             
         ]);
+        
         
     }
     public function store (FormEtudeRequest $request){
