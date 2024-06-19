@@ -1,3 +1,5 @@
+//fonction pour le slidder annuel
+
 document.addEventListener('DOMContentLoaded', function () {
     const fromSlider = document.getElementById('fromSlider');
     const toSlider = document.getElementById('toSlider');
@@ -62,3 +64,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateSlider();
 });
+

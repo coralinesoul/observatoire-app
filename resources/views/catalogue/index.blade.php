@@ -3,6 +3,7 @@
 @extends('base')
 @section('title', 'Recherche avancée')
 @section('content')
+<livewire:filter-component />
 
 <!-- Formulaire de filtrage -->
 <form method="GET" action="{{ route('catalogue.index') }}">
@@ -22,6 +23,46 @@
             @foreach($allThemes as $theme)
                 <option value="{{ $theme->id }}" {{ in_array($theme->id, request()->get('theme', [])) ? 'selected' : '' }}>
                     {{ $theme->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="groupeParametre">Groupe de paramètres</label>
+        <select name="groupeParametre[]" id="groupeParametre" class="form-control" multiple>
+            @foreach($groupesUniques as $groupe)
+                <option value="{{ $groupe->groupe }}" {{ in_array($groupe->groupe, (array) request()->get('groupeParametre', [])) ? 'selected' : '' }}>
+                    {{ $groupe->groupe }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="parametre">Paramètre</label>
+        <select name="parametre[]" id="parametre" class="form-control" multiple>
+            @foreach($allParametres as $parametre)
+                <option value="{{ $parametre->id }}" {{ in_array($parametre->id, request()->get('parametre', [])) ? 'selected' : '' }}>
+                    {{ $parametre->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="groupeMatrice">Groupe de matrices</label>
+        <select name="groupeMatrice[]" id="groupeMatrice" class="form-control" multiple>
+            @foreach($groupesMatrices as $groupeM)
+                <option value="{{ $groupeM->groupe }}" {{ in_array($groupeM->groupe, (array) request()->get('groupeMatrice', [])) ? 'selected' : '' }}>
+                    {{ $groupeM->groupe }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="matrice">Matrice</label>
+        <select name="matrice[]" id="matrice" class="form-control" multiple>
+            @foreach($allMatrices as $matrice)
+                <option value="{{ $matrice->id }}" {{ in_array($matrice->id, request()->get('matrice', [])) ? 'selected' : '' }}>
+                    {{ $matrice->name }}
                 </option>
             @endforeach
         </select>
@@ -54,6 +95,14 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="form-group">
+        <label>Réglementaire</label><br>
+        <input type="checkbox" name="reglementaire[]" id="reglementaire_oui" value="1" {{ in_array('1', (array) request()->get('reglementaire', [])) ? 'checked' : '' }}>
+        <label for="reglementaire_oui">Oui</label>
+        <br>
+        <input type="checkbox" name="reglementaire[]" id="reglementaire_non" value="0" {{ in_array('0', (array) request()->get('reglementaire', [])) ? 'checked' : '' }}>
+        <label for="reglementaire_non">Non</label>
     </div>
   
     <button type="submit" class="btn btn-primary">Filtrer</button>
