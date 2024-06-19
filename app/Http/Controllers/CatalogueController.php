@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 
 class CatalogueController extends Controller
 {
+    
     public function index(Request $request)
 {
     $query = Etude::query();
@@ -38,6 +39,35 @@ class CatalogueController extends Controller
         });
     }
 
+    if ($request->has('groupeParametre')) {
+        $groupeIds = $request->get('groupeParametre');
+        $parametreIds = Parametre::whereIn('groupe', $groupeIds)->pluck('id')->toArray();
+        $query->whereHas('parametres', function($q) use ($parametreIds) {
+            $q->whereIn('id', $parametreIds);
+        });
+    }
+
+    if ($request->has('parametre')) {
+        $parametreIds = $request->get('parametre');
+        $query->whereHas('parametres', function($q) use ($parametreIds) {
+            $q->whereIn('id', $parametreIds);
+        });
+    }
+
+    if ($request->has('groupeMatrice')) {
+        $groupeMIds = $request->get('groupeMatrice');
+        $matriceIds = Matrice::whereIn('groupe', $groupeMIds)->pluck('id')->toArray();
+        $query->whereHas('matrices', function($q) use ($matriceIds) {
+            $q->whereIn('id', $matriceIds);
+        });
+    }
+
+    if ($request->has('matrice')) {
+        $matriceIds = $request->get('matrice');
+        $query->whereHas('matrices', function($q) use ($matriceIds) {
+            $q->whereIn('id', $matriceIds);
+        });
+    }
     if ($request->has('zone')) {
         $zoneIds = $request->get('zone');
         $query->whereHas('zones', function($q) use ($zoneIds) {
@@ -56,17 +86,36 @@ class CatalogueController extends Controller
               });
         });
     }
+    if ($request->filled('reglementaire')) {
+        $reglementaireFilters = (array) $request->get('reglementaire', []);
+        if (in_array('1', $reglementaireFilters) && in_array('0', $reglementaireFilters)) {
+            
+        } elseif (in_array('1', $reglementaireFilters)) {
+            $query->where('reglementaire', true);
+        } elseif (in_array('0', $reglementaireFilters)) {
+            $query->where('reglementaire', false);
+        }
+    }
 
     $etudes = $query->paginate(4);
     $allSources = Source::select('id', 'name')->get(); 
     $allThemes = Theme::select('id', 'name')->get(); 
     $allZones = Zone::select('id', 'name')->get(); 
+    $allParametres = Parametre::select('id', 'name','groupe')->get(); 
+    $allMatrices = Matrice::select('id', 'name','groupe')->get(); 
+    $groupesUniques = $allParametres->unique('groupe');
+    $groupesMatrices = $allMatrices->unique('groupe');
+
 
     return view('catalogue.index', [
         'etudes' => $etudes,
         'allSources' => $allSources,
         'allThemes'=>$allThemes,
         'allZones'=>$allZones,
+        'allParametres'=>$allParametres,
+        'allMatrices'=>$allMatrices,
+        'groupesUniques'=>$groupesUniques,
+        'groupesMatrices'=>$groupesMatrices,
     ]);
 }
     public function create() {
