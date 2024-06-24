@@ -74,6 +74,18 @@ class CatalogueController extends Controller
             $q->whereIn('id', $zoneIds);
         });
     }
+
+    if ($request->filled('reglementaire')) {
+        $reglementaireFilters = (array) $request->get('reglementaire', []);
+        if (in_array('1', $reglementaireFilters) && in_array('0', $reglementaireFilters)) {
+
+        } elseif (in_array('1', $reglementaireFilters)) {
+            $query->where('reglementaire', true);
+        } elseif (in_array('0', $reglementaireFilters)) {
+            $query->where('reglementaire', false);
+        }
+    }
+
     if ($request->has('min_year') && $request->has('max_year')) {
         $minYear = $request->get('min_year');
         $maxYear = $request->get('max_year');
