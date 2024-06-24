@@ -26,6 +26,46 @@
             @endforeach
         </select>
     </div>
+        <div class="form-group">
+        <label for="groupeParametre">Groupe de paramètres</label>
+        <select name="groupeParametre[]" id="groupeParametre" class="form-control" multiple>
+            @foreach($groupesUniques as $groupe)
+                <option value="{{ $groupe->groupe }}" {{ in_array($groupe->groupe, (array) request()->get('groupeParametre', [])) ? 'selected' : '' }}>
+                    {{ $groupe->groupe }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="parametre">Paramètre</label>
+        <select name="parametre[]" id="parametre" class="form-control" multiple>
+            @foreach($allParametres as $parametre)
+                <option value="{{ $parametre->id }}" {{ in_array($parametre->id, request()->get('parametre', [])) ? 'selected' : '' }}>
+                    {{ $parametre->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="groupeMatrice">Groupe de matrices</label>
+        <select name="groupeMatrice[]" id="groupeMatrice" class="form-control" multiple>
+            @foreach($groupesMatrices as $groupeM)
+                <option value="{{ $groupeM->groupe }}" {{ in_array($groupeM->groupe, (array) request()->get('groupeMatrice', [])) ? 'selected' : '' }}>
+                    {{ $groupeM->groupe }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="matrice">Matrice</label>
+        <select name="matrice[]" id="matrice" class="form-control" multiple>
+            @foreach($allMatrices as $matrice)
+                <option value="{{ $matrice->id }}" {{ in_array($matrice->id, request()->get('matrice', [])) ? 'selected' : '' }}>
+                    {{ $matrice->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
     <div class="form-group">
         <label for="zone">Zone</label>
         <select name="zone[]" id="zone" class="form-control" multiple>
@@ -52,6 +92,7 @@
                     <div class="form_control_container__time">Max</div>
                     <input class="form_control_container__time__input" type="number" id="toInput" value="{{ request()->get('max_year', 2024) }}" min="1900" max="2024"/>
                 </div>
+
             </div>
         </div>
     </div>
@@ -62,7 +103,6 @@
 <hr>
 
 @foreach ($etudes as $etude)
-<etude>
     <h2>{{$etude->title}}</h2>
     @foreach($etude->themes as $theme)
         <span>{{$theme->name}}</span>
