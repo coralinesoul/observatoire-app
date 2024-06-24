@@ -78,6 +78,14 @@
         </select>
     </div>
     <div class="form-group">
+        <label>Réglementaire</label><br>
+        <input type="checkbox" name="reglementaire[]" id="reglementaire_oui" value="1" {{ in_array('1', (array) request()->get('reglementaire', [])) ? 'checked' : '' }}>
+        <label for="reglementaire_oui">Oui</label>
+        <br>
+        <input type="checkbox" name="reglementaire[]" id="reglementaire_non" value="0" {{ in_array('0', (array) request()->get('reglementaire', [])) ? 'checked' : '' }}>
+        <label for="reglementaire_non">Non</label>
+    </div>
+    <div class="form-group">
         <label for="year-range">Plage d'années</label>
         <div class="range_container">
             <div class="sliders_control">
