@@ -6,7 +6,7 @@
 
     <hr>
     <div class=container>
-        <livewire:reglementaire/>
+        <livewire:filter/>
     </div>
 
 @endsection
