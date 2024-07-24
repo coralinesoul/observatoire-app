@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use \App\Models\Source;
 use \App\Models\Theme;
 use \App\Models\Lien;
@@ -29,6 +30,7 @@ class Etude extends Model
         'startyear',
         'stopyear',
         'frequence',
+        'image'
     ];
     public function sources() {
         return $this->belongsToMany(Source::class);
@@ -54,4 +56,8 @@ class Etude extends Model
     public function matrices() {
         return $this->belongsToMany(Matrice::class);
     }
+    public function imageUrl(): string
+{
+    return Storage::url($this->image);
+}
 }

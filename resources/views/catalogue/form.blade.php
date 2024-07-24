@@ -1,11 +1,11 @@
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     @csrf
    
     <div class="form-group">
         <label for="title">Titre court de l'étude</label>
         <input type="text" class="form-control" name="title" value="{{old('title', $etude->title)}}">
        @error('title')
-           {{$message}}
+           <div class="text-danger">{{$message}}</div>
        @enderror
    </div>
 
@@ -13,10 +13,16 @@
     <label for="longtitle">Titre long de l'étude</label>
     <input type="text" class="form-control" name="longtitle" value="{{old('longtitle', $etude->longtitle)}}">
    @error('longtitle')
-       {{$message}}
+       <div class="text-danger">{{$message}}</div>
    @enderror
 </div>
-
+<div class="form-group">
+    <label for="image">Image</label>
+    <input type="file" class="form-control" id="image" name="image" >
+   @error('image')
+       <div class="text-danger">{{$message}}</div>
+   @enderror
+</div>
 @php
     $themesIds = $etude->themes()->pluck("id");
     $parametresIds = $etude->parametres()->pluck("id");
@@ -36,7 +42,7 @@
             @endforeach
         </select>
         @error('themes')
-            {{$message}}
+            <div class="text-danger">{{$message}}</div>
         @enderror
     </div>
     <div class="form-group">
@@ -50,7 +56,7 @@
                 @endforeach
             </select>
             @error('parametres')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -64,7 +70,7 @@
                     @endforeach
                 </select>
                 @error('matrices')
-                    {{$message}}
+                    <div class="text-danger">{{$message}}</div>
                 @enderror
             </div>
 
@@ -79,7 +85,7 @@
             @endforeach
         </select>
         @error('sources')
-            {{$message}}
+            <div class="text-danger">{{$message}}</div>
         @enderror
     </div>
 
@@ -88,7 +94,7 @@
     <label for="resume">Description de l'étude</label>
         <textarea type="text" class="form-control" name="resume">{{old('resume', $etude->resume)}}</textarea>
         @error('resume')
-            {{$message}}
+            <div class="text-danger">{{$message}}</div>
         @enderror
     </div>
     <div class="form-group">
@@ -102,7 +108,7 @@
                 @endforeach
             </select>
             @error('zones')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
         </div>
     <div class="form-group">
@@ -112,21 +118,21 @@
             <input type="radio" name="active" value="0" id="non" @checked(old('active', $etude->active) == 0)></input>
             <label for="non">non</label>
             @error('active')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="form-group">
         <label for="startyear">Année de début</label>
             <input type="number" class="form-control" name="startyear" value="{{ old('startyear', $etude->startyear) }}"></input>
             @error('startyear')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="form-group">
         <label for="stopyear">Année de fin</label>
             <input type="number" class="form-control" name="stopyear" value="{{ old('stopyear', $etude->stopyear) }}"></input>
             @error('stopyear')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="form-group">
@@ -139,7 +145,7 @@
                 <option value="anuelle">anuelle</option>
             </select>
             @error('stopyear')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="form-group">
@@ -149,7 +155,7 @@
             <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 0)></input>
             <label for="non">non</label>
             @error('reglementaire')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="form-group">
@@ -163,7 +169,7 @@
                 @endforeach
             </select>
             @error('types')
-                {{$message}}
+                <div class="text-danger">{{$message}}</div>
             @enderror
         </div>
 
