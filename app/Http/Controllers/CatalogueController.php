@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CatalogueController extends Controller
 {
@@ -103,7 +104,7 @@ class CatalogueController extends Controller
     } 
 
     public function update(Etude $etude, FormEtudeRequest $request) {
-        $etude-> update($request->validated());
+        $etude-> update($this->extractData($etude, $request));
         $etude-> sources()->sync($request->validated('sources'));
         $etude-> zones()->sync($request->validated('zones'));
         $etude-> types()->sync($request->validated('types'));
@@ -139,4 +140,24 @@ class CatalogueController extends Controller
 
         return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été modifiée");
     } 
+    private function extractData(Etude $etude, FormEtudeRequest $request): array
+    {
+        $data = $request->validated();
+        /** @var \Illuminate\Http\UploadedFile|null $image */
+        $image = $request->validated('image');
+
+        // Delete the old image if a new image is uploaded
+        if ($image !== null && $image->isValid()) {
+            if ($etude->image && Storage::disk('public')->exists($etude->image)) {
+                Storage::disk('public')->delete($etude->image);
+            }
+            $data['image'] = $image->store('catalogue', 'public');
+        } else {
+            if (!isset($etude->image) || empty($etude->image)) {
+                $data['image'] = "catalogue/default.png";
+            }
+        }
+
+        return $data; // Ensure the method returns the data array
+    }
 }

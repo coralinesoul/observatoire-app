@@ -46,6 +46,7 @@ class FormEtudeRequest extends FormRequest
             'contacts.*.prenom' => 'required|string|max:255',
             'contacts.*.mail' => 'required|email|max:255',
             'contacts.*.diffusion_mail' => 'required|boolean',
+            'image' => ['image', 'max:2000']
 
         ];
     }
