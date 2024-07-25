@@ -23,6 +23,9 @@ class Filter extends Component
     public $selectedZone = [];
     public $selectedType = [];
     public $selectedReglementaire =[];
+    public $selectedFrequence =[];
+    public $selectedStartyear =1960;
+    public $selectedStopyear = 2024;
 
     public $themes;
     public $sources;
@@ -46,7 +49,16 @@ class Filter extends Component
     public function getselect()
     
     {
-        if (empty($this->selectedSource) && empty($this->selectedTheme)&& empty($this->selectedParametre)&& empty($this->selectedMatrice)&& empty($this->selectedZone)&& empty($this->selectedType)&& empty($this->selectedReglementaire)) {
+    
+        if (empty($this->selectedSource)  
+            && empty($this->selectedTheme) 
+            && empty($this->selectedParametre)
+            && empty($this->selectedMatrice)
+            && empty($this->selectedZone)
+            && empty($this->selectedType)
+            && empty($this->selectedReglementaire)
+            && empty($this->selectedFrequence)
+            && ($this->selectedStartyear == 1960 && $this->selectedStopyear == 2024)) {
             // Si aucune source et aucun thème ne sont sélectionnés, retourner toutes les études avec leurs sources et thèmes
             $this->etudes = Etude::with('sources', 'themes','parametres','matrices','zones','types')->get();
         } else {
@@ -84,6 +96,13 @@ class Filter extends Component
                 })
                 ->when(!empty($this->selectedReglementaire), function ($query) {
                     $query->whereIn('reglementaire', $this->selectedReglementaire);
+                })
+                ->when(!empty($this->selectedFrequence), function ($query) {
+                    $query->whereIn('frequence', $this->selectedFrequence);
+                })
+                ->when($this->selectedStartyear != 1960 || $this->selectedStopyear != 2024, function ($query) {
+                    $query->where('startyear', '>=', $this->selectedStartyear)
+                          ->where('stopyear', '<=', $this->selectedStopyear);
                 })
             
                 ->get();
