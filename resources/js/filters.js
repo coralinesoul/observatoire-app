@@ -1,67 +1,62 @@
-//fonction pour le slidder annuel
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const fromSlider = document.getElementById('fromSlider');
     const toSlider = document.getElementById('toSlider');
     const fromInput = document.getElementById('fromInput');
     const toInput = document.getElementById('toInput');
-    const minGap = 1;
 
-    function updateSlider() {
-        const fromValue = parseInt(fromSlider.value);
-        const toValue = parseInt(toSlider.value);
+    const updateFromInput = (val) => {
+        fromInput.value = val;
+    };
 
-        fromInput.value = fromValue;
-        toInput.value = toValue;
+    const updateToInput = (val) => {
+        toInput.value = val;
+    };
 
-        const rangeDistance = toSlider.max - toSlider.min;
-        const fromPosition = ((fromValue - toSlider.min) / rangeDistance) * 100;
-        const toPosition = ((toValue - toSlider.min) / rangeDistance) * 100;
+    const updateFromSlider = (val) => {
+        fromSlider.value = val;
+    };
 
-        toSlider.style.background = `linear-gradient(
-            to right,
-            #C6C6C6 0%,
-            #C6C6C6 ${fromPosition}%,
-            #25daa5 ${fromPosition}%,
-            #25daa5 ${toPosition}%, 
-            #C6C6C6 ${toPosition}%,
-            #C6C6C6 100%
-        )`;
+    const updateToSlider = (val) => {
+        toSlider.value = val;
+    };
 
-        if (toValue - fromValue <= minGap) {
-            if (fromSlider.value > toSlider.value) {
-                toSlider.value = fromValue + minGap;
-                toInput.value = fromValue + minGap;
-            } else {
-                fromSlider.value = toValue - minGap;
-                fromInput.value = toValue - minGap;
-            }
+    fromSlider.oninput = function() {
+        const val = this.value;
+        updateFromInput(val);
+        if (parseInt(val) > parseInt(toSlider.value)) {
+            const adjustedValue = toSlider.value;
+            updateToSlider(val);
+            updateToInput(adjustedValue);
         }
-    }
+    };
 
-    function syncFromSlider() {
-        updateSlider();
-    }
+    toSlider.oninput = function() {
+        const val = this.value;
+        updateToInput(val);
+        if (parseInt(val) < parseInt(fromSlider.value)) {
+            const adjustedValue = fromSlider.value;
+            updateFromSlider(val);
+            updateFromInput(adjustedValue);
+        }
+    };
 
-    function syncToSlider() {
-        updateSlider();
-    }
+    fromInput.onchange = function() {
+        const val = this.value;
+        updateFromSlider(val);
+        if (parseInt(val) > parseInt(toInput.value)) {
+            const adjustedValue = toInput.value;
+            updateToSlider(val);
+            updateToInput(adjustedValue);
+        }
+    };
 
-    function syncFromInput() {
-        fromSlider.value = fromInput.value;
-        updateSlider();
-    }
-
-    function syncToInput() {
-        toSlider.value = toInput.value;
-        updateSlider();
-    }
-
-    fromSlider.addEventListener('input', syncFromSlider);
-    toSlider.addEventListener('input', syncToSlider);
-    fromInput.addEventListener('input', syncFromInput);
-    toInput.addEventListener('input', syncToInput);
-
-    updateSlider();
+    toInput.onchange = function() {
+        const val = this.value;
+        updateToSlider(val);
+        if (parseInt(val) < parseInt(fromInput.value)) {
+            const adjustedValue = fromInput.value;
+            updateFromSlider(val);
+            updateFromInput(adjustedValue);
+        }
+    };
 });
-

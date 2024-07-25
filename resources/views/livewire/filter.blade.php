@@ -77,7 +77,38 @@
         @endforeach
     </div>
     <br>
-
+    <div class="range_container">
+        <div class="sliders_control">
+            <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="getselect" name="min_year" min="1960" max="2024" oninput="updateFromInput(this.value)"/>
+            <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="getselect" name="max_year" min="1960" max="2024" oninput="updateToInput(this.value)"/>
+        </div>
+        <div class="form_control">
+            <div class="form_control_container">
+                <div class="form_control_container__time">Min</div>
+                <input class="form_control_container__time__input" type="number" wire:model="selectedStartyear" wire:change="getselect" id="fromInput" min="1960" max="2024" onchange="updateFromSlider(this.value)"/>
+            </div>
+            <div class="form_control_container">
+                <div class="form_control_container__time">Max</div>
+                <input class="form_control_container__time__input" type="number" wire:model="selectedStopyear" wire:change="getselect" id="toInput" min="1960" max="2024" onchange="updateToSlider(this.value)"/>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div>
+        <input type="checkbox" id="optionPonctuelle" name="selectedFrequence" value="ponctuelle" wire:model="selectedFrequence" wire:change="getselect">
+        <label for="optionPonctuelle">Ponctuelle</label>
+        
+        <input type="checkbox" id="optionQuotidienne" name="selectedFrequence" value="quotidienne" wire:model="selectedFrequence" wire:change="getselect">
+        <label for="optionQuotidienne">Quotidienne</label>
+        <input type="checkbox" id="optionMensuelle" name="selectedFrequence" value="mensuelle" wire:model="selectedFrequence" wire:change="getselect">
+        <label for="optionMensuelle">Mensuelle</label>
+        <input type="checkbox" id="optionPluriannuelle" name="selectedFrequence" value="pluriannuelle" wire:model="selectedFrequence" wire:change="getselect">
+        <label for="optionPluriannuelle">Pluriannuelle</label>
+        <input type="checkbox" id="optionAnnuelle" name="selectedFrequence" value="annuelle" wire:model="selectedFrequence" wire:change="getselect">
+        <label for="optionAnnuelle">Annuelle</label>
+    </div>
+    <br>
     <br>
     <div>
         @foreach ($types as $type)
@@ -110,3 +141,5 @@
         @endforeach
     </div>
 </div>
+<script src="{{ mix('resources/js/filters.js') }}"></script>
+
