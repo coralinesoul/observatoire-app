@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\AuthController;
-use App\Livewire\FilterComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +27,7 @@ Route::post('/login', [AuthController::class,'doLogin']);
 
 Route::prefix('/catalogue')->name('catalogue.')->controller(CatalogueController::class)->group(function(){
     Route::get('/','index')->name('index');
+    Route::get('/a-propos','about')->name('about');
     Route::get('/new','create')->name('create')->middleware('auth');
     Route::get('/{etude}/edit','edit')->name('edit')->middleware('auth');
     Route::post('/{etude}/edit','update')->middleware('auth');
@@ -39,4 +39,3 @@ Route::prefix('/catalogue')->name('catalogue.')->controller(CatalogueController:
 
 
 });
-Route::get('/filter-component', FilterComponent::class);
