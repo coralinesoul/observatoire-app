@@ -2,50 +2,55 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    @vite('resources/css/app.css')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="{{ mix('resources/css/app.css') }}" rel="stylesheet">
-</head>
+    </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('LOGO.png') }}" width="100%" height="80" class="d-inline-block align-text-top">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('catalogue.index') }}">Le catalogue</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Les études</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">A propos</a>
-                    </li>
-                </ul>
-                <div class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    @auth
-                        {{ \Illuminate\Support\Facades\Auth::user()->name }}
-                        <form action="{{ route('auth.logout') }}" method="post">
-                            @method("delete")
-                            @csrf
-                            <button class="nav-link">Se déconnecter</button>
-                        </form>
-                    @endauth
-                    @guest
-                        <a href="{{ route('auth.login') }}">Se connecter</a>
-                    @endguest
-                </div>
+    <nav class="bg-white p-4 mx-8">
+        <div class="w-full px-8 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="w-48 h-auto pr-8">
+                <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto">
             </div>
-        </div>
+    
+            <!-- Menu de Navigation -->
+            <div class="hidden md:flex space-x-4 items-center">
+                <a 
+                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('catalogue.index') ? 'text-blue1 font-bold' : '' }}" 
+                    aria-current="page" 
+                    href="{{ route('catalogue.index') }}"
+                >
+                    Catalogue
+                </a>
+                <a 
+                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('catalogue.about') ? 'text-blue1 font-bold' : '' }}" 
+                    href="{{ route('catalogue.about') }}"
+                >
+                    A propos
+                </a>
+            </div>
+            
+    
+            <!-- Actions d'authentification -->
+            <div class="hidden md:flex items-center space-x-4 ml-auto">
+                @auth
+                    <span class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </span>
+                    <form action="{{ route('auth.logout') }}" method="post">
+                        @method("delete")
+                        @csrf
+                        <button type="submit" class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded"> Se déconnecter</button>
+                    </form>
+                @endauth
+                @guest
+                    <a href="{{ route('auth.login') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> Se connecter</a>
+                @endguest
+            </div>
+
     </nav>
-    <div>
-        <svg width="1207" height="6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 3H1204" stroke="#A6CFCE" stroke-width="6" stroke-linecap="round"/>
-        </svg>
+    <div class="w-full px-8">
+        <hr class="border-blue2 border-t-4 rounded">
     </div>
     <div class="container">
         @if (session('success'))
@@ -54,7 +59,7 @@
             </div>
         @endif
     </div>
-    <div class="container">
+    <div class="w-full px-8">
         @yield('content')
     </div>
 </body>

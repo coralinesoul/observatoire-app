@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CatalogueController extends Controller
 {
+    public function about()
+    {
+        return view('catalogue.about');
+    }
     public function index()
     {
         return view('catalogue.index');
