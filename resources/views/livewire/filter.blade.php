@@ -54,7 +54,15 @@
             </div>
             <br>
             <div>
-                @foreach ($parametres as $parametre)
+                @foreach ($parametres->groupBy('groupe') as $groupe => $parametresGrouped)
+                    <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredParametres">
+                    <label>{{$groupe}}</label>
+                    <br>
+                @endforeach
+            </div>
+            <br>
+            <div>
+                @foreach ($filteredParametres as $parametre)
                     <input type="checkbox" id="{{$parametre->id}}" name="selectedParametre" value="{{$parametre->id}}" wire:model="selectedParametre" wire:change="getselect">
                     <label>{{$parametre->name}}</label>
                     <br>
@@ -141,7 +149,7 @@
                     </div>
                       <div class="flex flex-wrap items-center">
                         @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
-                            <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$parametre->groupe}}</span>
+                            <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
                         @endforeach
                         @foreach($etude->matrices as $matrice)
                             <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$matrice->groupe}}</span>
