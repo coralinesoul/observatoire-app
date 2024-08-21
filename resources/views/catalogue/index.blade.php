@@ -1,7 +1,7 @@
 @extends('base')
 @section('title', 'Recherche avancée')
 @section('content')
-    <div class=container>
+    <div class="flex">
         <livewire:filter/>
     </div>
 @endsection

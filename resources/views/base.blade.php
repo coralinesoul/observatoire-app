@@ -52,7 +52,8 @@
     <div class="w-full px-8">
         <hr class="border-blue2 border-t-4 rounded">
     </div>
-    <div class="container">
+    <br>
+    <div>
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
