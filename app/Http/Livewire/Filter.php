@@ -18,6 +18,8 @@ class Filter extends Component
 
     public $selectedTheme = [];
     public $selectedSource = [];
+    public $selectedGp = [];
+
     public $selectedParametre = [];
     public $selectedMatrice = [];
     public $selectedZone = [];
@@ -30,6 +32,7 @@ class Filter extends Component
     public $themes;
     public $sources;
     public $parametres;
+    public $filteredParametres;
     public $matrices;
     public $zones;
     public $types;
@@ -43,6 +46,7 @@ class Filter extends Component
         $this->zones = Zone::all();
         $this->types = Type::all();
 
+        $this->filteredParametres = $this->parametres;
         $this->getselect();
     }
 
@@ -50,9 +54,11 @@ class Filter extends Component
     
     {
     
+
         if (empty($this->selectedSource)  
             && empty($this->selectedTheme) 
             && empty($this->selectedParametre)
+            && empty($this->selectedGp)
             && empty($this->selectedMatrice)
             && empty($this->selectedZone)
             && empty($this->selectedType)
@@ -74,6 +80,12 @@ class Filter extends Component
                         $query->whereIn('id', $this->selectedTheme);
                     });
                 })
+                ->when(!empty($this->selectedGp), function ($query) {
+                    $query->whereHas('parametres', function($query) {
+                        $query->whereIn('groupe', $this->selectedGp);
+                    });
+                })
+
                 ->when(!empty($this->selectedParametre), function ($query) {
                     $query->whereHas('parametres', function ($query) {
                         $query->whereIn('id', $this->selectedParametre);
@@ -108,6 +120,15 @@ class Filter extends Component
                 ->get();
         }
     }
+    public function updateFilteredParametres()
+    {
+        if (!empty($this->selectedGp)) {
+            $this->filteredParametres = $this->parametres->whereIn('groupe', $this->selectedGp);
+        } else {
+            $this->filteredParametres = $this->parametres;
+        }
+        $this->getselect();
+    }
 
     public function render()
     {
@@ -115,7 +136,7 @@ class Filter extends Component
         return view('livewire.filter', 
             ['etudes' => $this->etudes, 
             'sources' => $this->sources, 
-            'parametres' => $this->parametres,
+            'parametres' => $this->filteredParametres,
             'matrices' => $this->matrices,
             'zones' => $this->zones,
             'types' => $this->types]
