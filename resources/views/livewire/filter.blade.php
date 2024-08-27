@@ -39,7 +39,7 @@
         <div>
             <div>
                 @foreach ($sources as $source)
-                    <input type="checkbox" id="{{$source->id}}" name="selectedSource" value="{{$source->id}}" wire:model="selectedSource" wire:change="getselect">
+                    <input type="checkbox" id="{{$source->id}}" name="selectedSource" value="{{$source->id}}" wire:model="selectedSource" wire:change="updateFilteredOptions">
                     <label>{{$source->name}}</label>
                     <br>
                 @endforeach
@@ -47,7 +47,7 @@
             <br>
             <div>
                 @foreach ($themes as $theme)
-                    <input type="checkbox" id="{{$theme->id}}" name="selectedTheme" value="{{$theme->id}}" wire:model="selectedTheme" wire:change="getselect">
+                    <input type="checkbox" id="{{$theme->id}}" name="selectedTheme" value="{{$theme->id}}" wire:model="selectedTheme" wire:change="updateFilteredOptions">
                     <label>{{$theme->name}}</label>
                     <br>
                 @endforeach
@@ -55,7 +55,7 @@
             <br>
             <div>
                 @foreach ($parametres->groupBy('groupe') as $groupe => $parametresGrouped)
-                    <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredParametres">
+                    <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredOptions">
                     <label>{{$groupe}}</label>
                     <br>
                 @endforeach
@@ -63,15 +63,23 @@
             <br>
             <div>
                 @foreach ($filteredParametres as $parametre)
-                    <input type="checkbox" id="{{$parametre->id}}" name="selectedParametre" value="{{$parametre->id}}" wire:model="selectedParametre" wire:change="getselect">
+                    <input type="checkbox" id="{{$parametre->id}}" name="selectedParametre" value="{{$parametre->id}}" wire:model="selectedParametre" wire:change="updateFilteredOptions">
                     <label>{{$parametre->name}}</label>
                     <br>
                 @endforeach
             </div>
             <br>
             <div>
-                @foreach ($matrices as $matrice)
-                    <input type="checkbox" id="{{$matrice->id}}" name="selectedMatrice" value="{{$matrice->id}}" wire:model="selectedMatrice" wire:change="getselect">
+                @foreach ($matrices->groupBy('groupe') as $groupe => $matricesGrouped)
+                    <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGpM" wire:change="updateFilteredOptions">
+                    <label>{{$groupe}}</label>
+                    <br>
+                @endforeach
+            </div>
+            <br>
+            <div>
+                @foreach ($filteredMatrices as $matrice)
+                    <input type="checkbox" id="{{$matrice->id}}" name="selectedMatrice" value="{{$matrice->id}}" wire:model="selectedMatrice" wire:change="updateFilteredOptions">
                     <label>{{$matrice->name}}</label>
                     <br>
                 @endforeach
@@ -79,7 +87,7 @@
             <br>
             <div>
                 @foreach ($zones as $zone)
-                    <input type="checkbox" id="{{$zone->id}}" name="selectedZone" value="{{$zone->id}}" wire:model="selectedZone" wire:change="getselect">
+                    <input type="checkbox" id="{{$zone->id}}" name="selectedZone" value="{{$zone->id}}" wire:model="selectedZone" wire:change="updateFilteredOptions">
                     <label>{{$zone->name}}</label>
                     <br>
                 @endforeach
@@ -87,53 +95,53 @@
             <br>
             <div class="range_container">
                 <div class="sliders_control">
-                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="getselect" name="min_year" min="1960" max="2024" oninput="updateFromInput(this.value)"/>
-                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="getselect" name="max_year" min="1960" max="2024" oninput="updateToInput(this.value)"/>
+                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" name="min_year" min="1960" max="2024" oninput="updateFromInput(this.value)"/>
+                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions" name="max_year" min="1960" max="2024" oninput="updateToInput(this.value)"/>
                 </div>
                 <div class="form_control">
                     <div class="form_control_container">
                         <div class="form_control_container__time">Min</div>
-                        <input class="form_control_container__time__input" type="number" wire:model="selectedStartyear" wire:change="getselect" id="fromInput" min="1960" max="2024" onchange="updateFromSlider(this.value)"/>
+                        <input class="form_control_container__time__input" type="number" wire:model="selectedStartyear" wire:change="updateFilteredOptions" id="fromInput" min="1960" max="2024" onchange="updateFromSlider(this.value)"/>
                     </div>
                     <div class="form_control_container">
                         <div class="form_control_container__time">Max</div>
-                        <input class="form_control_container__time__input" type="number" wire:model="selectedStopyear" wire:change="getselect" id="toInput" min="1960" max="2024" onchange="updateToSlider(this.value)"/>
+                        <input class="form_control_container__time__input" type="number" wire:model="selectedStopyear" wire:change="updateFilteredOptions" id="toInput" min="1960" max="2024" onchange="updateToSlider(this.value)"/>
                     </div>
                 </div>
             </div>
             <br>
             <div>
-                <input type="checkbox" id="optionPonctuelle" name="selectedFrequence" value="ponctuelle" wire:model="selectedFrequence" wire:change="getselect">
+                <input type="checkbox" id="optionPonctuelle" name="selectedFrequence" value="ponctuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
                 <label for="optionPonctuelle">Ponctuelle</label>
                 <br>
                 
-                <input type="checkbox" id="optionQuotidienne" name="selectedFrequence" value="quotidienne" wire:model="selectedFrequence" wire:change="getselect">
+                <input type="checkbox" id="optionQuotidienne" name="selectedFrequence" value="quotidienne" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
                 <label for="optionQuotidienne">Quotidienne</label>
                 <br>
                 
-                <input type="checkbox" id="optionMensuelle" name="selectedFrequence" value="mensuelle" wire:model="selectedFrequence" wire:change="getselect">
+                <input type="checkbox" id="optionMensuelle" name="selectedFrequence" value="mensuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
                 <label for="optionMensuelle">Mensuelle</label>
                 <br>
-                <input type="checkbox" id="optionPluriannuelle" name="selectedFrequence" value="pluriannuelle" wire:model="selectedFrequence" wire:change="getselect">
+                <input type="checkbox" id="optionPluriannuelle" name="selectedFrequence" value="pluriannuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
                 <label for="optionPluriannuelle">Pluriannuelle</label>
                 <br>
-                <input type="checkbox" id="optionAnnuelle" name="selectedFrequence" value="annuelle" wire:model="selectedFrequence" wire:change="getselect">
+                <input type="checkbox" id="optionAnnuelle" name="selectedFrequence" value="annuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
                 <label for="optionAnnuelle">Annuelle</label>
             </div>
             <br>
             <div>
                 @foreach ($types as $type)
-                    <input type="checkbox" id="{{$type->id}}" name="selectedType" value="{{$type->id}}" wire:model="selectedType" wire:change="getselect">
+                    <input type="checkbox" id="{{$type->id}}" name="selectedType" value="{{$type->id}}" wire:model="selectedType" wire:change="updateFilteredOptions">
                     <label>{{$type->name}}</label>
                     <br>
                 @endforeach
             </div>
             <br>
             <div>
-                <input type="checkbox" id="optionOui" name="selectedReglementaire" value="true" wire:model="selectedReglementaire" wire:change="getselect">
+                <input type="checkbox" id="optionOui" name="selectedReglementaire" value="true" wire:model="selectedReglementaire" wire:change="updateFilteredOptions">
                 <label for="optionOui">Oui</label>
                 
-                <input type="checkbox" id="optionNon" name="selectedReglementaire" value="false" wire:model="selectedReglementaire" wire:change="getselect">
+                <input type="checkbox" id="optionNon" name="selectedReglementaire" value="false" wire:model="selectedReglementaire" wire:change="updateFilteredOptions">
                 <label for="optionNon">Non</label>
             </div>
         </div>

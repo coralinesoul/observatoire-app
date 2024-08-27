@@ -19,6 +19,7 @@ class Filter extends Component
     public $selectedTheme = [];
     public $selectedSource = [];
     public $selectedGp = [];
+    public $selectedGpM = [];
 
     public $selectedParametre = [];
     public $selectedMatrice = [];
@@ -33,6 +34,7 @@ class Filter extends Component
     public $sources;
     public $parametres;
     public $filteredParametres;
+    public $filteredMatrices;
     public $matrices;
     public $zones;
     public $types;
@@ -47,6 +49,7 @@ class Filter extends Component
         $this->types = Type::all();
 
         $this->filteredParametres = $this->parametres;
+        $this->filteredMatrices = $this->matrices;
         $this->getselect();
     }
 
@@ -59,6 +62,7 @@ class Filter extends Component
             && empty($this->selectedTheme) 
             && empty($this->selectedParametre)
             && empty($this->selectedGp)
+            && empty($this->selectedGpM)
             && empty($this->selectedMatrice)
             && empty($this->selectedZone)
             && empty($this->selectedType)
@@ -120,15 +124,79 @@ class Filter extends Component
                 ->get();
         }
     }
-    public function updateFilteredParametres()
+    public function updateFilteredOptions()
     {
-        if (!empty($this->selectedGp)) {
-            $this->filteredParametres = $this->parametres->whereIn('groupe', $this->selectedGp);
-        } else {
-            $this->filteredParametres = $this->parametres;
+     // Mettre à jour la liste des études en fonction des filtres actuels
+     $this->getselect();
+
+     // Si aucun paramètre n'est sélectionné, réinitialiser tous les paramètres
+     if (empty($this->selectedGp)) {
+         $this->filteredParametres = $this->parametres;
+     } else {
+         $this->filteredParametres = $this->parametres->whereIn('groupe', $this->selectedGp)->filter(function($parametre) {
+             return $this->etudes->contains(function($etude) use ($parametre) {
+                 return $etude->parametres->contains('id', $parametre->id);
+             });
+         });
+     }
+ 
+     // Si aucun groupe de matrices n'est sélectionné, réinitialiser toutes les matrices
+     if (empty($this->selectedGpM)) {
+         $this->filteredMatrices = $this->matrices;
+     } else {
+         $this->filteredMatrices = $this->matrices->whereIn('groupe', $this->selectedGpM)->filter(function($matrice) {
+             return $this->etudes->contains(function($etude) use ($matrice) {
+                 return $etude->matrices->contains('id', $matrice->id);
+             });
+         });
+     }
+ 
+     // Réinitialisation des sources si aucun filtre n'est actif
+     if (empty($this->selectedSource)) {
+         $this->sources = Source::all();
+     } else {
+         $this->sources = $this->sources->filter(function($source) {
+             return $this->etudes->contains(function($etude) use ($source) {
+                 return $etude->sources->contains('id', $source->id);
+             });
+         });
+     }
+    
+        // Filtrer les zones
+        $this->zones = $this->zones->filter(function($zone) {
+            return $this->etudes->contains(function($etude) use ($zone) {
+                return $etude->zones->contains('id', $zone->id);
+            });
+        });
+    
+        // Filtrer les types
+        $this->types = $this->types->filter(function($type) {
+            return $this->etudes->contains(function($etude) use ($type) {
+                return $etude->types->contains('id', $type->id);
+            });
+        });
+    
+        // Filtrer les régulations
+        if (!empty($this->selectedReglementaire)) {
+            $this->etudes = $this->etudes->filter(function($etude) {
+                return in_array($etude->reglementaire, $this->selectedReglementaire);
+            });
         }
-        $this->getselect();
+    
+        // Filtrer les fréquences
+        if (!empty($this->selectedFrequence)) {
+            $this->etudes = $this->etudes->filter(function($etude) {
+                return in_array($etude->frequence, $this->selectedFrequence);
+            });
+        }
+    
+        // Filtrer par date
+        $this->etudes = $this->etudes->filter(function($etude) {
+            return $etude->startyear >= $this->selectedStartyear && $etude->stopyear <= $this->selectedStopyear;
+        });
     }
+    
+    
 
     public function render()
     {
@@ -137,7 +205,7 @@ class Filter extends Component
             ['etudes' => $this->etudes, 
             'sources' => $this->sources, 
             'parametres' => $this->filteredParametres,
-            'matrices' => $this->matrices,
+            'matrices' => $this->filteredMatrices,
             'zones' => $this->zones,
             'types' => $this->types]
         );
