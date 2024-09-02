@@ -13,6 +13,7 @@ use \App\Models\Zone;
 use \App\Models\Type;
 use \App\Models\Parametre;
 use \App\Models\Matrice;
+use \App\Models\User;
 
 /**
  * @mixin IdeHelperEtude
@@ -55,6 +56,9 @@ class Etude extends Model
     }
     public function matrices() {
         return $this->belongsToMany(Matrice::class);
+    }
+    public function user() {
+        return $this->belongsToMany(User::class);
     }
     public function imageUrl(): string
 {

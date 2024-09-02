@@ -27,6 +27,7 @@ Route::post('/login', [AuthController::class,'doLogin']);
 
 Route::prefix('/catalogue')->name('catalogue.')->controller(CatalogueController::class)->group(function(){
     Route::get('/','index')->name('index');
+    Route::get('/mes-etudes','user_tab')->name('user_tab')->middleware('auth');
     Route::get('/a-propos','about')->name('about');
     Route::get('/new','create')->name('create')->middleware('auth');
     Route::get('/{etude}/edit','edit')->name('edit')->middleware('auth');
