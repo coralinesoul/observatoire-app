@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class CatalogueController extends Controller
 {
@@ -28,6 +29,11 @@ class CatalogueController extends Controller
     public function index()
     {
         return view('catalogue.index');
+    }
+    public function user_tab()
+    {
+        $etudes = Auth::user()->etudes;
+        return view('catalogue.user_tab', ['etudes' => $etudes]);
     }
     
     public function create() {

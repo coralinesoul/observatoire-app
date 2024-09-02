@@ -27,7 +27,7 @@ class AuthController extends Controller
             }
             
             return to_route('auth.login')->withErrors([
-                'email'=> "Email invalide" 
+                'email'=> "Identifiant(s) invalide(s)" 
             ])->onlyInput('email');
         }
 }
