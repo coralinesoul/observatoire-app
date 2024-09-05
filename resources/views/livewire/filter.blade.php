@@ -130,15 +130,15 @@
                 @endforeach
             </div>
             @if(!empty($selectedTheme) && count($selectedTheme) > 0 && count($filteredGp)>0)
-            <br>
-            <div>
-                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Types de paramètres suivis</h2>
-                @foreach ($filteredGp as $groupe)
-                    <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredOptions">
-                    <label>{{$groupe}}</label>
-                    <br>
-                @endforeach
-            </div>
+                <br>
+                <div>
+                    <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Types de paramètres suivis</h2>
+                    @foreach ($filteredGp as $groupe)
+                        <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredOptions">
+                        <label>{{$groupe}}</label>
+                        <br>
+                    @endforeach
+                </div>
             @endif
             @if(!empty($filteredParametres) && count($filteredParametres) > 0)
                 <br>

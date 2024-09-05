@@ -1,79 +1,56 @@
 <form action="" method="post" enctype="multipart/form-data">
     @csrf
-   
-    <div class="form-group">
-        <label for="title">Titre court de l'étude</label>
-        <input type="text" class="form-control" name="title" value="{{old('title', $etude->title)}}">
-       @error('title')
-           <div class="text-danger">{{$message}}</div>
-       @enderror
-   </div>
-
-   <div class="form-group">
-    <label for="longtitle">Titre long de l'étude</label>
-    <input type="text" class="form-control" name="longtitle" value="{{old('longtitle', $etude->longtitle)}}">
-   @error('longtitle')
-       <div class="text-danger">{{$message}}</div>
-   @enderror
-</div>
-<div class="form-group">
-    <label for="image">Image</label>
-    <input type="file" class="form-control" id="image" name="image" >
-   @error('image')
-       <div class="text-danger">{{$message}}</div>
-   @enderror
-</div>
-@php
-    $themesIds = $etude->themes()->pluck("id");
-    $parametresIds = $etude->parametres()->pluck("id");
-    $matricesIds = $etude->matrices()->pluck("id");
-    $sourcesIds = $etude->sources()->pluck("id");
-    $zonesIds = $etude->zones()->pluck("id");
-    $typesIds = $etude->types()->pluck("id");
-@endphp
-   <div class="form-group">
-    <label for="theme">Thème(s)</label>
-        <select class="form-control" id="theme" name="themes[]" multiple>
-            @foreach($themes as $theme)
-            <option value="{{$theme->id}}" 
-                @if(in_array($theme->id, old('themes', $themesIds->toArray()))) selected @endif>
-                {{$theme->name}}
-            </option>
-            @endforeach
-        </select>
-        @error('themes')
-            <div class="text-danger">{{$message}}</div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="parametre">Paramètre(s) suivi(s)</label>
-            <select class="form-control" id="parametre" name="parametres[]" multiple>
-                @foreach($parametres as $parametre)
-                    <option value="{{$parametre->id}}" 
-                        @if(in_array($parametre->id, old('parametres', $parametresIds->toArray()))) selected @endif>
-                        {{$parametre->name}}
-                    </option>
-                @endforeach
-            </select>
-            @error('parametres')
-                <div class="text-danger">{{$message}}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label for="matrice">Matrice(s) suivie(s)</label>
-                <select class="form-control" id="matrice" name="matrices[]" multiple>
-                    @foreach($matrices as $matrice)
-                        <option value="{{$matrice->id}}" 
-                            @if(in_array($matrice->id, old('matrices', $matricesIds->toArray()))) selected @endif>
-                            {{$matrice->name}}
-                        </option>
-                    @endforeach
-                </select>
-                @error('matrices')
+    @php
+        $sourcesIds = $etude->sources()->pluck("id");
+        $zonesIds = $etude->zones()->pluck("id");
+        $typesIds = $etude->types()->pluck("id");
+    @endphp
+    <div gap-4 mt-4>
+    <div class="grid grid-cols-1 md:grid-cols-3">
+        <div class="md:col-span-2 flex flex-col mr-6">
+            <label class="m-1 block text-base font-medium text-blue1" for="title">Titre court de l'étude</label>
+            <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" type="text" class="form-control" name="title" value="{{old('title', $etude->title)}}">
+                @error('title')
                     <div class="text-danger">{{$message}}</div>
                 @enderror
-            </div>
+            <label class="m-1 block text-base font-medium text-blue1" for="longtitle">Titre long de l'étude</label>
+            <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" type="text" class="form-control" name="longtitle" value="{{old('longtitle', $etude->longtitle)}}">
+                @error('longtitle')
+                    <div class="text-danger">{{$message}}</div>
+                @enderror
+             <label class="m-1 block text-base font-medium text-blue1" for="Resume">Desciption de l'étude</label>
+             <textarea type="text" class="w-full flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" name="resume">{{old('resume', $etude->resume)}}</textarea>
+                @error('resume')
+                    <div class="text-danger">{{$message}}</div>
+                @enderror
+        </div>
+        <div class="relative md:col-span-1 flex justify-end">
+            <img id="imagePreview" class="rounded-lg w-full h-full object-contain" 
+                 src="{{ isset($etude->image) && $etude->image ? asset('storage/' . $etude->image) : asset('storage/catalogue/default.png') }}" 
+                 alt="Image de l'étude">
+            
+            <input type="file" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10" id="image" name="image" onchange="previewSelectedImage(event)">
+            <label for="image" class="absolute bottom-4 left-4 hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold">
+                Choisir un fichier
+            </label>
+        </div>
+            @error('image')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+   <br>
 
+   <div>
+   
+    @livewire('form-filter',[
+        'etude' => $etude,
+        'themes' => $themes,
+        'parametres' => $parametres,
+        'matrices' => $matrices])
+    
+    
+    
+    </div>
    <div class="form-group">
     <label for="source">Structure(s) productrice(s)</label>
         <select class="form-control" id="source" name="sources[]" multiple>
@@ -89,14 +66,6 @@
         @enderror
     </div>
 
-
-   <div class="form-group">
-    <label for="resume">Description de l'étude</label>
-        <textarea type="text" class="form-control" name="resume">{{old('resume', $etude->resume)}}</textarea>
-        @error('resume')
-            <div class="text-danger">{{$message}}</div>
-        @enderror
-    </div>
     <div class="form-group">
         <label for="zone">Zone(s) géographique(s)</label>
             <select class="form-control" id="zone" name="zones[]" multiple>
@@ -243,27 +212,14 @@
                     @enderror
                 </div>
             @endforeach
-        @else
-            <div class="form-group">
-                <label for="link_name">Nom du lien n°1</label>
-                <input type="text" class="form-control" id="link_name" name="link_name[]" value="">
-                @error('link_name.0')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="link_url">URL du lien n°1</label>
-                <input type="url" class="form-control" id="link_url" name="link_url[]" value="">
-                @error('link_url.0')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
         @endif
     </div>
     <button type="button" id="add-link">Ajouter un lien</button>
 
     <hr>
     <button class="btn btn-primary">Enregistrer</button>
+</div>
+<div>
 </form>
 
 <script>
@@ -306,4 +262,16 @@
         contactIndex++;
     }
 
+    function previewSelectedImage(event) {
+        const reader = new FileReader();
+        const imagePreview = document.getElementById('imagePreview');
+
+        reader.onload = function() {
+            if (reader.readyState === 2) {
+                imagePreview.src = reader.result;
+            }
+        }
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
     </script>

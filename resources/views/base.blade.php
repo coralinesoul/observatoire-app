@@ -36,7 +36,7 @@
             <!-- Actions d'authentification -->
             <div class="hidden md:flex items-center space-x-4 ml-auto">
                 @auth
-                    <span class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </span>
+                    <a href="{{ route('catalogue.user_tab') }}" class=" text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </a>
                     <form action="{{ route('auth.logout') }}" method="post">
                         @method("delete")
                         @csrf

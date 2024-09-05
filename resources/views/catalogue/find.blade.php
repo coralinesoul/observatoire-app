@@ -16,19 +16,23 @@
             <h2 class="text-blue1 font-medium text-xl mt-2">{{$source->name}}</h2>
         @endforeach
         <br>
-        <p class="text-base font-medium tracking-wide text-blue2 mt-1">
-            Paramètres suivis : 
-            @foreach($etude->parametres as $parametre)
-                <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 ml-2">{{$parametre->name}}</span>
-            @endforeach
-        </p>
+        @if($etude->parametres->isNotEmpty())
+            <p class="text-base font-medium tracking-wide text-blue2 mt-1">
+                Paramètres suivis : 
+                @foreach($etude->parametres as $parametre)
+                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 ml-2">{{$parametre->name}}</span>
+                @endforeach
+            </p>
+        @endif
         <br>
-        <p class="text-base font-medium tracking-wide text-blue2 mt-1">
-            Matrices suivis : 
-            @foreach($etude->matrices as $matrice)
-                <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 ml-2">{{$matrice->name}}</span>
-            @endforeach
-        </p>
+        @if($etude->matrices->isNotEmpty())
+            <p class="text-base font-medium tracking-wide text-blue2 mt-1">
+                Matrices suivis : 
+                @foreach($etude->matrices as $matrice)
+                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 ml-2">{{$matrice->name}}</span>
+                @endforeach
+            </p>
+        @endif
 
     </div>
 
