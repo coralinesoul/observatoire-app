@@ -31,7 +31,7 @@ class Etude extends Model
         'startyear',
         'stopyear',
         'frequence',
-        'image'
+        'image','user_id'
     ];
     public function sources() {
         return $this->belongsToMany(Source::class);

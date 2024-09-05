@@ -54,20 +54,34 @@ class CatalogueController extends Controller
         
     }
     public function store (FormEtudeRequest $request){
-        $etude = Etude::create($request->validated());
+        
+        $data = $request->validated();
+
+        // Ajout de l'ID de l'utilisateur authentifié
+        $data['user_id'] = Auth::id();
+        $etude = Etude::create($data);
+
+    
         $etude-> sources()->sync($request->validated('sources'));
         $etude-> zones()->sync($request->validated('zones'));
         $etude-> themes()->sync($request->validated('themes'));
         $etude-> parametres()->sync($request->validated('parametres'));
         $etude-> matrices()->sync($request->validated('matrices'));
         $etude-> types()->sync($request->validated('types'));
-
-        foreach ($request->link_name as $index => $linkName) {
-            $etude->liens()->create([
-                'link_name' => $linkName,
-                'link_url' => $request->link_url[$index],
-                'position' => $index + 1,
-            ]);
+    
+        if (!empty($request->link_name)) {
+            foreach ($request->link_name as $index => $linkName) {
+                $linkUrl = $request->link_url[$index] ?? null;
+    
+                // Vérifiez que le nom et l'URL ne sont pas vides avant de créer le lien
+                if (!empty($linkName) && !empty($linkUrl)) {
+                    $etude->liens()->create([
+                        'link_name' => $linkName,
+                        'link_url' => $linkUrl,
+                        'position' => $index + 1,
+                    ]);
+                }
+            }
         }
 
         $contacts = [];
@@ -84,11 +98,11 @@ class CatalogueController extends Controller
             }
         }
         $etude->contacts()->sync($contacts);
-        
         return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été répertoriée");
     }
 
     public function edit(Etude $etude) {
+        
         return view('catalogue.edit',[
             'etude'=>$etude,
             'sources'=>Source::select('id','name')->get(),
@@ -124,12 +138,14 @@ class CatalogueController extends Controller
 
         $etude->liens()->delete();
 
-        foreach ($request->link_name as $index => $linkName) {
-            $etude->liens()->create([
-                'link_name' => $linkName,
-                'link_url' => $request->link_url[$index],
-                'position' => $index + 1,
-            ]);
+        if (!empty($request->link_name)) {
+            foreach ($request->link_name as $index => $linkName) {
+                $etude->liens()->create([
+                    'link_name' => $linkName,
+                    'link_url' => $request->link_url[$index],
+                    'position' => $index + 1,
+                ]);
+            }
         }
 
         $contacts = [];
