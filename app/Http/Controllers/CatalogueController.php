@@ -62,7 +62,15 @@ class CatalogueController extends Controller
         $etude = Etude::create($data);
 
     
-        $etude-> sources()->sync($request->validated('sources'));
+    // Gestion des sources
+    $sources = [];
+    if ($request->has('sources')) {
+        foreach ($request->sources as $sourceData) {
+            $source = Source::firstOrCreate(['name' => $sourceData['name']]);
+            $sources[] = $source->id;
+        }
+    }
+    $etude->sources()->sync($sources);
         $etude-> zones()->sync($request->validated('zones'));
         $etude-> themes()->sync($request->validated('themes'));
         $etude-> parametres()->sync($request->validated('parametres'));
@@ -81,6 +89,16 @@ class CatalogueController extends Controller
                         'position' => $index + 1,
                     ]);
                 }
+            }
+        }
+
+        $sources = [];
+        if ($request->has('sources')) {
+            foreach ($request->sources as $sourceData) {
+                $source = Source::firstOrCreate([
+                    'name' => $sourceData['name'],
+                ]);
+                $sources[] = $source->id;
             }
         }
 
@@ -127,45 +145,47 @@ class CatalogueController extends Controller
         ]);
     } 
 
-    public function update(Etude $etude, FormEtudeRequest $request) {
-        $etude-> update($this->extractData($etude, $request));
-        $etude-> sources()->sync($request->validated('sources'));
-        $etude-> zones()->sync($request->validated('zones'));
-        $etude-> types()->sync($request->validated('types'));
-        $etude-> themes()->sync($request->validated('themes'));
-        $etude-> parametres()->sync($request->validated('parametres'));
-        $etude-> matrices()->sync($request->validated('matrices'));
+    public function update(Etude $etude, FormEtudeRequest $request)
+{
+    $etude->update($this->extractData($etude, $request));
 
-        $etude->liens()->delete();
-
-        if (!empty($request->link_name)) {
-            foreach ($request->link_name as $index => $linkName) {
-                $etude->liens()->create([
-                    'link_name' => $linkName,
-                    'link_url' => $request->link_url[$index],
-                    'position' => $index + 1,
-                ]);
-            }
+    // Gestion des sources
+    $sources = [];
+    if ($request->has('sources')) {
+        foreach ($request->sources as $sourceData) {
+            $source = Source::firstOrCreate(['name' => $sourceData['name']]);
+            $sources[] = $source->id;
         }
+    }
+    $etude->sources()->sync($sources);
 
-        $contacts = [];
-        if ($request->has('contacts')) {
-            foreach ($request->contacts as $contactData) {
-                $contact = Contact::firstOrCreate([
-                    'nom' => $contactData['nom'],
-                    'prenom' => $contactData['prenom'],
-                    'mail' => $contactData['mail']
-                ], [
-                    'diffusion_mail' => $contactData['diffusion_mail']
-                ]);
-                $contacts[] = $contact->id;
-            }
+    // Gérer les autres relations de la même manière (zones, types, etc.)
+    $etude->zones()->sync($request->validated('zones'));
+    $etude->themes()->sync($request->validated('themes'));
+    $etude->parametres()->sync($request->validated('parametres'));
+    $etude->matrices()->sync($request->validated('matrices'));
+    $etude->types()->sync($request->validated('types'));
+
+    // Gestion des contacts
+    $contacts = [];
+    if ($request->has('contacts')) {
+        foreach ($request->contacts as $contactData) {
+            $contact = Contact::firstOrCreate([
+                'nom' => $contactData['nom'],
+                'prenom' => $contactData['prenom'],
+                'mail' => $contactData['mail']
+            ], [
+                'diffusion_mail' => $contactData['diffusion_mail']
+            ]);
+            $contacts[] = $contact->id;
         }
-        $etude->contacts()->sync($contacts);
-    
+    }
+    $etude->contacts()->sync($contacts);
 
-        return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été modifiée");
-    } 
+    return redirect()->route('catalogue.find', ['slug' => $etude->slug, 'etude' => $etude->id])
+        ->with('success', "L'étude a bien été modifiée");
+}
+
     private function extractData(Etude $etude, FormEtudeRequest $request): array
     {
         $data = $request->validated();
