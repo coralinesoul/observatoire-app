@@ -57,19 +57,22 @@
                     @php
                         $oldSources = old('sources', $etude->sources()->pluck('name', 'id')->toArray());
                     @endphp
-                    @foreach($oldSources as $index => $sourceName)
-                    <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
-                        <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $index }}][name]" placeholder="Nom de la source" value="{{ $sourceName }}" required>
-                        @if($index > 0)
-                            <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
-                        @endif
-                    </div>
-                        @error('sources.' . $index . '.name')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    @endforeach
+                   @foreach($oldSources as $id => $sourceName)
+                   <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
+                       <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" value="{{ $sourceName }}" required>
+               
+                       @if($loop->index > 0)
+                           <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+                       @endif
+                   </div>
+               
+                   @error('sources.' . $id . '.name')
+                       <div class="text-danger">{{ $message }}</div>
+                   @enderror
+               @endforeach
+               
                 @else
-                    <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
+                    <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
                         <input class="flex-grow min-w-1" type="text" name="sources[0][name]" placeholder="Nom de la source" required>
                     </div>
                     
@@ -77,7 +80,6 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 @endif
-                <br>
             </div>
             <button type="button" class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" onclick="addSource()">Ajouter une autre source +</button>
         </div>
@@ -90,7 +92,7 @@
                     <span class="w-2/5">Email</span>
                     <span class="w-1/5 text-center">Diffusion Mail</span>
                 </div>
-        
+            
                 @if(old('contacts') || isset($contacts) && $contacts->count() > 0)
                     @php
                         $oldContacts = old('contacts', $contacts ?? []);
@@ -98,8 +100,8 @@
                     @foreach($oldContacts as $index => $contact)
                         <div class="flex items-center mb-4 border bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none">
                             <input class="w-1/5 py-2 px-3 mr-2 outline-none" type="text" name="contacts[{{ $index }}][nom]" placeholder="Nom" value="{{ old('contacts.' . $index . '.nom', $contact['nom'] ?? '') }}" required>
-                            <input class="w-1/5  py-2 px-3 mr-2 outline-none" type="text" name="contacts[{{ $index }}][prenom]" placeholder="Prénom" value="{{ old('contacts.' . $index . '.prenom', $contact['prenom'] ?? '') }}" required>
-                            <input class="w-2/5  py-2 px-3 mr-2 outline-none" type="email" name="contacts[{{ $index }}][mail]" placeholder="Email" value="{{ old('contacts.' . $index . '.mail', $contact['mail'] ?? '') }}" required>
+                            <input class="w-1/5 py-2 px-3 mr-2 outline-none" type="text" name="contacts[{{ $index }}][prenom]" placeholder="Prénom" value="{{ old('contacts.' . $index . '.prenom', $contact['prenom'] ?? '') }}" required>
+                            <input class="w-2/5 py-2 px-3 mr-2 outline-none" type="email" name="contacts[{{ $index }}][mail]" placeholder="Email" value="{{ old('contacts.' . $index . '.mail', $contact['mail'] ?? '') }}" required>
                             <div class="w-1/5 flex justify-center items-center">
                                 <label class="mr-2">Oui</label>
                                 <input type="radio" name="contacts[{{ $index }}][diffusion_mail]" value="1" {{ old('contacts.' . $index . '.diffusion_mail', $contact['diffusion_mail'] ?? '') == 1 ? 'checked' : '' }} required>
@@ -107,8 +109,11 @@
                                 <input type="radio" name="contacts[{{ $index }}][diffusion_mail]" value="0" {{ old('contacts.' . $index . '.diffusion_mail', $contact['diffusion_mail'] ?? '') == 0 ? 'checked' : '' }} required>
                             </div>
                             
+                            @if($loop->index > 0)
+                                <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeContact(this)">x</button>
+                            @endif
                         </div>
-        
+            
                         @error('contacts.' . $index . '.nom')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -124,17 +129,17 @@
                     @endforeach
                 @else
                     <div class="flex items-center mb-4 border bg-white rounded-md py-2 px-3">
-                        <input class="w-1/5  py-2 px-3 mr-2" type="text" name="contacts[0][nom]" placeholder="Nom" required>
-                        <input class="w-1/5  py-2 px-3 mr-2" type="text" name="contacts[0][prenom]" placeholder="Prénom" required>
-                        <input class="w-2/5  py-2 px-3 mr-2" type="email" name="contacts[0][mail]" placeholder="Email" required>
+                        <input class="w-1/5 py-2 px-3 mr-2" type="text" name="contacts[0][nom]" placeholder="Nom" required>
+                        <input class="w-1/5 py-2 px-3 mr-2" type="text" name="contacts[0][prenom]" placeholder="Prénom" required>
+                        <input class="w-2/5 py-2 px-3 mr-2" type="email" name="contacts[0][mail]" placeholder="Email" required>
                         <div class="w-1/5 flex justify-center items-center">
-                            <label class="mr-2 ">Oui</label>
+                            <label class="mr-2">Oui</label>
                             <input type="radio" name="contacts[0][diffusion_mail]" value="1" required>
                             <label class="mx-2">Non</label>
                             <input type="radio" name="contacts[0][diffusion_mail]" value="0" required>
                         </div>
                     </div>
-        
+            
                     @error('contacts.0.nom')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -149,10 +154,12 @@
                     @enderror
                 @endif
             </div>
-            <button type="button" class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" onclick="addContact()">Ajouter un contact</button>
+            <button type="button" class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" onclick="addContact()">Ajouter un contact +</button>
         </div>
         
-    </div>
+        <!-- Champ caché pour enregistrer les contacts à supprimer -->
+        <input type="hidden" id="contactsToDelete" name="contactsToDelete" value="">
+    </div>        
 
     <div class="mt-4">
         <label class="m-1 block text-base font-medium text-blue1" for="zone">Zone(s) géographique(s)</label>
@@ -168,32 +175,39 @@
         @enderror
     </div>    
     <br>
-    <div class="form-group">
-        <label class="m-1 block text-base font-medium text-blue1" for="active">L'étude est t'elle toujours active ?</label>
-            <input type="radio" name="active" value="1" id="oui" @checked(old('active', $etude->active) == 1)></input>
+    <div class="grid grid-cols-1 lg:grid-cols-3 justify-center">
+        <div class="item-center">
+            <label class="m-1 block text-base font-medium text-blue1" for="active">L'étude est t'elle toujours active ?</label>
+            <input type="radio" name="active" value="1" id="oui" @checked(old('active', $etude->active) == 1) onchange="toggleStopYear()">
             <label for="oui">oui</label>
-            <input type="radio" name="active" value="0" id="non" @checked(old('active', $etude->active) == 0)></input>
+            <input type="radio" name="active" value="0" id="non" @checked(old('active', $etude->active) == 0) onchange="toggleStopYear()">
             <label for="non">non</label>
             @error('active')
                 <div class="text-danger">{{$message}}</div>
             @enderror
-    </div>
-    <div class="mt-4">
-        <label class="block text-base font-medium text-blue1" for="startyear">Année de début</label>
-            <input type="number" class="form-control" name="startyear" value="{{ old('startyear', $etude->startyear) }}"></input>
+        </div>
+    
+        <div class="item-center">
+            <label class="block text-base font-medium text-blue1" for="startyear">Année de début</label>
+            <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
+                   type="number" name="startyear" value="{{ old('startyear', $etude->startyear) }}">
             @error('startyear')
                 <div class="text-danger">{{$message}}</div>
             @enderror
-
-        <label class="block text-base font-medium text-blue1" for="stopyear">Année de fin</label>
-            <input type="number" class="form-control" name="stopyear" value="{{ old('stopyear', $etude->stopyear) }}"></input>
+        </div>
+    
+        <div class="item-center" id="stopyear-container" style="display: none;">
+            <label class="block text-base font-medium text-blue1" for="stopyear">Année de fin</label>
+            <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
+                   type="number" name="stopyear" value="{{ old('stopyear', $etude->stopyear) }}">
             @error('stopyear')
                 <div class="text-danger">{{$message}}</div>
             @enderror
+        </div>
     </div>
     <div class="mt-4">
-        <label class="text-base font-medium text-blue1" for="frequence">Fréquence des relevés</label>
-            <select class="form-control" name="frequence" value="{{ old('frequence', $etude->frequence) }}">
+        <label class="text-base font-medium text-blue1" for="frequence">Fréquence des relevés : </label>
+            <select class="rounded-md border border-[#e0e0e0] bg-white p-1 text-base text-[#6B7280]" name="frequence" value="{{ old('frequence', $etude->frequence) }}">
                 <option value="ponctuelle">ponctuelle</option>
                 <option value="quotidienne">quotidienne</option>
                 <option value="mensuelle">mensuelle</option>
@@ -206,16 +220,16 @@
     </div>
     <div class="mt-4">
         <label class="text-base font-medium text-blue1" for="reglementaire">L'étude est t'elle réglementaire ?</label>
-            <input type="radio" name="reglementaire" value="1" id="oui" @checked(old('reglementaire', $etude->reglementaire) == 1)></input>
+            <input type="radio" name="reglementaire" value="1" id="oui" @checked(old('reglementaire', $etude->reglementaire) == 0)></input>
             <label for="oui">oui</label>
-            <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 0)></input>
+            <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 1)></input>
             <label for="non">non</label>
             @error('reglementaire')
                 <div class="text-danger">{{$message}}</div>
             @enderror
     </div>
     <div class="mt-4">
-        <label class="text-base font-medium text-blue1" for="type">Type des ressources produites</label>
+        <label class="text-base font-medium text-blue1" for="type">Type(s) des ressources produites</label>
         @foreach($types as $type)
             <div class="flex items-center">
                 <input type="checkbox" id="zone_{{ $zone->id }}" name="types[]" value="{{ $type->id }}"
@@ -284,6 +298,9 @@ function removeLink(element) {
 }
 
 let contactIndex = {{ isset($contacts) ? $contacts->count() : (old('contacts') ? count(old('contacts')) : 1) }};
+let contactsToDelete = [];
+
+// Fonction pour ajouter un contact
 function addContact() {
     const contactsDiv = document.getElementById('contacts');
     const newContact = document.createElement('div');
@@ -298,15 +315,21 @@ function addContact() {
             <label class="mx-2">Non</label>
             <input type="radio" name="contacts[${contactIndex}][diffusion_mail]" value="0" required>
         </div>
-        <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeContact(this)">x</button>
+        <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeContact(this, null)">x</button>
     `;
     contactsDiv.appendChild(newContact);
     contactIndex++;
 }
 
-function removeContact(element) {
+// Fonction pour supprimer un contact
+function removeContact(element, contactId) {
+    if (contactId) {
+        contactsToDelete.push(contactId);
+        document.getElementById('contactsToDelete').value = contactsToDelete.join(',');
+    }
     element.closest('.flex').remove();
 }
+
 
 let sourceIndex = {{ isset($etude) ? $etude->sources->count() : (old('sources') ? count(old('sources')) : 1) }};
 
@@ -354,4 +377,16 @@ function previewSelectedImage(event) {
 
         reader.readAsDataURL(event.target.files[0]);
     }
+    function toggleStopYear() {
+        const activeValue = document.querySelector('input[name="active"]:checked').value;
+        const stopYearContainer = document.getElementById('stopyear-container');
+        
+        if (activeValue == '0') {
+            stopYearContainer.style.display = 'block';
+        } else {
+            stopYearContainer.style.display = 'none';
+        }
+    }
+
+    toggleStopYear();
     </script>
