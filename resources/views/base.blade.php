@@ -53,9 +53,9 @@
         <hr class="border-blue2 border-t-4 rounded">
     </div>
     <br>
-    <div>
+    <div class="w-full px-8">
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="rounded-md text-green-700 bg-green-100 border border-green-300 p-2">
                 {{ session('success') }}
             </div>
         @endif
