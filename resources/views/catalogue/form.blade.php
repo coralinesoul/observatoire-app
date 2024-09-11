@@ -60,6 +60,9 @@
                     @foreach($oldSources as $index => $sourceName)
                     <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
                         <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $index }}][name]" placeholder="Nom de la source" value="{{ $sourceName }}" required>
+                        @if($index > 0)
+                            <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+                        @endif
                     </div>
                         @error('sources.' . $index . '.name')
                             <div class="text-danger">{{ $message }}</div>
@@ -306,6 +309,8 @@ function removeContact(element) {
 }
 
 let sourceIndex = {{ isset($etude) ? $etude->sources->count() : (old('sources') ? count(old('sources')) : 1) }};
+
+// Ajoute une nouvelle source
 function addSource() {
     const sourcesDiv = document.getElementById('sources');
     const newSource = `
@@ -318,8 +323,10 @@ function addSource() {
     sourceIndex++;
 }
 
+// Supprime une source existante ou nouvelle
 function removeSource(element) {
-    element.closest('.flex').remove();
+    const parentDiv = element.closest('.flex');
+    parentDiv.remove();
 }
 
 function previewSelectedImage(event) {
@@ -334,12 +341,6 @@ function previewSelectedImage(event) {
 
     reader.readAsDataURL(event.target.files[0]);
 }
-
-
-function removeSource(element) {
-    element.closest('.flex').remove();
-}
-
 
     function previewSelectedImage(event) {
         const reader = new FileReader();
