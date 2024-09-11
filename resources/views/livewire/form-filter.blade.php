@@ -3,7 +3,7 @@
         @if(
             !empty($selectedParametres)
         )
-                    <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Paramètres<h2>
+                    <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Paramètres :</h2>
                     @foreach($selectedParametres as $parametreId)
                         <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 ml-2">
                             {{ \App\Models\Parametre::find($parametreId)->name }}
