@@ -30,7 +30,7 @@ class FormEtudeRequest extends FormRequest
             'longtitle'=>['required'],
             'active'=>['required'],
             'reglementaire'=>['required'],
-            'startyear'=>['required'],
+            'startyear'=>['required','integer'],
             'stopyear' => ['nullable', 'integer'],
             'frequence'=> ['nullable'],
             'sources' => 'required|array|min:1',

@@ -11,17 +11,17 @@
             <label class="m-1 block text-base font-medium text-blue1" for="title">Titre court de l'étude</label>
             <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" type="text" class="form-control" name="title" value="{{old('title', $etude->title)}}">
                 @error('title')
-                    <div class="text-danger">{{$message}}</div>
+                    <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
                 @enderror
             <label class="m-1 block text-base font-medium text-blue1" for="longtitle">Titre long de l'étude</label>
             <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" type="text" class="form-control" name="longtitle" value="{{old('longtitle', $etude->longtitle)}}">
                 @error('longtitle')
-                    <div class="text-danger">{{$message}}</div>
+                    <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
                 @enderror
              <label class="m-1 block text-base font-medium text-blue1" for="Resume">Desciption de l'étude</label>
              <textarea type="text" class="w-full flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" name="resume">{{old('resume', $etude->resume)}}</textarea>
                 @error('resume')
-                    <div class="text-danger">{{$message}}</div>
+                    <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
                 @enderror
         </div>
         <div class="relative md:col-span-1 flex justify-end">
@@ -35,7 +35,7 @@
             </label>
         </div>
             @error('image')
-                <div class="text-danger">{{ $message }}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
             @enderror
         </div>
    <br>
@@ -57,19 +57,21 @@
                     @php
                         $oldSources = old('sources', $etude->sources()->pluck('name', 'id')->toArray());
                     @endphp
-                   @foreach($oldSources as $id => $sourceName)
-                   <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
-                       <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" value="{{ $sourceName }}" required>
-               
-                       @if($loop->index > 0)
-                           <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
-                       @endif
-                   </div>
-               
-                   @error('sources.' . $id . '.name')
-                       <div class="text-danger">{{ $message }}</div>
-                   @enderror
-               @endforeach
+        @foreach($oldSources as $id => $sourceName)
+        <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
+            <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" 
+                value="{{ is_array($sourceName) ? $sourceName['name'] : $sourceName }}" required>
+            
+            @if($loop->index > 0)
+                <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+            @endif
+        </div>
+
+        @error('sources.' . $id . '.name')
+            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+        @enderror
+        @endforeach
+
                
                 @else
                     <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
@@ -77,7 +79,7 @@
                     </div>
                     
                     @error('sources.0.name')
-                        <div class="text-danger">{{ $message }}</div>
+                        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
                 @endif
             </div>
@@ -115,16 +117,16 @@
                         </div>
             
                         @error('contacts.' . $index . '.nom')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                         @enderror
                         @error('contacts.' . $index . '.prenom')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                         @enderror
                         @error('contacts.' . $index . '.mail')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                         @enderror
                         @error('contacts.' . $index . '.diffusion_mail')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                         @enderror
                     @endforeach
                 @else
@@ -141,16 +143,16 @@
                     </div>
             
                     @error('contacts.0.nom')
-                        <div class="text-danger">{{ $message }}</div>
+                        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
                     @error('contacts.0.prenom')
-                        <div class="text-danger">{{ $message }}</div>
+                        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
                     @error('contacts.0.mail')
-                        <div class="text-danger">{{ $message }}</div>
+                        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
                     @error('contacts.0.diffusion_mail')
-                        <div class="text-danger">{{ $message }}</div>
+                        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
                 @endif
             </div>
@@ -171,7 +173,7 @@
             </div>
         @endforeach
         @error('zones')
-            <div class="text-danger">{{ $message }}</div>
+            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
         @enderror
     </div>    
     <br>
@@ -183,7 +185,7 @@
             <input type="radio" name="active" value="0" id="non" @checked(old('active', $etude->active) == 0) onchange="toggleStopYear()">
             <label for="non">non</label>
             @error('active')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
     
@@ -192,7 +194,7 @@
             <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
                    type="number" name="startyear" value="{{ old('startyear', $etude->startyear) }}">
             @error('startyear')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
     
@@ -201,7 +203,7 @@
             <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
                    type="number" name="stopyear" value="{{ old('stopyear', $etude->stopyear) }}">
             @error('stopyear')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
     </div>
@@ -215,7 +217,7 @@
                 <option value="anuelle">anuelle</option>
             </select>
             @error('stopyear')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
     </div>
     <div class="mt-4">
@@ -225,7 +227,7 @@
             <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 1)></input>
             <label for="non">non</label>
             @error('reglementaire')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
     </div>
     <div class="mt-4">
@@ -238,7 +240,7 @@
             </div>
         @endforeach
             @error('types')
-                <div class="text-danger">{{$message}}</div>
+                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
@@ -249,11 +251,11 @@
                         <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
                             <input type="text" class="w-1/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" id="link_name" name="link_name[]" value="{{ old('link_name.' . $index, $lien->link_name) }}">
                             @error('link_name.' . $index)
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                             @enderror
                             <input class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" type="url" id="link_url" name="link_url[]" value="{{ old('link_url.' . $index, $lien->link_url) }}">
                             @error('link_url.' . $index)
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                             @enderror
                             <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeLink(this)">x</button>
                         </div>
