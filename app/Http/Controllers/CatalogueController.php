@@ -92,15 +92,18 @@ class CatalogueController extends Controller
             }
         }
 
+        // Gestion des sources
         $sources = [];
         if ($request->has('sources')) {
             foreach ($request->sources as $sourceData) {
-                $source = Source::firstOrCreate([
-                    'name' => $sourceData['name'],
-                ]);
+                $source = Source::firstOrCreate(['name' => $sourceData['name']]);
                 $sources[] = $source->id;
             }
         }
+        // Synchronise les nouvelles et anciennes sources
+        $etude->sources()->sync($sources);
+
+
 
         $contacts = [];
         if ($request->has('contacts')) {
@@ -157,7 +160,9 @@ class CatalogueController extends Controller
             $sources[] = $source->id;
         }
     }
+    // Synchronise les nouvelles et anciennes sources
     $etude->sources()->sync($sources);
+
 
     // Gérer les autres relations de la même manière (zones, types, etc.)
     $etude->zones()->sync($request->validated('zones'));
