@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+route::get('/api/sources', function (Illuminate\Http\Request $request) {    $term = strtolower($request->query('term')); 
+    return \App\Models\Source::whereRaw('LOWER(name) LIKE ?',["{$term}%"])->get();});
+
+
 Route::get('/login', [AuthController::class,'login'])-> name('auth.login');
 Route::delete('/logout', [AuthController::class,'logout'])-> name('auth.logout');
 Route::post('/login', [AuthController::class,'doLogin']);
