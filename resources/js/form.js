@@ -1,3 +1,87 @@
+document.addEventListener('DOMContentLoaded', function() {
+    function initializeAutocomplete(input) {
+        const parentDiv = input.closest('.relative');  // Trouve le parent pour placer les suggestions
+        let suggestionsDiv = parentDiv.querySelector('.suggestions');
+
+        // Créer la div des suggestions seulement si elle n'existe pas déjà
+        if (!suggestionsDiv) {
+            suggestionsDiv = document.createElement('div');
+            suggestionsDiv.classList.add('absolute', 'z-10', 'w-full', 'bg-white', 'border', 'border-gray-300', 'rounded-lg', 'shadow-lg', 'max-h-48', 'mt-1', 'overflow-y-auto');
+            parentDiv.appendChild(suggestionsDiv);
+        }
+
+        input.addEventListener('input', function() {
+            let query = this.value;
+
+            if (query.length > 0) {
+                fetch(`/api/sources?term=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsDiv.innerHTML = '';  // Vider les suggestions précédentes
+
+                        if (data.length > 0) {
+                            data.forEach(source => {
+                                let suggestion = document.createElement('div');
+                                suggestion.innerText = source.name;
+                                suggestion.classList.add('px-4', 'py-2', 'cursor-pointer', 'hover:bg-gray-200', 'border-b', 'border-gray-300');
+
+                                suggestion.addEventListener('click', function() {
+                                    input.value = source.name;
+                                    suggestionsDiv.innerHTML = '';  // Vider les suggestions après sélection
+                                });
+
+                                suggestionsDiv.appendChild(suggestion);
+                            });
+                        } else {
+                            suggestionsDiv.innerHTML = '';  // Si aucune suggestion, laisser l'utilisateur entrer manuellement
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des suggestions:', error);
+                    });
+            } else {
+                suggestionsDiv.innerHTML = '';  // Si l'input est vide, vider les suggestions
+            }
+        });
+    }
+
+    // Initialisation pour les inputs de sources existants
+    const sourceInputs = document.querySelectorAll('.source-input');
+    sourceInputs.forEach(input => {
+        const parentDiv = input.closest('.relative');
+        if (parentDiv) {
+            initializeAutocomplete(input);
+        }
+    });
+
+    // Gérer l'ajout de nouvelles sources dynamiquement
+    window.addSource = function() {
+        const sourcesDiv = document.getElementById('sources');
+        const newSource = document.createElement('div');
+        newSource.classList.add('relative', 'flex', 'items-center', 'rounded-md', 'border', 'border-[#e0e0e0]', 'bg-white', 'py-3', 'px-6', 'mb-6', 'text-base', 'text-[#6B7280]', 'outline-none');
+        newSource.innerHTML = `
+            <div class="relative flex-grow">
+                <input class="source-input w-full outline-none" type="text" name="sources[${sourceIndex}][name]" placeholder="Nom de la source" required>
+                <div class="suggestions absolute z-10 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
+            </div>
+            <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+        `;
+        sourcesDiv.appendChild(newSource);
+        sourceIndex++;
+
+        // Initialiser l'autocomplétion pour le nouvel input
+        const newInput = newSource.querySelector('.source-input');
+        initializeAutocomplete(newInput);
+    };
+
+    // Fonction pour supprimer une source
+    window.removeSource = function(button) {
+        const parentDiv = button.closest('.flex');  // Trouver le parent flex pour supprimer l'input complet
+        parentDiv.remove();  // Supprimer l'élément de la DOM
+    };
+});
+
+
 document.getElementById('add-link').addEventListener('click', function() {
     var container = document.getElementById('liens-container');
     var index = container.querySelectorAll('.flex').length; // Compte le nombre actuel de lignes de lien

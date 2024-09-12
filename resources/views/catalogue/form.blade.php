@@ -1,4 +1,3 @@
-
 <form action="" method="post" enctype="multipart/form-data">
     @csrf
     @php
@@ -42,14 +41,14 @@
    <br>
 
    <div>
-   
-    @livewire('form-filter',[
-        'etude' => $etude,
-        'themes' => $themes,
-        'parametres' => $parametres,
-        'matrices' => $matrices])
+        @livewire('form-filter',[
+            'etude' => $etude,
+            'themes' => $themes,
+            'parametres' => $parametres,
+            'matrices' => $matrices])
     </div>
     <br>
+
     <div class="grid grid-cols-1 lg:grid-cols-4 md:space-x-6">
         <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 " >
             <div id="sources">
@@ -58,25 +57,25 @@
                     @php
                         $oldSources = old('sources', $etude->sources()->pluck('name', 'id')->toArray());
                     @endphp
-        @foreach($oldSources as $id => $sourceName)
-        <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
-            <input class="flex-grow min-w-1 outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" 
-                value="{{ is_array($sourceName) ? $sourceName['name'] : $sourceName }}" required>
+                    @foreach($oldSources as $id => $sourceName)
+                        <div class="relative flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
+                            <div class="flex-grow">
+                                <input class="w-full outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" value="{{ is_array($sourceName) ? $sourceName['name'] : $sourceName }}" required>
+                            <div class="suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
+                        </div>
+                        @if($loop->index > 0)
+                            <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+                        @endif
             
-            @if($loop->index > 0)
-                <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
-            @endif
-        </div>
+                        @error('sources.' . $id . '.name')
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+                        @enderror
+                    @endforeach
 
-        @error('sources.' . $id . '.name')
-            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
-        @enderror
-        @endforeach
-
-               
                 @else
-                    <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
-                        <input class="flex-grow min-w-1" type="text" name="sources[0][name]" placeholder="Nom de la source" required>
+                    <div class="relative flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
+                        <input class="source-input w-full outline-none" type="text" name="sources[0][name]" placeholder="Nom de la source" required>
+                        <div class="suggestions relative z-10 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1  max-h-48 overflow-y-auto"></div>
                     </div>
                     
                     @error('sources.0.name')
@@ -86,6 +85,7 @@
             </div>
             <button type="button" class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" onclick="addSource()">Ajouter une autre source +</button>
         </div>
+
         <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 col-span-3">
             <label class="block text-base font-medium text-blue1 pb-4">Contact(s)</label>
             <div id="contacts">
@@ -270,5 +270,4 @@
 </div>
 <div>
     <script src="{{ mix('resources/js/form.js') }}"></script>
-
 </form>
