@@ -50,7 +50,7 @@
     <br>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 md:space-x-6">
-        <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 " >
+        <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6">
             <div id="sources">
                 <label class="m-1 block text-base font-medium text-blue1 pb-4">Structure(s) productrice(s)</label>
                 @if(old('sources') || isset($etude) && $etude->sources()->count() > 0)
@@ -58,26 +58,26 @@
                         $oldSources = old('sources', $etude->sources()->pluck('name', 'id')->toArray());
                     @endphp
                     @foreach($oldSources as $id => $sourceName)
-                        <div class="relative flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
-                            <div class="flex-grow">
-                                <input class="w-full outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" value="{{ is_array($sourceName) ? $sourceName['name'] : $sourceName }}" required>
-                            <div class="suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
+                        <div class="relative flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
+                            <div class="relative flex-grow">
+                                <input class="source-input w-full outline-none" type="text" name="sources[{{ $id }}][name]" placeholder="Nom de la source" value="{{ is_array($sourceName) ? $sourceName['name'] : $sourceName }}" required>
+                                <div class="suggestions relative w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
+                            </div>
+                            @if($loop->index > 0)
+                                <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+                            @endif
                         </div>
-                        @if($loop->index > 0)
-                            <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
-                        @endif
-            
                         @error('sources.' . $id . '.name')
                             <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                         @enderror
                     @endforeach
-
                 @else
-                    <div class="relative flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
-                        <input class="source-input w-full outline-none" type="text" name="sources[0][name]" placeholder="Nom de la source" required>
-                        <div class="suggestions relative z-10 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1  max-h-48 overflow-y-auto"></div>
+                    <div class="relative flex-grow mb-6">
+                        <div class="relative flex-grow rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none">
+                            <input class="source-input w-full outline-none" type="text" name="sources[0][name]" placeholder="Nom de la source" required>
+                            <div class="suggestions relative w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
+                        </div>
                     </div>
-                    
                     @error('sources.0.name')
                         <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
                     @enderror
@@ -85,6 +85,7 @@
             </div>
             <button type="button" class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" onclick="addSource()">Ajouter une autre source +</button>
         </div>
+        
 
         <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 col-span-3">
             <label class="block text-base font-medium text-blue1 pb-4">Contact(s)</label>
