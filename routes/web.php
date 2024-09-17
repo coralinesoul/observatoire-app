@@ -41,6 +41,6 @@ Route::prefix('/catalogue')->name('catalogue.')->controller(CatalogueController:
         'etude'=>'[0-9]+',
         'slug'=> '[a-z0-9/-]+',
     ])->name('find');
-
+    route::delete('/{etude}', 'destroy')->name('destroy')->middleware('auth');
 
 });

@@ -211,4 +211,44 @@ class CatalogueController extends Controller
 
         return $data; // Ensure the method returns the data array
     }
+    public function destroy(Etude $etude)
+    {
+        // Détacher les relations dans les tables pivot (mais ne pas supprimer les entrées dans ces tables)
+        $etude->themes()->detach();
+        $etude->zones()->detach();
+        $etude->types()->detach();
+        $etude->parametres()->detach();
+        $etude->matrices()->detach();
+    
+        // Détacher les sources et contacts avant de vérifier si elles doivent être supprimées
+        $sources = $etude->sources;
+        $contacts = $etude->contacts;
+    
+        // Détacher les sources et contacts
+        $etude->sources()->detach();
+        $etude->contacts()->detach();
+    
+        // Supprimer les liens associés
+        $etude->liens()->delete();
+    
+        // Supprimer l'étude elle-même
+        $etude->delete();
+    
+        // Supprimer les sources non utilisées par d'autres études
+        foreach ($sources as $source) {
+            if ($source->etudes()->count() === 0) {
+                $source->delete();
+            }
+        }
+    
+        // Supprimer les contacts non utilisés par d'autres études
+        foreach ($contacts as $contact) {
+            if ($contact->etudes()->count() === 0) {
+                $contact->delete();
+            }
+        }
+    
+        return redirect()->route('catalogue.user_tab')->with('success', 'Étude supprimée avec succès');
+    }    
+
 }
