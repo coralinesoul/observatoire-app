@@ -1,5 +1,5 @@
 <div class="flex">
-    <div class=" w-80  bg-blue2 shadow-md bg-opacity-5 mr-6 p-6">
+    <div class=" w-1/4  bg-blue2 shadow-md bg-opacity-5 mr-6 p-6">
         <div>
             <div>Sélection :</div>
             @if(
