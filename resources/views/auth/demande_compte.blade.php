@@ -9,7 +9,7 @@
     <div class="flex justify-center h-dvh p-10">
         <form class="w-1/2 flex flex-col items-center" action="{{ route('auth.demande.submit') }}" method="post">
             @csrf
-            <h2 class="text-lg font-medium tracking-wide text-blue2 mt-1"> Formulaire de demande de compte :</h1>
+            <h2 class="text-xl tracking-wide text-blue2 font-bold mt-1"> Formulaire de demande de compte :</h1>
             <div class="w-full">
                 <label class="my-3 block text-base font-medium text-blue1" for="name">Nom</label>
                 <input type="text" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" name="name" value="{{ old('name') }}">
