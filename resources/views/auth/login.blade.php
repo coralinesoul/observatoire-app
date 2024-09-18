@@ -20,9 +20,12 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
-            
             <br>
             <button class="mt-4 hover:shadow-md rounded-md bg-blue2 py-3 px-8 text-center text-base font-semibold text-white outline-none">Se connecter</button>
+            <br>
+            <div>
+                <a href="{{ route('auth.demande_compte') }}" class="underline hover:underline-offset-4 text-sm text-blue1">Je n'ai pas de compte</a>
+            </div>
         </form>
     </div>
 @endsection

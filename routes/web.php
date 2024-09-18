@@ -23,10 +23,13 @@ Route::get('/', function () {
 route::get('/api/sources', function (Illuminate\Http\Request $request) {    $term = strtolower($request->query('term')); 
     return \App\Models\Source::whereRaw('LOWER(name) LIKE ?',["{$term}%"])->get();});
 
+Route::get('/catalogue/demande', [AuthController::class, 'showDemandeForm'])->name('auth.demande_compte');
+route::post('/catalogue/demande', [AuthController::class, 'submitDemande'])->name('auth.demande.submit');
+route::get('/catalogue/demande/validate', [AuthController::class, 'validateDemande'])->name('auth.demande.validate');
 
-Route::get('/login', [AuthController::class,'login'])-> name('auth.login');
-Route::delete('/logout', [AuthController::class,'logout'])-> name('auth.logout');
-Route::post('/login', [AuthController::class,'doLogin']);
+Route::get('/login', [AuthController::class,'login'])->name('auth.login');
+Route::post('/login', [AuthController::class,'doLogin'])->name('auth.doLogin');
+Route::delete('/logout', [AuthController::class,'logout'])->name('auth.logout');
 
 
 Route::prefix('/catalogue')->name('catalogue.')->controller(CatalogueController::class)->group(function(){
