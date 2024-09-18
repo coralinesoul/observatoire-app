@@ -32,9 +32,14 @@ class CatalogueController extends Controller
     }
     public function user_tab()
     {
-        $etudes = Auth::user()->etudes;
+        if (Auth::user()->is_super_user) {
+            $etudes = Etude::all();
+        } else {
+            $etudes = Auth::user()->etudes;
+        }
         return view('catalogue.user_tab', ['etudes' => $etudes]);
     }
+    
     
     public function create() {
         $etude = new Etude();
