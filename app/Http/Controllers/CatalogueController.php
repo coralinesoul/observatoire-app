@@ -30,6 +30,17 @@ class CatalogueController extends Controller
     {
         return view('catalogue.index');
     }
+    public function find(string $slug, Etude $etude) {
+        if($etude->slug !== $slug) {
+
+            return to_route('catalogue.find',['slug'=>$etude->slug,'id'=>$etude->id]);
+        }
+
+        return view('catalogue.find', [
+            'etude'=>$etude
+        ]);
+    } 
+
     public function user_tab()
     {
         if (Auth::user()->is_super_user) {
@@ -39,7 +50,6 @@ class CatalogueController extends Controller
         }
         return view('catalogue.user_tab', ['etudes' => $etudes]);
     }
-    
     
     public function create() {
         $etude = new Etude();
@@ -59,7 +69,7 @@ class CatalogueController extends Controller
         
     }
 
-    public function store (FormEtudeRequest $request)
+    public function store(FormEtudeRequest $request)
     {
         $data = $request->validated();
     
@@ -67,71 +77,39 @@ class CatalogueController extends Controller
         $data['user_id'] = Auth::id();
         $etude = Etude::create($data);
     
-        // Gestion des sources
-        $sources = [];
-        if ($request->has('sources')) {
-            foreach ($request->sources as $sourceData) {
-                $source = Source::firstOrCreate(['name' => $sourceData['name']]);
-                $sources[] = $source->id;
+        // Gestion des fichiers
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $fichier) {
+                if ($fichier->isValid()) {
+                    // Stockage du fichier dans le répertoire 'fichiers' sous 'public'
+                    $chemin = $fichier->store('fichiers', 'public');
+                    
+                    // Enregistrement des informations du fichier dans la base de données
+                    $etude->fichiers()->create([
+                        'nom' => $fichier->getClientOriginalName(),
+                        'chemin' => $chemin,
+                    ]);
+                }
             }
         }
-        $etude->sources()->sync($sources);
     
+        // Gestion des autres relations (zones, types, etc.)
         $etude->zones()->sync($request->validated('zones'));
         $etude->themes()->sync($request->validated('themes'));
         $etude->parametres()->sync($request->validated('parametres'));
         $etude->matrices()->sync($request->validated('matrices'));
         $etude->types()->sync($request->validated('types'));
     
-        if (!empty($request->link_name)) {
-            foreach ($request->link_name as $index => $linkName) {
-                $linkUrl = $request->link_url[$index] ?? null;
-    
-                // Vérifiez que le nom et l'URL ne sont pas vides avant de créer le lien
-                if (!empty($linkName) && !empty($linkUrl)) {
-                    $etude->liens()->create([
-                        'link_name' => $linkName,
-                        'link_url' => $linkUrl,
-                        'position' => $index + 1,
-                    ]);
-                }
-            }
-        }
-    
-        // Gestion des sources (second passage)
-        $sources = [];
-        if ($request->has('sources')) {
-            foreach ($request->sources as $sourceData) {
-                $source = Source::firstOrCreate(['name' => $sourceData['name']]);
-                $sources[] = $source->id;
-            }
-        }
-        $etude->sources()->sync($sources);
-    
-        // Gestion des contacts
-        $contacts = [];
-        if ($request->has('contacts')) {
-            foreach ($request->contacts as $contactData) {
-                $contact = Contact::firstOrCreate([
-                    'nom' => $contactData['nom'],
-                    'prenom' => $contactData['prenom'],
-                    'mail' => $contactData['mail']
-                ], [
-                    'diffusion_mail' => $contactData['diffusion_mail']
-                ]);
-                $contacts[] = $contact->id;
-            }
-        }
-        $etude->contacts()->sync($contacts);
-    
+        // Envoi de la notification à l'admin si nécessaire
         $admin = User::find(3); // Récupère l'utilisateur 3
         if ($admin) {
             $admin->notify(new EtudeAjouteeNotification($etude));
-        }    
+        }
     
         return redirect()->route('catalogue.find', ['slug' => $etude->slug, 'etude' => $etude->id])
             ->with('success', "L'étude a bien été répertoriée");
     }
+    
 
     public function edit(Etude $etude) {
         
@@ -148,60 +126,64 @@ class CatalogueController extends Controller
         ]);
     }
 
-    public function find(string $slug, Etude $etude) {
-        if($etude->slug !== $slug) {
-
-            return to_route('catalogue.find',['slug'=>$etude->slug,'id'=>$etude->id]);
-        }
-
-        return view('catalogue.find', [
-            'etude'=>$etude
-        ]);
-    } 
-
     public function update(Etude $etude, FormEtudeRequest $request)
     {
+        // Mise à jour des données de l'étude
         $etude->update($this->extractData($etude, $request));
-
-        // Gestion des sources
-        $sources = [];
-        if ($request->has('sources')) {
-            foreach ($request->sources as $sourceData) {
-                $source = Source::firstOrCreate(['name' => $sourceData['name']]);
-                $sources[] = $source->id;
+    
+        // Gestion des fichiers
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $fichier) {
+                if ($fichier->isValid()) {
+                    $chemin = $fichier->store('fichiers', 'public');
+                    $etude->fichiers()->create([
+                        'nom' => $fichier->getClientOriginalName(),
+                        'chemin' => $chemin,
+                    ]);
+                }
             }
         }
-        // Synchronise les nouvelles et anciennes sources
-        $etude->sources()->sync($sources);
-
-
-        // Gérer les autres relations de la même manière (zones, types, etc.)
+    
+        // Suppression des fichiers non sélectionnés par l'utilisateur
+        if ($request->has('fichiers_existants')) {
+            $fichiersASupprimer = $etude->fichiers()->whereNotIn('nom', $request->fichiers_existants)->get();
+            foreach ($fichiersASupprimer as $fichier) {
+                Storage::disk('public')->delete($fichier->chemin);
+                $fichier->delete();
+            }
+        } else {
+            // Si aucun fichier existant n'est sélectionné, tous les fichiers sont supprimés
+            foreach ($etude->fichiers as $fichier) {
+                Storage::disk('public')->delete($fichier->chemin);
+                $fichier->delete();
+            }
+        }
+    
+        // Mise à jour des autres relations comme sources, zones, etc.
+        $this->syncRelations($etude, $request);
+    
+        return redirect()->route('catalogue.find', ['slug' => $etude->slug, 'etude' => $etude->id])
+            ->with('success', "L'étude a bien été modifiée");
+    }
+    
+    private function syncRelations(Etude $etude, FormEtudeRequest $request)
+    {
+        // Synchronisation des relations
+        $etude->sources()->sync($this->getIdsForSync($request->sources, 'name', Source::class));
         $etude->zones()->sync($request->validated('zones'));
         $etude->themes()->sync($request->validated('themes'));
         $etude->parametres()->sync($request->validated('parametres'));
         $etude->matrices()->sync($request->validated('matrices'));
         $etude->types()->sync($request->validated('types'));
-
-        // Gestion des contacts
-        $contacts = [];
-        if ($request->has('contacts')) {
-            foreach ($request->contacts as $contactData) {
-                $contact = Contact::firstOrCreate([
-                    'nom' => $contactData['nom'],
-                    'prenom' => $contactData['prenom'],
-                    'mail' => $contactData['mail']
-                ], [
-                    'diffusion_mail' => $contactData['diffusion_mail']
-                ]);
-                $contacts[] = $contact->id;
-            }
-        }
-        $etude->contacts()->sync($contacts);
-
-        return redirect()->route('catalogue.find', ['slug' => $etude->slug, 'etude' => $etude->id])
-            ->with('success', "L'étude a bien été modifiée");
     }
-
+    
+    private function getIdsForSync(array $items, string $field, string $modelClass)
+    {
+        return array_map(function($item) use ($field, $modelClass) {
+            return $modelClass::firstOrCreate([$field => $item])->id;
+        }, $items);
+    }
+    
     private function extractData(Etude $etude, FormEtudeRequest $request): array
     {
         $data = $request->validated();

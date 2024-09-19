@@ -89,6 +89,23 @@
         </div>
         <br>
     @endforeach
+    <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md mt-4">
+        <div class="p-4">
+            <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Fichiers PDF</h2>
+            @if($etude->fichiers->isNotEmpty())
+                <ul class="list-disc list-inside">
+                    @foreach($etude->fichiers as $fichier)
+                        <li>
+                            <a href="{{ asset('storage/' . $fichier->chemin) }}" target="_blank" class="text-blue1 underline">
+                                {{ $fichier->nom }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    </div>
+    
     
     <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
         <div class="p-4">
