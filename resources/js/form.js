@@ -175,3 +175,19 @@ function toggleStopYear() {
 }
 
 toggleStopYear();
+
+
+document.getElementById('add-fichier').addEventListener('click', function() {
+    var container = document.getElementById('fichiers-container');
+    var newFichier = document.createElement('div');
+    newFichier.className = 'flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3';
+    newFichier.innerHTML = `
+        <input type="file" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" name="fichiers[]" accept="application/pdf" required>
+        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeFichier(this)">x</button>
+    `;
+    container.appendChild(newFichier);
+});
+
+function removeFichier(element) {
+    element.closest('.flex').remove();
+}

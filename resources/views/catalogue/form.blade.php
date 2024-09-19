@@ -267,6 +267,23 @@
             <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-link">Ajouter un lien +</button>
         </div>
     <br>
+    <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
+        <div id="fichiers-container">
+            @if(isset($etude->fichiers) && $etude->fichiers->count() > 0)
+                <label class="m-1 block text-base font-medium text-blue1 pb-4" for="fichiers">Fichiers PDF</label>
+                @foreach($etude->fichiers as $index => $fichier)
+                    <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
+                        <input type="text" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" name="fichiers_existants[]" value="{{ $fichier->nom }}" readonly>
+                        <a href="{{ asset('storage/' . $fichier->chemin) }}" target="_blank" class="text-blue1 underline">Voir</a>
+                        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeFichier(this)">x</button>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+        <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-fichier">Ajouter un fichier PDF +</button>
+    </div>
+    <br>
+    
     <button class="w-full hover:shadow-md rounded-md bg-blue2 hover:bg-blue1 text-white py-3 px-5 text-base  font-semibold mb-10" >Enregistrer</button>
 </div>
 <div>
