@@ -235,21 +235,24 @@ class FormController extends Controller
     private function extractData(Etude $etude, FormEtudeRequest $request): array
     {
         $data = $request->validated();
+    
         /** @var \Illuminate\Http\UploadedFile|null $image */
-        $image = $request->validated('image');
-
-        // Delete the old image if a new image is uploaded
-        if ($image !== null && $image->isValid()) {
-            if ($etude->image && Storage::disk('public')->exists($etude->image)) {
-                Storage::disk('public')->delete($etude->image);
-            }
-            $data['image'] = $image->store('catalogue', 'public');
+        $image = $request->file('image');
+    
+        if ($image) {
+            // Stocke l'image dans le répertoire 'public/storage/catalogue' et renvoie le chemin
+            $imagePath = $image->store('catalogue', 'public');
+    
+            // Met à jour le tableau de données avec le chemin de l'image
+            $data['image'] = $imagePath;
+        } elseif ($etude->exists && $etude->image) {
+            // Si l'étude existe déjà et qu'elle a une image, conserver l'image actuelle
+            $data['image'] = $etude->image;
         } else {
-            if (!isset($etude->image) || empty($etude->image)) {
-                $data['image'] = "catalogue/default.png";
-            }
+            // Si aucune image n'a été téléchargée et que l'étude est nouvelle, utiliser une image par défaut
+            $data['image'] = 'catalogue/default.png';
         }
-
+    
         return $data; // Ensure the method returns the data array
     }
 }
