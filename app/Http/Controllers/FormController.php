@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
@@ -110,6 +111,18 @@ class FormController extends Controller
                 }
             }
             $etude->contacts()->sync($contacts);
+
+            $details = [
+                'title' => $etude->title,
+                'slug' => $etude->slug,
+                'user' => Auth::user()->name,
+            ];
+
+            Mail::send('emails.etude_creee', $details, function($message) {
+                $message->to('coraline.soul@institut-ecocitoyen.fr')
+                        ->subject('Nouvelle étude créée');
+            });
+
             return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été répertoriée");
     }
 

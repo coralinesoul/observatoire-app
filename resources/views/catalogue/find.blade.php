@@ -95,7 +95,7 @@
             <div class="p-4">
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Lien(s) :</h2>
                     @foreach($etude->liens as $lien)
-                            <h2 class="text-base font-medium tracking-wide text-blue1 mt-1"> Lien n°{{ $lien->position }} : {{ $lien->link_name }}</h2>
+                            <h2 class="text-base font-medium tracking-wide text-blue1 mt-1"> {{ $lien->link_name }}</h2>
                             <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ $lien->link_url }}">{{ $lien->link_url }}</a>
                         
                     @endforeach
