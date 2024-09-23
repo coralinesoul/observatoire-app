@@ -61,7 +61,12 @@ class Etude extends Model
         return $this->belongsToMany(User::class);
     }
     public function imageUrl(): string
-{
-    return Storage::url($this->image);
-}
+    {
+        return Storage::url($this->image);
+    }
+    public function fichiers()
+    {
+        return $this->belongsToMany(Fichier::class, 'etude_fichier');
+    }
+
 }
