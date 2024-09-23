@@ -47,7 +47,7 @@ class FormEtudeRequest extends FormRequest
             'contacts.*.mail' => 'required|email|max:255',
             'contacts.*.diffusion_mail' => 'required|boolean',
             'image' => ['image', 'max:2000'],
-            'fichiers.*' => 'file|mimes:pdf|max:20480',
+            'fichiers.*' => 'nullable|mimes:pdf|max:10240',
 
         ];
     }

@@ -6,6 +6,16 @@
         $typesIds = $etude->types()->pluck("id");
     @endphp
     <div gap-4 mt-4>
+        @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="grid grid-cols-1 md:grid-cols-3">
         <div class="md:col-span-2 flex flex-col mr-6">
             <label class="m-1 block text-base font-medium text-blue1" for="title">Titre court de l'étude</label>
@@ -266,6 +276,24 @@
             </div>
             <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-link">Ajouter un lien +</button>
         </div>
+    <br>
+    <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
+        <label class="block text-base font-medium text-blue1 pb-4">Fichiers PDF</label>
+        <div id="pdf-container">
+            @if(isset($etude) && $etude->fichiers->count() > 0)
+                @foreach($etude->fichiers as $index => $fichier)
+                    <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
+                        <input type="text" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" value="{{ $fichier->nom }}" readonly>
+                        <a href="{{ asset('/storage/' . $fichier->chemin) }}" target="_blank" class="text-blue2 hover:text-blue1">Voir</a>
+                        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removePdf(this, {{ $fichier->id }})">x</button>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+        <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-pdf">Ajouter un PDF +</button>
+    </div>
+    <input type="file" name="fichiers[]" id="pdf-upload" class="hidden" multiple>
+    <input type="hidden" name="pdfsToDelete" id="pdfsToDelete" value="">
     <br>
     <button class="w-full hover:shadow-md rounded-md bg-blue2 hover:bg-blue1 text-white py-3 px-5 text-base  font-semibold mb-10" >Enregistrer</button>
 </div>
