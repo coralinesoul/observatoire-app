@@ -76,18 +76,7 @@
     
 </div>
     
-    <br>
     
-    <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
-        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Lien(s) :</h2>
-        @foreach($etude->liens as $lien)
-
-            <div class="p-4">
-                <h2 class="text-base font-medium tracking-wide text-blue1 mt-1"> Lien n°{{ $lien->position }} : {{ $lien->link_name }}</h2>
-                <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ $lien->link_url }}">{{ $lien->link_url }}</a>
-            </div>
-        @endforeach
-    </div>
     <br>
     <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
         <div class="p-4">
@@ -100,6 +89,31 @@
             @endforeach
         </div>
     </div>
+    <br>
+    @if($etude->liens->isNotEmpty())
+        <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
+            <div class="p-4">
+                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Lien(s) :</h2>
+                    @foreach($etude->liens as $lien)
+                            <h2 class="text-base font-medium tracking-wide text-blue1 mt-1"> Lien n°{{ $lien->position }} : {{ $lien->link_name }}</h2>
+                            <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ $lien->link_url }}">{{ $lien->link_url }}</a>
+                        
+                    @endforeach
+            </div>
+        </div>
+        <br>
+    @endif
+    @if($etude->fichiers->isNotEmpty())
+        <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
+            <div class="p-4">
+                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Fichier(s) :</h2>
+                @foreach($etude->fichiers as $fichier)
+                        <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ asset('/storage/' . $fichier->chemin) }}">{{$fichier->nom}}</a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    <br>
 </div>
 
 @endsection

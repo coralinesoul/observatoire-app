@@ -11,7 +11,7 @@ class Fichier extends Model
 
     public function etudes()
     {
-        return $this->belongsToMany(Etude::class, 'etude_fichier');
+        return $this->belongsToMany(Etude::class, 'etude_fichier')->withTimestamps();
     }
 }
 

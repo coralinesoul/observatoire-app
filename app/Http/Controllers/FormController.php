@@ -11,6 +11,7 @@ use \App\Models\Contact;
 use \App\Models\Parametre;
 use \App\Models\Matrice;
 use \App\Models\User;
+use \App\Models\Fichier;
 use \App\Http\Requests\CatalogueFilterRequest;
 use \App\Http\Requests\FormEtudeRequest;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class FormController extends Controller
             'contacts' => $etude->contacts()->get(),
             'parametres' => Parametre::select('*')->get(),
             'matrices' => Matrice::select('*')->get(),
+            'fichiers' => $etude->fichiers()->get(),
             
         ]);
         
@@ -51,6 +53,7 @@ class FormController extends Controller
             'contacts' => $etude->contacts()->get(),
             'parametres' => Parametre::select('*')->get(),
             'matrices' => Matrice::select('*')->get(),
+            'fichiers' => $etude->fichiers()->get(),
         ]);
     }
     public function store (FormEtudeRequest $request){
@@ -61,6 +64,7 @@ class FormController extends Controller
         $data['user_id'] = Auth::id();
         $etude = Etude::create($data);
 
+        $this->handleFiles($etude, $request);
     
         // Gestion des sources
         $sources = [];
@@ -113,6 +117,8 @@ class FormController extends Controller
     {
         $etude->update($this->extractData($etude, $request));
     
+        $this->handleFiles($etude, $request);
+
         // Gestion des sources
         $sources = [];
         if ($request->has('sources')) {
@@ -184,7 +190,35 @@ class FormController extends Controller
             ->with('success', "L'étude a bien été modifiée");
     }
     
-
+    protected function handleFiles(Etude $etude, Request $request)
+    {
+        // Upload des nouveaux fichiers PDF
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $fichier) {
+                if ($fichier->isValid()) {
+                    $chemin = $fichier->store('fichiers', 'public');
+                    $fichier = Fichier::create([
+                        'nom' => $fichier->getClientOriginalName(),
+                        'chemin' => $chemin,
+                    ]);
+                    $etude->fichiers()->attach($fichier->id); // Ajout dans la table pivot
+                }
+            }
+        }
+    
+        // Suppression des fichiers sélectionnés pour la suppression
+        if ($request->filled('pdfsToDelete')) {
+            $idsToDelete = explode(',', $request->input('pdfsToDelete'));
+            foreach ($idsToDelete as $fileId) {
+                $fichier = $etude->fichiers()->find($fileId);
+                if ($fichier) {
+                    Storage::disk('public')->delete($fichier->chemin);
+                    $fichier->delete();
+                }
+            }
+        }
+    }
+    
     private function extractData(Etude $etude, FormEtudeRequest $request): array
     {
         $data = $request->validated();

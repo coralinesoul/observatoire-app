@@ -175,3 +175,34 @@ function toggleStopYear() {
 }
 
 toggleStopYear();
+
+document.getElementById('add-pdf').addEventListener('click', function() {
+    document.getElementById('pdf-upload').click();
+});
+
+document.getElementById('pdf-upload').addEventListener('change', function() {
+    const container = document.getElementById('pdf-container');
+    const files = this.files;
+
+    for (let i = 0; i < files.length; i++) {
+        const fileName = files[i].name;
+        
+        const newPdf = document.createElement('div');
+        newPdf.className = 'flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3';
+        newPdf.innerHTML = `
+            <input type="text" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" value="${fileName}" readonly>
+            <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeNewPdf(this)">x</button>
+        `;
+        container.appendChild(newPdf);
+    }
+});
+
+function removePdf(element, fichierId) {
+    const pdfsToDelete = document.getElementById('pdfsToDelete').value;
+    document.getElementById('pdfsToDelete').value = pdfsToDelete ? pdfsToDelete + ',' + fichierId : fichierId;
+    element.closest('.flex').remove();
+}
+
+function removeNewPdf(element) {
+    element.closest('.flex').remove();
+}

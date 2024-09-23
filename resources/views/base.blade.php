@@ -11,7 +11,7 @@
     <nav class="bg-white p-4 mx-8">
         <div class="w-full px-8 flex items-center justify-between">
             <!-- Logo -->
-            <div class="w-48 h-auto pr-8">
+            <div class="w-60 h-auto pr-8">
                 <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto">
             </div>
     

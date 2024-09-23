@@ -14,6 +14,7 @@ use \App\Models\Type;
 use \App\Models\Parametre;
 use \App\Models\Matrice;
 use \App\Models\User;
+use \App\Models\Fichier;
 
 /**
  * @mixin IdeHelperEtude
@@ -66,7 +67,7 @@ class Etude extends Model
     }
     public function fichiers()
     {
-        return $this->belongsToMany(Fichier::class, 'etude_fichier');
+        return $this->belongsToMany(Fichier::class, 'etude_fichier')->withTimestamps();
     }
 
 }
