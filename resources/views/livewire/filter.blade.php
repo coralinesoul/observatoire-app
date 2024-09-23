@@ -1,5 +1,5 @@
 <div class="flex">
-    <div class=" w-1/4  bg-blue2 shadow-md bg-opacity-5 mr-6 p-6">
+    <div class=" w-1/5 min-w-64 bg-blue2 shadow-md bg-opacity-5 mr-6 p-6">
         <div>
             <div>Sélection :</div>
             @if(
@@ -249,9 +249,9 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class=" w-4/5">
     @if(!empty($etudes)&& count($etudes) > 0)
-        <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 auto-rows-min">
+        <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-min">
             @foreach ($etudes as $etude)
                 <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
                     <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full">

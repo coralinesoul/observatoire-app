@@ -6,15 +6,6 @@
         $typesIds = $etude->types()->pluck("id");
     @endphp
     <div gap-4 mt-4>
-        @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
     <div class="grid grid-cols-1 md:grid-cols-3">
         <div class="md:col-span-2 flex flex-col mr-6">
@@ -292,6 +283,9 @@
         </div>
         <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-pdf">Ajouter un PDF +</button>
     </div>
+    @error('fichiers.*')
+        <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+    @enderror
     <input type="file" name="fichiers[]" id="pdf-upload" class="hidden" multiple>
     <input type="hidden" name="pdfsToDelete" id="pdfsToDelete" value="">
     <br>
