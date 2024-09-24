@@ -1,135 +1,135 @@
-<div class="flex">
+<div class="flex w-full">
     <div class=" w-1/5 min-w-64 bg-blue2 shadow-md bg-opacity-5 mr-6 p-6">
         <div>
-            <div>Sélection :</div>
-            @if(
-                !empty($selectedSource) || 
-                !empty($selectedTheme) || 
-                !empty($selectedParametre) || 
-                !empty($selectedMatrice) ||  
-                !empty($selectedZone) || 
-                !empty($selectedType) || 
-                !empty($selectedReglementaire) || 
-                !empty($selectedGpM) ||
-                !empty($selectedGp) ||
-                !empty($selectedFrequence) || 
-                ($selectedStartyear != 1960 || $selectedStopyear != 2024)
-            )
-                <div>
-                    <ul class="text-gray-500 text-sm flex flex-wrap gap-1">
-                        @foreach($selectedSource as $sourceId)
+        <div>Sélection :</div>
+        @if(
+            !empty($selectedSource) || 
+            !empty($selectedTheme) || 
+            !empty($selectedParametre) || 
+            !empty($selectedMatrice) ||  
+            !empty($selectedZone) || 
+            !empty($selectedType) || 
+            !empty($selectedReglementaire) || 
+            !empty($selectedGpM) ||
+            !empty($selectedGp) ||
+            !empty($selectedFrequence) || 
+            ($selectedStartyear != 1960 || $selectedStopyear != 2024)
+        )
+            <div>
+                <ul class="text-gray-500 text-sm flex flex-wrap gap-1">
+                    @foreach($selectedSource as $sourceId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Source::find($sourceId)->name }}
+                                <button wire:click="removeSelection('selectedSource', {{ $sourceId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach($selectedTheme as $themeId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Theme::find($themeId)->name }}
+                                <button wire:click="removeSelection('selectedTheme', {{ $themeId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach ($parametres->groupBy('groupe') as $groupe => $parametresGrouped)
+                        @if(in_array($groupe, $selectedGp))
                             <li class="my-1">
                                 <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Source::find($sourceId)->name }}
-                                    <button wire:click="removeSelection('selectedSource', {{ $sourceId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach($selectedTheme as $themeId)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Theme::find($themeId)->name }}
-                                    <button wire:click="removeSelection('selectedTheme', {{ $themeId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach ($parametres->groupBy('groupe') as $groupe => $parametresGrouped)
-                            @if(in_array($groupe, $selectedGp))
-                                <li class="my-1">
-                                    <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                        {{ $groupe }}
-                                        <button wire:click="removeSelection('selectedGp', '{{ $groupe }}')" class="text-red-500 ml-2">&times;</button>
-                                    </span>
-                                </li>
-                            @endif
-                        @endforeach
-                        @foreach($selectedParametre as $parametreId)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Parametre::find($parametreId)->name }}
-                                    <button wire:click="removeSelection('selectedParametre', {{ $parametreId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach ($matrices->groupBy('groupe') as $groupe => $matricesGrouped)
-                            @if(in_array($groupe, $selectedGpM))
-                                <li class="my-1">
-                                    <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                        {{ $groupe }}
-                                        <button wire:click="removeSelection('selectedGpM', '{{ $groupe }}')" class="text-red-500 ml-2">&times;</button>
-                                    </span>
-                                </li>
-                            @endif
-                        @endforeach
-                        @foreach($selectedMatrice as $matriceId)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Matrice::find($matriceId)->name }}
-                                    <button wire:click="removeSelection('selectedMatrice', {{ $matriceId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach($selectedZone as $zoneId)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Zone::find($zoneId)->name }}
-                                    <button wire:click="removeSelection('selectedZone', {{ $zoneId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach($selectedType as $typeId)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ \App\Models\Type::find($typeId)->name }}
-                                    <button wire:click="removeSelection('selectedType', {{ $typeId }})" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach($selectedReglementaire as $reglementaire)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    @if($reglementaire == 'true')
-                                        Réglementaire
-                                    @else
-                                        Non réglementaire
-                                    @endif
-                                    <button wire:click="removeSelection('selectedReglementaire', '{{ $reglementaire }}')" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @foreach($selectedFrequence as $frequence)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ $frequence }}
-                                    <button wire:click="removeSelection('selectedFrequence', '{{ $frequence }}')" class="text-red-500 ml-2">&times;</button>
-                                </span>
-                            </li>
-                        @endforeach
-                        @if($selectedStartyear != 1960 || $selectedStopyear != 2024)
-                            <li class="my-1">
-                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                    {{ $selectedStartyear }} - {{ $selectedStopyear }}
-                                    <button wire:click="resetYears" class="text-red-500 ml-2">&times;</button>
+                                    {{ $groupe }}
+                                    <button wire:click="removeSelection('selectedGp', '{{ $groupe }}')" class="text-red-500 ml-2">&times;</button>
                                 </span>
                             </li>
                         @endif
-                    </ul>
-                </div>
-            @else
-                <p class="text-gray-500 text-sm">aucune sélection appliqué</p>
-            @endif
-        </div>
+                    @endforeach
+                    @foreach($selectedParametre as $parametreId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Parametre::find($parametreId)->name }}
+                                <button wire:click="removeSelection('selectedParametre', {{ $parametreId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach ($matrices->groupBy('groupe') as $groupe => $matricesGrouped)
+                        @if(in_array($groupe, $selectedGpM))
+                            <li class="my-1">
+                                <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                    {{ $groupe }}
+                                    <button wire:click="removeSelection('selectedGpM', '{{ $groupe }}')" class="text-red-500 ml-2">&times;</button>
+                                </span>
+                            </li>
+                        @endif
+                    @endforeach
+                    @foreach($selectedMatrice as $matriceId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Matrice::find($matriceId)->name }}
+                                <button wire:click="removeSelection('selectedMatrice', {{ $matriceId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach($selectedZone as $zoneId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Zone::find($zoneId)->name }}
+                                <button wire:click="removeSelection('selectedZone', {{ $zoneId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach($selectedType as $typeId)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ \App\Models\Type::find($typeId)->name }}
+                                <button wire:click="removeSelection('selectedType', {{ $typeId }})" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach($selectedReglementaire as $reglementaire)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                @if($reglementaire == 'true')
+                                    Réglementaire
+                                @else
+                                    Non réglementaire
+                                @endif
+                                <button wire:click="removeSelection('selectedReglementaire', '{{ $reglementaire }}')" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @foreach($selectedFrequence as $frequence)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ $frequence }}
+                                <button wire:click="removeSelection('selectedFrequence', '{{ $frequence }}')" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endforeach
+                    @if($selectedStartyear != 1960 || $selectedStopyear != 2024)
+                        <li class="my-1">
+                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
+                                {{ $selectedStartyear }} - {{ $selectedStopyear }}
+                                <button wire:click="resetYears" class="text-red-500 ml-2">&times;</button>
+                            </span>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+        @else
+            <p class="text-gray-500 text-sm">aucune sélection appliqué</p>
+        @endif
+    </div>
+    <div>
         <br>
         <div>
-            <div>
-                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Thèmes</h2>
-                @foreach ($themes as $theme)
-                    <input type="checkbox" id="{{$theme->id}}" name="selectedTheme" value="{{$theme->id}}" wire:model="selectedTheme" wire:change="updateFilteredOptions">
-                    <label>{{$theme->name}}</label>
-                    <br>
-                @endforeach
-            </div>
-            @if(!empty($selectedTheme) && count($selectedTheme) > 0 && count($filteredGp)>0)
+            <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Thèmes</h2>
+            @foreach ($themes as $theme)
+                <input type="checkbox" id="{{$theme->id}}" name="selectedTheme" value="{{$theme->id}}" wire:model="selectedTheme" wire:change="updateFilteredOptions">
+                <label>{{$theme->name}}</label>
+                <br>
+            @endforeach
+        </div>
+        @if(!empty($selectedTheme) && count($selectedTheme) > 0 && count($filteredGp)>0)
                 <br>
                 <div>
                     <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Types de paramètres suivis</h2>
@@ -183,15 +183,6 @@
                 @endforeach
             </div>
             <br>
-            <div>
-                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Zones suivies</h2>
-                @foreach ($zones as $zone)
-                    <input type="checkbox" id="{{$zone->id}}" name="selectedZone" value="{{$zone->id}}" wire:model="selectedZone" wire:change="updateFilteredOptions">
-                    <label>{{$zone->name}}</label>
-                    <br>
-                @endforeach
-            </div>
-            <br>
             <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Dates</h2>       
             <div class="range_container">
                 <div class="sliders_control">
@@ -231,6 +222,15 @@
             </div>
             <br>
             <div>
+                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Zones suivies</h2>
+                @foreach ($zones as $zone)
+                    <input type="checkbox" id="{{$zone->id}}" name="selectedZone" value="{{$zone->id}}" wire:model="selectedZone" wire:change="updateFilteredOptions">
+                    <label>{{$zone->name}}</label>
+                    <br>
+                @endforeach
+            </div>
+            <br>
+            <div>
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Types de données produites</h2>
                 @foreach ($types as $type)
                     <input type="checkbox" id="{{$type->id}}" name="selectedType" value="{{$type->id}}" wire:model="selectedType" wire:change="updateFilteredOptions">
@@ -250,44 +250,47 @@
         </div>
     </div>
     <div class=" w-4/5">
-    @if(!empty($etudes)&& count($etudes) > 0)
-        <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-min">
-            @foreach ($etudes as $etude)
-                <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
-                    <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full">
-                    <div class="flex w-full items-center justify-between space-x-6 p-6">
-                        <div class="flex-1 truncate">
-                        <div class="flex items-center space-x-3">
-                            <h3 class="truncate text-2xl font-bold text-blue1 my-1">{{$etude->title}}</h3>
-                        </div>
-                        <div class="flex flex-wrap items-center">
-                            @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
-                                <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
-                            @endforeach
-                            @foreach($etude->matrices as $matrice)
-                                <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$matrice->groupe}}</span>
-                            @endforeach
-                        </div>
-                        <hr class="border-blue2 border-2 border-opacity-50 rounded my-2">
-                        
-                            <p class="mt-1 truncate text-base text-gray-500">@foreach($etude->sources as $source){{$source->name}}, @endforeach </p>
-                            <p class="mt-1 truncate text-base text-gray-500">
-                                {{$etude->startyear}} - 
-                                @if($etude->active)
-                                    {{$etude->stopyear}}
-                                    @else en cours
-                                @endif
-                            </p>
-                        </div>
-                    </div>            
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    @else
-    <p class="justify-center text-2xl text-gray-400">Aucune étude ne correspond aux filtres selectionnés.
-    @endif
+        @if(!empty($etudes)&& count($etudes) > 0)
+            <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-min">
+                @foreach ($etudes as $etude)
+                    <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
+                        <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full">
+                        <div class="flex w-full items-center justify-between space-x-6 p-6">
+                            <div class="flex-1 truncate">
+                            <div class="flex items-center space-x-3">
+                                <h3 class="truncate text-2xl font-bold text-blue1 my-1">{{$etude->title}}</h3>
+                            </div>
+                            <div class="flex flex-wrap items-center">
+                                @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
+                                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
+                                @endforeach
+                                @foreach($etude->matrices->groupBy('groupe') as $groupe => $matrices)
+                                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
+                                @endforeach
+                            </div>
+                            <hr class="border-blue2 border-2 border-opacity-50 rounded my-2">
+                            
+                                <p class="mt-1 truncate text-base text-gray-500">@foreach($etude->sources as $source){{$source->name}}, @endforeach </p>
+                                <p class="mt-1 truncate text-base text-gray-500">
+                                    {{$etude->startyear}} - 
+                                    @if($etude->active)
+                                        {{$etude->stopyear}}
+                                        @else en cours
+                                    @endif
+                                </p>
+                            </div>
+                        </div>            
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+        <p class="justify-center text-2xl text-gray-400">Aucune étude ne correspond aux filtres selectionnés.
+        @endif
+        <div>
+            <br>
+            {{ $etudes->links() }}
+        </div>
     </div>
-</div>
     
-<script src="{{ mix('resources/js/filters.js') }}"></script>
+</div>
