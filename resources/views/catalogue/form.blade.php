@@ -5,6 +5,16 @@
         $zonesIds = $etude->zones()->pluck("id");
         $typesIds = $etude->types()->pluck("id");
     @endphp
+    @if ($errors->any())
+    <div class="rounded-md my-4 text-red-700 bg-red-100 border border-red-300 p-4">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div gap-4 mt-4>
 
     <div class="grid grid-cols-1 md:grid-cols-3">
@@ -47,6 +57,9 @@
             'themes' => $themes,
             'parametres' => $parametres,
             'matrices' => $matrices])
+        @error('themes')
+            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
+        @enderror
     </div>
     <br>
 
