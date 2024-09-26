@@ -60,6 +60,7 @@
             </div>
         @endif
     </div>
+    <livewire:cookie-banner />
     <div class="w-full px-8">
         @yield('content')
     </div>
