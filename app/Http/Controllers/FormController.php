@@ -43,6 +43,8 @@ class FormController extends Controller
         
     }
     public function edit(Etude $etude) {
+
+        $this->authorize('update', $etude);
         
         return view('catalogue.edit',[
             'etude'=>$etude,
@@ -128,6 +130,8 @@ class FormController extends Controller
 
     public function update(Etude $etude, FormEtudeRequest $request)
     {
+        $this->authorize('update', $etude);
+        
         $etude->update($this->extractData($etude, $request));
     
         $this->handleFiles($etude, $request);
