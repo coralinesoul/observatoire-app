@@ -157,7 +157,7 @@ class FormController extends Controller
         $contacts = [];
         if ($request->has('contacts')) {
             foreach ($request->contacts as $contactData) {
-                $contact = Contact::firstOrCreate([
+                $contact = Contact::updateOrCreate([
                     'nom' => $contactData['nom'],
                     'prenom' => $contactData['prenom'],
                     'mail' => $contactData['mail']
