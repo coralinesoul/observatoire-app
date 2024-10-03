@@ -29,6 +29,7 @@
         class="relative w-[300vw] h-[100%] flex transition-all duration-500 ease-in-out peer-checked/slider1:-left-0 peer-checked/slider2:-left-[100vw] peer-checked/slider3:-left-[200vw]"
         >
         <div class="relative w-full h-full flex p-8">
+            <h1 class="text-blue1 font-bold text-2xl mt-2">TEST</h1>
             <h1 class="text-blue1 font-bold text-2xl mt-2">Faire l'inventaire des données</h1>
 
 
