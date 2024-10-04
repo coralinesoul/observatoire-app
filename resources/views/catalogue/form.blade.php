@@ -295,6 +295,5 @@
     <br>
     <button class="w-full hover:shadow-md rounded-md bg-blue2 hover:bg-blue1 text-white py-3 px-5 text-base  font-semibold mb-10" >Enregistrer</button>
 </div>
-<div>
-    <script src="{{ mix('resources/js/form.js') }}"></script>
+    @vite(['resources/css/app.css', 'resources/js/form.js'])
 </form>
