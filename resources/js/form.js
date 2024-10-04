@@ -103,7 +103,7 @@ function removeLink(element) {
 let contactIndex = 1;
 let contactsToDelete = [];
 
-function addContact() {
+window.addContact = function(element) {
     const contactsDiv = document.getElementById('contacts');
     const newContact = document.createElement('div');
     newContact.className = 'contact flex items-center mb-4 border bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none';
@@ -123,7 +123,7 @@ function addContact() {
     contactIndex++;
 }
 
-function removeContact(element, contactId) {
+window.removeContact = function(element, contactId) {
     if (contactId) {
         contactsToDelete.push(contactId);
         document.getElementById('contactsToDelete').value = contactsToDelete.join(',');
@@ -133,7 +133,7 @@ function removeContact(element, contactId) {
 
 let sourceIndex = 1;
 
-function addSource() {
+window.addSource = function(element) {
     const sourcesDiv = document.getElementById('sources');
     const newSource = `
         <div class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none">
@@ -145,12 +145,12 @@ function addSource() {
     sourceIndex++;
 }
 
-function removeSource(element) {
+window.removeSource = function(element) {
     const parentDiv = element.closest('.flex');
     parentDiv.remove();
 }
 
-function previewSelectedImage(event) {
+window.previewSelectedImage = function(event) {
     const reader = new FileReader();
     const imagePreview = document.getElementById('imagePreview');
 
@@ -163,7 +163,7 @@ function previewSelectedImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-function toggleStopYear() {
+window.toggleStopYear = function() {
     const activeValue = document.querySelector('input[name="active"]:checked').value;
     const stopYearContainer = document.getElementById('stopyear-container');
     
@@ -197,12 +197,12 @@ document.getElementById('pdf-upload').addEventListener('change', function() {
     }
 });
 
-function removePdf(element, fichierId) {
+window.removePdf = function(element, fichierId) {
     const pdfsToDelete = document.getElementById('pdfsToDelete').value;
     document.getElementById('pdfsToDelete').value = pdfsToDelete ? pdfsToDelete + ',' + fichierId : fichierId;
     element.closest('.flex').remove();
 }
 
-function removeNewPdf(element) {
+window.removeNewPdf = function(element) {
     element.closest('.flex').remove();
 }
