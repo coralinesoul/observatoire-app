@@ -12,9 +12,11 @@
         <div class="w-1/6">
             <hr class="border-blue1 border-2 rounded my-2">
         </div>
-        @foreach($etude-> sources as $source)
-            <h2 class="text-blue1 font-medium text-xl mt-2">{{$source->name}}</h2>
-        @endforeach
+        <p class="text-blue1 font-medium text-xl mt-2">
+            @foreach($etude-> sources as $source)
+                {{$source->name}}@if(!$loop->last), &nbsp @endif
+            @endforeach
+        </p>
         <br>
         @if($etude->parametres->isNotEmpty())
             <p class="text-base font-medium tracking-wide text-blue2 mt-1">
@@ -51,29 +53,39 @@
         </div>    
     </div>
     <br>
-    <div class="flex flex-wrap items-center mt-2 md:space-x-20 space-y-2 md:space-y-0">
-        <div class="flex items-center space-x-2 w-full md:w-auto"> <!-- Flex container for inline text -->
-            <p class="text-base font-medium text-blue2">Fréquence des relevés :</p>
-            <p class="text-gray-900">{{$etude->frequence}}</p>
+    <div class="flex flex-wrap items-center mt-2 gap-x-6 gap-y-2"> <!-- gap-x-4 for spacing between items -->
+        <div class="flex-grow flex items-center">
+            <p class="text-base font-medium text-blue2 mr-2">Fréquence des relevés :</p>
+            <p class="text-gray-900">{{ $etude->frequence}}</p>
         </div>
-        <div class="flex items-center space-x-2 w-full md:w-auto"> <!-- Flex container for inline text -->
-            <p class="text-base font-medium text-blue2">Date :</p>
-            <p class="text-gray-900">{{$etude->startyear}} - @if($etude->active)
+        <div class="flex-grow flex items-center">
+            <p class="text-base font-medium text-blue2 mr-2">Date :</p>
+            <p class="text-gray-900"> {{$etude->startyear}} - @if($etude->active)
                 en cours
                 @else {{$etude->stopyear}}
                 @endif
             </p>
         </div>
-        <div class="flex items-center space-x-2 w-full md:w-auto"> <!-- Flex container for inline text -->
-            <p class="text-base font-medium text-blue2">Réglementaire :</p>
+        <div class="flex-grow flex items-center">
+            <p class="text-base font-medium text-blue2 mr-2">Réglementaire :</p>
             <p class="text-gray-900">
                 @if($etude->reglementaire) oui
                 @else non
                 @endif
             </p>
         </div>
-    </div>
-    
+        <div class="flex-grow flex items-center">
+            <p class="text-base font-medium text-blue2 mr-2">Types des connaissances produites :</p>
+            @foreach($etude->types as $type)
+            <p class="text-gray-900"> {{ $type->name }}@if(!$loop->last), &nbsp @endif</p>
+            @endforeach
+        </div>
+        <div class="flex-grow flex items-center">
+            <p class="text-base font-medium text-blue2 mr-2">Zone géographique des relevés:</p>
+            @foreach($etude->zones as $zone)
+                <p class="text-gray-900"> {{$zone->name}}@if(!$loop->last), &nbsp @endif</p>
+            @endforeach
+        </div>
 </div>
     
     
