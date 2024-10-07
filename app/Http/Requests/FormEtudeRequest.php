@@ -24,7 +24,7 @@ class FormEtudeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['required','string', 'min:4','max:40',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
+            'title'=>['required','string', 'min:4','max:50',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
             'slug'=> ['required', 'min:4','regex:/[a-z0-9\-]+$/',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
             'resume'=>['required'],
             'active'=>['required'],
@@ -46,8 +46,8 @@ class FormEtudeRequest extends FormRequest
             'contacts.*.prenom' => 'required|string|max:255',
             'contacts.*.mail' => 'required|email|max:255',
             'contacts.*.diffusion_mail' => 'required|boolean',
-            'image' => ['image', 'max:2000'],
-            'fichiers.*' => 'nullable|mimes:pdf|max:10240',
+            'image' => ['image', 'max:3840'],
+            'fichiers.*' => 'nullable|mimes:pdf|max:20480',
 
         ];
     }

@@ -254,12 +254,12 @@
             <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-min">
                 @foreach ($etudes as $etude)
                     <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
-                        <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full">
+                        <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full" title="{{$etude->title}}">
                         <div class="flex w-full items-center justify-between space-x-6 p-6">
                             <div class="flex-1 truncate">
-                            <div class="flex items-center space-x-3">
-                                <h3 class="truncate text-2xl font-bold text-blue1 my-1">{{$etude->title}}</h3>
-                            </div>
+                                <div class="flex items-center space-x-3">
+                                    <h3 class="truncate text-2xl font-bold text-blue1 my-1">{{$etude->title}}</h3>
+                                </div>
                             <div class="flex flex-wrap items-center">
                                 @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
                                     <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
