@@ -108,8 +108,10 @@
             <div class="p-4">
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Fichier(s) :</h2>
                 @foreach($etude->fichiers as $fichier)
+                    <div class="mt-1">
                         <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ asset('/storage/' . $fichier->chemin) }}">{{$fichier->nom}}</a>
-                @endforeach
+                    </div>
+                        @endforeach
             </div>
         </div>
     @endif
