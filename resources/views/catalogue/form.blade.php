@@ -54,7 +54,7 @@
     </div>
     <br>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 md:space-x-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 lg:space-x-6 md:space-y-6">
         <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6">
             <div id="sources">
                 <label class="m-1 block text-base font-medium text-blue1 pb-4">Structure(s) productrice(s)</label>
@@ -251,26 +251,50 @@
             @enderror
         </div>
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
-            <div id="liens-container">
-                @if(isset($liens) && $liens->count() > 0)
-                    <label class="m-1 block text-base font-medium text-blue1 pb-4" for="link_name">Lien(s)</label>
-                    @foreach($liens as $index => $lien)
-                        <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
-                            <input type="text" class="w-1/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" id="link_name" name="link_name[]" value="{{ old('link_name.' . $index, $lien->link_name) }}">
-                            @error('link_name.' . $index)
-                                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
-                            @enderror
-                            <input class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" type="url" id="link_url" name="link_url[]" value="{{ old('link_url.' . $index, $lien->link_url) }}">
-                            @error('link_url.' . $index)
-                                <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
-                            @enderror
-                            <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeLink(this)">x</button>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
-            <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-link">Ajouter un lien +</button>
+        <div id="liens-container">
+            <label class="m-1 block text-base font-medium text-blue1 pb-4" for="link_name">Lien(s)</label>
+        
+            @php
+                $oldLinks = old('link_name', []); // Récupère les anciens noms des liens soumis
+                $oldUrls = old('link_url', []); // Récupère les anciennes URLs soumises
+            @endphp
+        
+            {{-- Si des liens ont été soumis et échoués, les afficher avec old() --}}
+            @if(count($oldLinks) > 0)
+                @foreach($oldLinks as $index => $linkName)
+                    <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
+                        <input type="text" class="w-1/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" name="link_name[{{ $index }}]" value="{{ $linkName }}" placeholder="Nom du lien" required>
+                        @error('link_name.' . $index)
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+                        @enderror
+                        <input class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" type="url" name="link_url[{{ $index }}]" value="{{ old('link_url.' . $index) }}" placeholder="URL du lien" required>
+                        @error('link_url.' . $index)
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+                        @enderror
+                        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeLink(this)">x</button>
+                    </div>
+                @endforeach
+            {{-- Si aucune ancienne valeur, afficher les liens existants de la base de données --}}
+            @elseif(isset($liens) && $liens->count() > 0)
+                @foreach($liens as $index => $lien)
+                    <div class="flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3">
+                        <input type="text" class="w-1/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" name="link_name[{{ $index }}]" value="{{ $lien->link_name }}" placeholder="Nom du lien" required>
+                        @error('link_name.' . $index)
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+                        @enderror
+                        <input class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" type="url" name="link_url[{{ $index }}]" value="{{ $lien->link_url }}" placeholder="URL du lien" required>
+                        @error('link_url.' . $index)
+                            <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
+                        @enderror
+                        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeLink(this)">x</button>
+                    </div>
+                @endforeach
+            @endif
         </div>
+        
+        {{-- Bouton pour ajouter un nouveau lien --}}
+        <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-link">Ajouter un lien +</button>
+    </div>        
     <br>
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
         <label class="block text-base font-medium text-blue1 pb-4">Fichiers PDF</label>

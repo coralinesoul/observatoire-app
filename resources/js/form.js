@@ -96,9 +96,10 @@ document.getElementById('add-link').addEventListener('click', function() {
     container.appendChild(newLink);
 });
 
-function removeLink(element) {
-    element.closest('.flex').remove();
-}
+// Fonction pour supprimer un lien
+window.removeLink = function(element) {
+    element.closest('.flex').remove();  // Supprime le conteneur du lien
+};
 
 let contactIndex = 1;
 let contactsToDelete = [];
