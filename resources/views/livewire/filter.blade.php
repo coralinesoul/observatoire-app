@@ -270,7 +270,7 @@
                             </div>
                             <hr class="border-blue2 border-2 border-opacity-50 rounded my-2">
                             
-                                <p class="mt-1 truncate text-base text-gray-500">@foreach($etude->sources as $source){{$source->name}}, @endforeach </p>
+                                <p class="mt-1 truncate text-base text-gray-500">@foreach($etude->sources as $source){{$source->name}}@if(!$loop->last), &nbsp @endif @endforeach </p>
                                 <p class="mt-1 truncate text-base text-gray-500">
                                     {{$etude->startyear}} - 
                                     @if($etude->active)
