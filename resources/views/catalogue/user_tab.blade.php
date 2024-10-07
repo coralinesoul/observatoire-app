@@ -1,5 +1,5 @@
 @extends('base')
-@section('title', 'user_tab')
+@section('title', 'Mes études')
 @section('content')
 <div class="flex flex-col">
     <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
