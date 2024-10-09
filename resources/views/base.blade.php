@@ -8,7 +8,6 @@
     <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('fav.png') }}" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.9.1/dist/cdn.min.js"></script>
 
 
     </head>
