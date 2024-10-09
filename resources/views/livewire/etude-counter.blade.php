@@ -1,4 +1,5 @@
-<div class="justify-center" x-data="{ count: 0 }" x-init="let target = {{ $studyCount }};
+<div class="justify-center" x-data="{ count: 0 }" x-init="
+    let target = {{ $studyCount }};
     let interval = setInterval(() => {
         if (count < target) {
             count++;
