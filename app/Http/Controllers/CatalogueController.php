@@ -33,7 +33,7 @@ class CatalogueController extends Controller
     public function user_tab()
     {
         if (Auth::user()->is_super_user) {
-            $etudes = Etude::all();
+            $etudes = Etude::orderBy('updated_at', 'desc')->get();
         } else {
             $etudes = Auth::user()->etudes;
         }
