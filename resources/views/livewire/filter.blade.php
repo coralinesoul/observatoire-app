@@ -274,8 +274,8 @@
                                 <p class="mt-1 truncate text-base text-gray-500">
                                     {{$etude->startyear}} - 
                                     @if($etude->active)
-                                        {{$etude->stopyear}}
-                                        @else en cours
+                                        en cours
+                                        @else {{$etude->stopyear}}
                                     @endif
                                 </p>
                             </div>
