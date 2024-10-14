@@ -1,5 +1,5 @@
 @extends('base')
-@section ('title',"A propos")
+@section ('title',"L'observatoire")
 @section ('content')
 
     <div class="flex flex-col md:flex-row">
