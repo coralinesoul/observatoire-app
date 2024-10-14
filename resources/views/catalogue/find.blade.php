@@ -48,7 +48,7 @@
         <div class="p-4">
             <h2 class="text-base font-medium tracking-wide text-blue2 mt-1" >Description :</h2>
             <p class="text-gray-900 mt-1">
-                {{$etude->resume}}
+                {!! nl2br(e($etude->resume)) !!}
             </p>
         </div>    
     </div>
