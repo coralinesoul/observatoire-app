@@ -117,6 +117,7 @@ class FormController extends Controller
             $details = [
                 'title' => $etude->title,
                 'slug' => $etude->slug,
+                'id' => $etude->id,
                 'user' => Auth::user()->name,
             ];
 
