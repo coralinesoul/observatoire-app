@@ -24,7 +24,7 @@ class CatalogueController extends Controller
 {
     public function about()
     {
-        return view('catalogue.about');
+        return view('home');
     }
     public function index()
     {

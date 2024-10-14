@@ -16,7 +16,9 @@
         <div class="w-full px-8 flex items-center justify-between">
             <!-- Logo -->
             <div class="w-60 h-auto pr-8">
-                <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto">
+                <a href="{{ route('home') }}">
+                  <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto">
+                </a>
             </div>
     
             <!-- Menu de Navigation -->
@@ -26,13 +28,13 @@
                     aria-current="page" 
                     href="{{ route('catalogue.index') }}"
                 >
-                    Catalogue
+                    Le catalogue
                 </a>
                 <a 
-                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('catalogue.about') ? 'text-blue1 font-bold' : '' }}" 
-                    href="{{ route('catalogue.about') }}"
+                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('home') ? 'text-blue1 font-bold' : '' }}" 
+                    href="{{ route('home') }}"
                 >
-                    A propos
+                    L'observatoire
                 </a>
             </div>
             
@@ -124,7 +126,7 @@
                   <a href="#" class="text-sm leading-6 text-white hover:text-gray-200">Contact</a>
                 </li>
                 <li>
-                  <a href="/catalogue/a-propos" class="text-sm leading-6 text-white hover:text-gray-200">A propos</a>
+                  <a href="/" class="text-sm leading-6 text-white hover:text-gray-200">L'observatoire</a>
                 </li>
                 <li>
                   <a href="https://www.institut-ecocitoyen.fr/pres.php" class="text-sm leading-6 text-white hover:text-gray-200">L'institut</a>
