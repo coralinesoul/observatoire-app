@@ -212,14 +212,15 @@ class FormController extends Controller
     {
         // Upload des nouveaux fichiers PDF
         if ($request->hasFile('fichiers')) {
-            foreach ($request->file('fichiers') as $fichier) {
-                if ($fichier->isValid()) {
-                    $chemin = $fichier->store('fichiers', 'public');
-                    $fichier = Fichier::create([
-                        'nom' => $fichier->getClientOriginalName(),
+            foreach ($request->file('fichiers') as $uploadedFile) { // Changement ici
+                if ($uploadedFile->isValid()) {
+                    $chemin = $uploadedFile->store('fichiers', 'public');
+                    dd($chemin);
+                    $fichierModel = Fichier::create([ // Utilisation d'une autre variable
+                        'nom' => $uploadedFile->getClientOriginalName(),
                         'chemin' => $chemin,
                     ]);
-                    $etude->fichiers()->attach($fichier->id); // Ajout dans la table pivot
+                    $etude->fichiers()->attach($fichierModel->id); // Ajout dans la table pivot
                 }
             }
         }
@@ -236,6 +237,7 @@ class FormController extends Controller
             }
         }
     }
+    
     
     private function extractData(Etude $etude, FormEtudeRequest $request): array
     {

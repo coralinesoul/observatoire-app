@@ -1,3 +1,4 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 document.addEventListener('DOMContentLoaded', function() {
     function initializeAutocomplete(input) {
         const parentDiv = input.closest('.relative');  // Trouve le parent pour placer les suggestions
@@ -178,25 +179,58 @@ window.toggleStopYear = function() {
 toggleStopYear();
 
 document.getElementById('add-pdf').addEventListener('click', function() {
-    document.getElementById('pdf-upload').click();
-});
-
-document.getElementById('pdf-upload').addEventListener('change', function() {
     const container = document.getElementById('pdf-container');
-    const files = this.files;
 
-    for (let i = 0; i < files.length; i++) {
-        const fileName = files[i].name;
-        
-        const newPdf = document.createElement('div');
-        newPdf.className = 'flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3';
-        newPdf.innerHTML = `
-            <input type="text" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none" value="${fileName}" readonly>
-            <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeNewPdf(this)">x</button>
-        `;
-        container.appendChild(newPdf);
-    }
+    const newPdfDiv = document.createElement('div');
+    newPdfDiv.className = 'flex justify-between items-center mb-4 border bg-white rounded-md py-2 px-3';
+
+    newPdfDiv.innerHTML = `
+        <input type="file" class="w-4/6 bg-white rounded-md py-2 px-3 text-[#6B7280] outline-none pdf-upload" accept=".pdf" required>
+        <div>
+            <span class="progress-percentage text-orange-500 ml-4">0%</span>
+        </div>
+        <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeNewPdf(this)">x</button>
+    `;
+
+    container.appendChild(newPdfDiv);
+
+    const fileInput = newPdfDiv.querySelector('.pdf-upload');
+    const progressText = newPdfDiv.querySelector('.progress-percentage');
+
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            uploadFile(file, progressText);
+        }
+    });
 });
+
+function uploadFile(file, progressText) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.addEventListener('progress', function(e) {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            progressText.textContent = Math.round(percentComplete) + '%';
+        }
+    }, false);
+
+    xhr.addEventListener('load', function() {
+        if (xhr.status == 200) {
+            progressText.style.color = 'rgb(34 197 94)';
+        } else {
+            alert('Erreur lors du téléchargement.');
+        }
+    });
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('_token', csrfToken);
+
+    xhr.open('POST', '/catalogue/new', true);
+    xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+    xhr.send(formData);
+}
 
 window.removePdf = function(element, fichierId) {
     const pdfsToDelete = document.getElementById('pdfsToDelete').value;
