@@ -210,27 +210,49 @@ class FormController extends Controller
     
     protected function handleFiles(Etude $etude, Request $request)
     {
-        // Upload des nouveaux fichiers PDF
-        if ($request->hasFile('fichiers')) {
-            foreach ($request->file('fichiers') as $fichier) {
-                if ($fichier->isValid()) {
-                    $chemin = $fichier->store('fichiers', 'public');
-                    $fichier = Fichier::create([
-                        'nom' => $fichier->getClientOriginalName(),
-                        'chemin' => $chemin,
-                    ]);
-                    $etude->fichiers()->attach($fichier->id); // Ajout dans la table pivot
+        // Récupérer les fichiers temporaires envoyés par Livewire
+        if ($request->has('fichiers_temp')) {
+            foreach ($request->input('fichiers_temp') as $index => $tempFile) {
+                // Récupérer le nom original correspondant
+                $originalFileName = $request->input('originalFileNames')[$index] ?? 'fichier_inconnu.pdf';
+    
+                // Vérifier que le fichier temporaire est bien un chemin valide
+                if (str_contains($tempFile, 'livewire-tmp')) {
+                    // Construire le chemin complet vers le fichier temporaire
+                    $tempPath = storage_path('app/' . $tempFile);
+    
+                    // Vérifier que le fichier existe
+                    if (file_exists($tempPath)) {
+                        // Déplacer le fichier dans le répertoire final
+                        $newPath = Storage::disk('public')->putFile('fichiers', new \Illuminate\Http\File($tempPath));
+    
+                        if ($newPath) {
+                            // Créer une nouvelle entrée dans la table `fichier` avec le nom original
+                            $fichier = Fichier::create([
+                                'nom' => $originalFileName,
+                                'chemin' => $newPath,
+                            ]);
+    
+                            // Associer le fichier à l'étude
+                            $etude->fichiers()->attach($fichier->id);
+    
+                            // Supprimer le fichier temporaire après déplacement
+                            unlink($tempPath);
+                        }
+                    }
                 }
             }
         }
-    
+        
         // Suppression des fichiers sélectionnés pour la suppression
         if ($request->filled('pdfsToDelete')) {
             $idsToDelete = explode(',', $request->input('pdfsToDelete'));
             foreach ($idsToDelete as $fileId) {
                 $fichier = $etude->fichiers()->find($fileId);
                 if ($fichier) {
+                    // Supprimer le fichier du disque
                     Storage::disk('public')->delete($fichier->chemin);
+                    // Supprimer l'entrée dans la base de données
                     $fichier->delete();
                 }
             }

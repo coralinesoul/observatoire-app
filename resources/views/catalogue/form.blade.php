@@ -69,7 +69,7 @@
                                 <div class="suggestions relative w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"></div>
                             </div>
                             @if($loop->index > 0)
-                                <button class="ml-2 border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
+                                <button class="ml-auto border font-bold rounded-md border-red-500 text-red-500 hover:text-white hover:bg-red-500 px-2" type="button" onclick="removeSource(this)">x</button>
                             @endif
                         </div>
                         @error('sources.' . $id . '.name')
@@ -298,6 +298,7 @@
     <br>
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6 mt-4">
         <label class="block text-base font-medium text-blue1 pb-4">Fichiers PDF</label>
+
         <div id="pdf-container">
             @if(isset($etude) && $etude->fichiers->count() > 0)
                 @foreach($etude->fichiers as $index => $fichier)
@@ -309,7 +310,7 @@
                 @endforeach
             @endif
         </div>
-        <button class="hover:shadow-md rounded-md bg-blue1 hover:bg-blue2 text-white py-2 px-4 text-base font-semibold" type="button" id="add-pdf">Ajouter un PDF +</button>
+        <livewire:file-add />
     </div>
     @error('fichiers.*')
         <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{ $message }}</div>
