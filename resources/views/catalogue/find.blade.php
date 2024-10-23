@@ -47,7 +47,7 @@
     <div class="max-w-full  bg-blue2 bg-opacity-5 shadow-md">
         <div class="p-4">
             <h2 class="text-base font-medium tracking-wide text-blue2 mt-1" >Description :</h2>
-            <p class="text-gray-900 mt-1">
+            <p class="text-gray-900 mt-1 font-serif">
                 {!! nl2br(e($etude->resume)) !!}
             </p>
         </div>    
@@ -56,11 +56,11 @@
     <div class="flex flex-wrap items-center mt-2 gap-x-6 gap-y-2"> <!-- gap-x-4 for spacing between items -->
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Fréquence des relevés :</p>
-            <p class="text-gray-900">{{ $etude->frequence}}</p>
+            <p class="text-gray-900 font-serif">{{ $etude->frequence}}</p>
         </div>
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Date :</p>
-            <p class="text-gray-900"> {{$etude->startyear}} - @if($etude->active)
+            <p class="text-gray-900 font-serif"> {{$etude->startyear}} - @if($etude->active)
                 en cours
                 @else {{$etude->stopyear}}
                 @endif
@@ -68,7 +68,7 @@
         </div>
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Réglementaire :</p>
-            <p class="text-gray-900">
+            <p class="text-gray-900 font-serif">
                 @if($etude->reglementaire) oui
                 @else non
                 @endif
@@ -77,13 +77,13 @@
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Types des connaissances produites :</p>
             @foreach($etude->types as $type)
-            <p class="text-gray-900"> {{ $type->name }}@if(!$loop->last), &nbsp @endif</p>
+            <p class="text-gray-900 font-serif"> {{ $type->name }}@if(!$loop->last), &nbsp @endif</p>
             @endforeach
         </div>
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Zone géographique des relevés:</p>
             @foreach($etude->zones as $zone)
-                <p class="text-gray-900"> {{$zone->name}}@if(!$loop->last), &nbsp @endif</p>
+                <p class="text-gray-900 font-serif"> {{$zone->name}}@if(!$loop->last), &nbsp @endif</p>
             @endforeach
         </div>
 </div>
@@ -95,7 +95,7 @@
             
             <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Contact </h2>
             @foreach($etude->contacts as $contact)
-                <p class="text-gray-900 mt-1">{{$contact->nom}} {{$contact->prenom}} @if($contact->diffusion_mail) - {{$contact->mail}}
+                <p class="text-gray-900 mt-1 font-serif">{{$contact->nom}} {{$contact->prenom}} @if($contact->diffusion_mail) - {{$contact->mail}}
                     @else 
                     @endif</p>
             @endforeach
@@ -107,8 +107,8 @@
             <div class="p-4">
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Lien(s) :</h2>
                     @foreach($etude->liens as $lien)
-                            <h2 class="text-base font-medium tracking-wide text-blue1 mt-1"> {{ $lien->link_name }}</h2>
-                            <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ $lien->link_url }}">{{ $lien->link_url }}</a>
+                            <h2 class="text-base font-serif tracking-wide text-blue1 mt-1"> {{ $lien->link_name }}</h2>
+                            <a class="text-gray-900 font-serif mt-1 hover:text-blue1" href="{{ $lien->link_url }}">{{ $lien->link_url }}</a>
                         
                     @endforeach
             </div>
@@ -121,7 +121,7 @@
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1"> Fichier(s) :</h2>
                 @foreach($etude->fichiers as $fichier)
                     <div class="mt-1">
-                        <a class="text-gray-900 mt-1 hover:text-blue1" href="{{ asset('/storage/' . $fichier->chemin) }}">{{$fichier->nom}}</a>
+                        <a class="text-gray-900 mt-1 font-serif hover:text-blue1" href="{{ asset('/storage/' . $fichier->chemin) }}">{{$fichier->nom}}</a>
                     </div>
                         @endforeach
             </div>
