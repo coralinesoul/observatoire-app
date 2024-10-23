@@ -24,7 +24,7 @@ class FormEtudeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['required','string', 'min:4','max:50',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
+            'title'=>['required','string', 'min:4','max:35'],
             'slug'=> ['required', 'min:4','regex:/[a-z0-9\-]+$/',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
             'resume'=>['required'],
             'active'=>['required'],

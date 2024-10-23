@@ -251,24 +251,27 @@
     </div>
     <div class=" w-4/5">
         @if(!empty($etudes)&& count($etudes) > 0)
-            <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-min">
+            <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-min">
                 @foreach ($etudes as $etude)
                     <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
                         <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full" title="{{$etude->title}}">
                         <div class="flex w-full items-center justify-between space-x-6 p-6">
-                            <div class="flex-1 truncate">
-                                <div class="flex items-center space-x-3">
-                                    <h3 class="truncate text-2xl font-bold text-blue1 my-1">{{$etude->title}}</h3>
+                            <div class="flex-1">
+                                <div class='flex-1'>
+                                    <h3 class="text-2xl font-bold text-blue1 my-1 line-clamp-1">{{$etude->title}}</h3>
                                 </div>
-                            <div class="flex flex-wrap items-center">
-                                @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
-                                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
-                                @endforeach
-                                @foreach($etude->matrices->groupBy('groupe') as $groupe => $matrices)
-                                    <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
-                                @endforeach
-                            </div>
-                            <hr class="border-blue2 border-2 border-opacity-50 rounded my-2">
+                                <div>
+                                    <p class="text-lg font-bold text-blue2 line-clamp-2">{{$etude->longtitle}}</p>
+                                </div>
+                                <div class="flex flex-wrap items-center">
+                                    @foreach($etude->parametres->groupBy('groupe') as $groupe => $parametres)
+                                        <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue1 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
+                                    @endforeach
+                                    @foreach($etude->matrices->groupBy('groupe') as $groupe => $matrices)
+                                        <span class="inline-flex flex-shrink-0 items-center rounded-md bg-blue2 px-1.5 py-0.5 text-sm font-medium text-white my-1 mr-3">{{$groupe}}</span>
+                                    @endforeach
+                                </div>
+                                <hr class="border-blue2 border-2 border-opacity-50 rounded my-2">
                             
                                 <p class="mt-1 truncate text-base text-gray-500">@foreach($etude->sources as $source){{$source->name}}@if(!$loop->last), &nbsp @endif @endforeach </p>
                                 <p class="mt-1 truncate text-base text-gray-500">

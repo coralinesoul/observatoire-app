@@ -3,7 +3,7 @@
 @section("content")
 
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6">
-        <p class="text-blue1">Avoir un compte sur ce site permet de répertorier sa propre étude mais le catalogue est mis en ligne intégralement sans authentification. Il est donc inutile de demander un compte si vous n'avez pas l'intention de completer le catalogue avec les connaissances que vous avez produites. Merci d'avance pour votre collaboration, vous pouvez utiliser le formulaire de contact pour plus d'information.</p> 
+        <p class="text-blue1 font-serif">Avoir un compte sur ce site permet de répertorier sa propre étude mais le catalogue est mis en ligne intégralement sans authentification. Il est donc inutile de demander un compte si vous n'avez pas l'intention de completer le catalogue avec les connaissances que vous avez produites. Merci d'avance pour votre collaboration, vous pouvez utiliser le formulaire de contact pour plus d'information.</p> 
     </div>
 
     <div class="flex justify-center h-dvh p-10">
