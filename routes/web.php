@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\PasswordResetController;
 
 Route::get('/', [CatalogueController::class, 'about'])->name('home');
 
@@ -19,6 +20,11 @@ Route::get('/api/sources', function (Request $request) {
 Route::get('/demande', [AuthController::class, 'showDemandeForm'])->name('auth.demande_compte');
 Route::post('/demande', [AuthController::class, 'submitDemande'])->name('auth.demande.submit');
 Route::get('/demande/validate', [AuthController::class, 'validateDemande'])->name('auth.demande.validate');
+
+Route::get('/password/forgot', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 
 Route::get('/login', [AuthController::class,'login'])->name('auth.login');
 Route::post('/login', [AuthController::class,'doLogin'])->name('auth.doLogin');
