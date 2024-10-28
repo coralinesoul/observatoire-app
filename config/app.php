@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Observatoire du golfe de Fos'),
 
     /*
     |--------------------------------------------------------------------------
