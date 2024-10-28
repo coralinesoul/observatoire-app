@@ -26,6 +26,9 @@
             <div>
                 <a href="{{ route('auth.demande_compte') }}" class="underline hover:underline-offset-4 text-sm text-blue1">Je n'ai pas de compte</a>
             </div>
+            <div>
+                <a href="{{ route('password.request') }}" class="underline hover:underline-offset-4 text-sm text-blue1">Mot de passe oublié ?</a>
+            </div>
         </form>
     </div>
 @endsection
