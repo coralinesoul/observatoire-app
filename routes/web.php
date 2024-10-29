@@ -7,7 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PasswordResetController;
 
-Route::get('/', [CatalogueController::class, 'about'])->name('home');
+Route::get('/', [CatalogueController::class, 'home'])->name('home');
+Route::get('/a-propos', [CatalogueController::class, 'about'])->name('about');
 
 
 // API route for sources autocomplete
@@ -29,6 +30,7 @@ Route::post('/password/reset', [PasswordResetController::class, 'resetPassword']
 Route::get('/login', [AuthController::class,'login'])->name('auth.login');
 Route::post('/login', [AuthController::class,'doLogin'])->name('auth.doLogin');
 Route::delete('/logout', [AuthController::class,'logout'])->name('auth.logout');
+
 
 // Routes for CatalogueController
 Route::prefix('/catalogue')->name('catalogue.')

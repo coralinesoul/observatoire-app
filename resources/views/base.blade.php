@@ -34,6 +34,12 @@
                 >
                     L'observatoire
                 </a>
+                <a 
+                class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('home') ? 'text-blue1 font-bold' : '' }}" 
+                href="{{ route('about') }}"
+            >
+                A propos
+            </a>
             </div>
             
     

@@ -22,9 +22,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CatalogueController extends Controller
 {
-    public function about()
+    public function home()
     {
         return view('home');
+    }
+    public function about()
+    {
+        return view('about');
     }
     public function index()
     {
