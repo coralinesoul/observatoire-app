@@ -174,8 +174,18 @@ class Filter extends Component
                 });
             })
             ->when($this->selectedStartyear != 1960 || $this->selectedStopyear != 2024, function ($query) {
-                $query->where('startyear', '>=', $this->selectedStartyear)
-                      ->where('stopyear', '<=', $this->selectedStopyear);
+                $query->where(function ($query) {
+                    $query->where(function ($query) {
+                        // Exclut les études qui commencent et se terminent après `stopyear`
+                        $query->where('startyear', '<', $this->selectedStopyear)
+                              ->orWhere('stopyear', '<', $this->selectedStopyear);
+                    })
+                    ->where(function ($query) {
+                        // Exclut les études qui commencent et se terminent avant `startyear`
+                        $query->where('startyear', '>', $this->selectedStartyear)
+                              ->orWhere('stopyear', '>', $this->selectedStartyear);
+                    });
+                });
             })
             ->when(!empty($this->selectedReglementaire), function ($query) {
                 $query->whereIn('reglementaire', $this->selectedReglementaire);
