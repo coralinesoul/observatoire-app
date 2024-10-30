@@ -184,22 +184,23 @@
             </div>
             <br>
             <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Dates</h2>       
+            <br>
+            @vite('resources/js/filters.js')
             <div class="range_container">
                 <div class="sliders_control">
-                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" name="min_year" min="1960" max="2024" oninput="updateFromInput(this.value)"/>
-                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions" name="max_year" min="1960" max="2024" oninput="updateToInput(this.value)"/>
+                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" min="1960" max="2024"/>
+                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions"  min="1960" max="2024"/>
                 </div>
                 <div class="form_control">
                     <div class="form_control_container">
-                        <div class="form_control_container__time">Min</div>
-                        <input class="form_control_container__time__input" type="number" wire:model="selectedStartyear" wire:change="updateFilteredOptions" id="fromInput" min="1960" max="2024" onchange="updateFromSlider(this.value)"/>
+                        <input class="form_control_container__time__input" wire:model="selectedStartyear" wire:change="updateFilteredOptions" type="number" id="fromInput" min="1960" max="2024"/>
                     </div>
                     <div class="form_control_container">
-                        <div class="form_control_container__time">Max</div>
-                        <input class="form_control_container__time__input" type="number" wire:model="selectedStopyear" wire:change="updateFilteredOptions" id="toInput" min="1960" max="2024" onchange="updateToSlider(this.value)"/>
+                        <input class="form_control_container__time__input" wire:model="selectedStopyear" wire:change="updateFilteredOptions" type="number" id="toInput" min="0" max="2024"/>
                     </div>
                 </div>
             </div>
+
             <br>
             <div>
                 <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Fréquence des relevés</h2>
