@@ -71,7 +71,7 @@
         @endif
     </div>
     <livewire:cookie-banner />
-    <div class="w-full px-8">
+    <div class="w-full min-h-96 px-8">
         @yield('content')
     </div>
 </body>
