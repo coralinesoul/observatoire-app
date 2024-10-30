@@ -10,7 +10,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3">
         <div class="md:col-span-2 flex flex-col mr-6">
-            <p class="text-sm text-right tex-blue1"><span class="text-red-600">*</span> champs obligatoire</p>
+            <p class="text-sm text-right tex-blue1"><span class="text-red-600">*</span> champs obligatoires</p>
             <label class="m-1 block text-base font-medium text-blue1" for="title">Titre court de l'étude<span class="text-red-600">*</span></label>
             <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-blue1 focus:shadow-md" type="text" class="form-control" name="title" value="{{old('title', $etude->title)}}">
                 @error('title')
