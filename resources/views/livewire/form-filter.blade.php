@@ -23,7 +23,7 @@
     </div>
     <div class="rounded-none bg-blue2 bg-opacity-5 shadow-md p-6">
         <div>
-            <label class="m-1 block text-base font-medium text-blue1" for="theme">Thème(s)</label>
+            <label class="m-1 block text-base font-medium text-blue1" for="theme">Thèmes<span class="text-red-600">*</span></label>
             @foreach($themes as $theme)
                 <div class="flex items-center">
                     <input type="checkbox" id="theme_{{ $theme->id }}" name="themes[]" value="{{ $theme->id }}" 
@@ -35,7 +35,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3">
             <div class="px-6 pt-3">
                 @if(!empty($selectedThemes) && count($selectedThemes) > 0 && count($filteredGp)>0)
-                    <label class="m-1 block text-base font-medium text-blue1" for="parametre">Type(s) de paramètre(s) suivi(s)</label>
+                    <label class="m-1 block text-base font-medium text-blue1" for="parametre">Types de paramètres suivis</label>
                     @foreach($filteredGp as $groupe)
                         <div class="flex items-center">
                             <input type="checkbox" id="{{$groupe}}" name="selectedGp" value="{{$groupe}}" wire:model="selectedGp" wire:change="updateFilteredOptions" wire:model="selectedParametres">
@@ -46,7 +46,7 @@
             </div>
             <div class="px-6 pt-3">
                 @if(!empty($selectedGp) && count($selectedGp) > 0 && count($filteredParametres)>0)
-                    <label class="m-1 block text-base font-medium text-blue1" for="parametre">Paramètre(s) suivi(s)</label>
+                    <label class="m-1 block text-base font-medium text-blue1" for="parametre">Paramètres suivis</label>
                     @foreach($filteredParametres as $parametre)
                         <div class="flex items-center">
                             <input type="checkbox" id="parametre_{{ $parametre->id }}" name="parametres[]" value="{{ $parametre->id }}"
@@ -61,7 +61,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3">
             <div class="px-6 pt-3" >
                 @if(!empty($selectedThemes) && count($selectedThemes) > 0 && count($filteredGpM)>0)
-                    <label class="m-1 block text-base font-medium text-blue1">Type(s) de matrice(s) suivie(s)</label>
+                    <label class="m-1 block text-base font-medium text-blue1">Types de matrices suivies</label>
                     @foreach($filteredGpM as $groupe)
                         <div class="flex items-center">
                             <input type="checkbox" id="{{$groupe}}" name="selectedGpM" value="{{$groupe}}" wire:model="selectedGpM" wire:change="updateFilteredOptions" wire:model="selectedParametres">
@@ -72,7 +72,7 @@
             </div>
             <div class="px-6 pt-3">
                 @if(!empty($selectedGpM) && count($selectedGpM) > 0 && count($filteredMatrices)>0)
-                    <label class="m-1 block text-base font-medium text-blue1">Matrice(s) suivie(s)</label>
+                    <label class="m-1 block text-base font-medium text-blue1">Matrices suivies</label>
                     @foreach($filteredMatrices as $matrice)
                         <div class="flex items-center">
                             <input type="checkbox" id="matrice_{{ $matrice->id }}" name="matrices[]" value="{{ $matrice->id }}"
