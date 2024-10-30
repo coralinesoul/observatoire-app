@@ -21,6 +21,19 @@ L’Institut Écocitoyen dispose également de moyens de plongée destinés au P
 </div>    
     <div class="px-28">
         <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Les partenaires</h1>
-        LOGO
+        <br>
+        <br>
+        <div class="flex items-center justify-between space-x-8 mt-4 px-64">
+            <a href="https://www.ampmetropole.fr" target="_blank">
+                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/AMP_metropole.png') }}" alt="AMP Métropole">
+            </a>
+            <a href="https://www.eaurmc.fr/" target="_blank">
+                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/Agence_eau.png') }}" alt="Agence de l'eau">
+            </a>
+            <a href="https://www.marseille-port.fr" target="_blank">
+                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/GPMM.png') }}" alt="GPMM">
+            </a>
+        </div>        
+        <br>
     </div>
 @endsection
