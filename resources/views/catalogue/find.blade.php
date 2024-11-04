@@ -39,7 +39,7 @@
     </div>
 
     <div class="md:col-span-1 flex justify-end">
-        <img src="{{ asset('storage/' . $etude->imageUrl()) }}" alt="Image" class="rounded-lg w-full md:w-auto md:max-w-[80%] max-h-96 object-contain">
+        <img src="{{ asset($etude->imageUrl()) }}" alt="Image" class="rounded-lg w-full md:w-auto md:max-w-[80%] max-h-96 object-contain">
     </div>
 </div>
 
