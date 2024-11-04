@@ -17,21 +17,38 @@ L’Institut Écocitoyen dispose également de moyens de plongée destinés au P
             <img src="{{asset('test.jpg')}}" class="rounded-lg w-64 h-auto" alt="Image">
         </div>
     </div>
+    <div class="flex flex-col md:flex-row p-10 px-20">
+        <div class="basis-2/3">
+            <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Contact</h1>
+            <br>
+            <p class="font-serif">
+                Institut Ecocitoyen pour la Connaissance des Pollutions
+            </br>
+                Centre de vie la Fossette RD 268 </br>
+                13270 Fos-sur-Mer </br>
+                France </br>
+                Mail : contact@observatoire-golfe.fr ;  contact@institut-ecocitoyen.fr</br>
+                
+                <br>
+                Pour toutes demande, veuillez vous adressez au standard au 04 90 55 49 94.
+            </p>
+        </div>
+    </div>
     
 </div>    
     <div class="px-28">
         <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Les partenaires</h1>
         <br>
         <br>
-        <div class="flex items-center justify-between space-x-8 mt-4 px-64">
+        <div class="flex items-center justify-between space-x-8 mt-4 lg:px-64 md:px-32">
             <a href="https://www.ampmetropole.fr" target="_blank">
-                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/AMP_metropole.png') }}" alt="AMP Métropole">
+                <img class="w-60 h-auto" src="{{ asset('/Logo_partenaires/AMP_metropole.png') }}" alt="AMP Métropole">
             </a>
             <a href="https://www.eaurmc.fr/" target="_blank">
-                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/Agence_eau.png') }}" alt="Agence de l'eau">
+                <img class="w-60 h-auto" src="{{ asset('/Logo_partenaires/Agence_eau.png') }}" alt="Agence de l'eau">
             </a>
             <a href="https://www.marseille-port.fr" target="_blank">
-                <img class="h-32 w-auto" src="{{ asset('/Logo_partenaires/GPMM.png') }}" alt="GPMM">
+                <img class="w-60 h-auto" src="{{ asset('/Logo_partenaires/GPMM.png') }}" alt="GPMM">
             </a>
         </div>        
         <br>

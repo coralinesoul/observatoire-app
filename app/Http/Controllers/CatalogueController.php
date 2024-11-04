@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+
 
 class CatalogueController extends Controller
 {
@@ -53,44 +55,46 @@ class CatalogueController extends Controller
             'etude'=>$etude
         ]);
     } 
+
+
     public function destroy(Etude $etude)
     {
-        // Détacher les relations dans les tables pivot (mais ne pas supprimer les entrées dans ces tables)
+        // Générer le PDF en utilisant la vue existante
+        $pdf = PDF::loadView('catalogue.archive_pdf', [
+            'etude' => $etude,
+            'pdf' => true,
+        ]);
+            
+        // Définir le chemin et enregistrer le PDF
+        $pdfPath = 'pdf/archives/etude_' . $etude->id . '.pdf';
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+        
+        // Détacher les relations et supprimer l'étude
         $etude->themes()->detach();
         $etude->zones()->detach();
         $etude->types()->detach();
         $etude->parametres()->detach();
         $etude->matrices()->detach();
-    
-        // Détacher les sources et contacts avant de vérifier si elles doivent être supprimées
         $sources = $etude->sources;
         $contacts = $etude->contacts;
-    
-        // Détacher les sources et contacts
         $etude->sources()->detach();
         $etude->contacts()->detach();
-    
-        // Supprimer les liens associés
         $etude->liens()->delete();
-    
-        // Supprimer l'étude elle-même
         $etude->delete();
-    
-        // Supprimer les sources non utilisées par d'autres études
+        
+        // Supprimer les sources et contacts non utilisés
         foreach ($sources as $source) {
             if ($source->etudes()->count() === 0) {
                 $source->delete();
             }
         }
-    
-        // Supprimer les contacts non utilisés par d'autres études
         foreach ($contacts as $contact) {
             if ($contact->etudes()->count() === 0) {
-                $contact->delete();
+                    $contact->delete();
             }
         }
+        
+        return redirect()->route('catalogue.user_tab')->with('success', 'Étude supprimée avec succès.');
+    }
     
-        return redirect()->route('catalogue.user_tab')->with('success', 'Étude supprimée avec succès');
-    }    
-
 }
