@@ -1,7 +1,6 @@
-
-@extends('base')
-@section('title', $etude->title)
-@section('content')
+<style>
+    {!! file_get_contents(public_path('css/archive_pdf.css')) !!}
+</style>
 
 <!-- Main grid container with two columns -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -36,10 +35,6 @@
             </p>
         @endif
 
-    </div>
-
-    <div class="md:col-span-1 flex justify-end">
-        <img src="{{ asset('storage/' . $etude->imageUrl()) }}" alt="Image" class="rounded-lg w-full md:w-auto md:max-w-[80%] max-h-96 object-contain">
     </div>
 </div>
 
@@ -129,6 +124,4 @@
     @endif
     <br>
 </div>
-
-@endsection
 
