@@ -25,6 +25,7 @@ class FormEtudeRequest extends FormRequest
     {
         return [
             'title'=>['required','string', 'min:4','max:35'],
+            'longtitle' => 'nullable|string|max:500',
             'slug'=> ['required', 'min:4','regex:/[a-z0-9\-]+$/',Rule::unique('etudes')->ignore($this->route()->parameter('etude'))],
             'resume'=>['required'],
             'active'=>['required'],
