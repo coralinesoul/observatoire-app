@@ -197,18 +197,18 @@
             @enderror
         </div>
     
-        <div class="item-center">
+        <div class="place-items-center">
             <label class="block text-base font-medium text-blue1" for="startyear">Année de début<span class="text-red-600">*</span></label>
-            <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
+            <input class="flex rounded-md border border-[#e0e0e0] min-w-32 bg-white py-3 px-6 mb-6 text-base outline-gray-500 text-[#6B7280]" 
                    type="number" name="startyear" value="{{ old('startyear', $etude->startyear) }}">
             @error('startyear')
                 <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
     
-        <div class="item-center" id="stopyear-container" style="display: none;">
+        <div class="place-items-center" id="stopyear-container" style="display: none;">
             <label class="block text-base font-medium text-blue1" for="stopyear">Année de fin</label>
-            <input class="flex items-center rounded-md border border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base text-[#6B7280] outline-none" 
+            <input class="flex items-center rounded-md border min-w-32 border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base outline-gray-500 text-[#6B7280]" 
                    type="number" name="stopyear" value="{{ old('stopyear', $etude->stopyear) }}">
             @error('stopyear')
                 <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
