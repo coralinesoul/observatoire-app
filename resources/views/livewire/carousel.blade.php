@@ -1,6 +1,6 @@
 <div class=" bg-blue3 -mx-8">
     <div x-data="{ currentSlide: @entangle('currentSlide'), interval: null }"
-        x-init="interval = setInterval(() => { currentSlide = (currentSlide + 1) % {{ count($slideViews) }} }, 15000)"
+        x-init="interval = setInterval(() => { currentSlide = (currentSlide + 1) % {{ count($slideViews) }} }, 30000)"
         class="relative w-full h-screen md:h-[80vh] lg:h-[75vh]">
 
         <!-- Diapositive 1 -->
