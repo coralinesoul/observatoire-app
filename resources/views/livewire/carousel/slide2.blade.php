@@ -1,5 +1,5 @@
 <div class="px-8 md:px-28">
-    <h1 class="text-3xl font-bold tracking-wide text-blue1 mt-8">Produire de la connaissance</h1>
+    <h1 class="text-3xl font-bold tracking-wide text-blue1">Produire de la connaissance</h1>
     <br>
     <div class="flex flex-wrap mt-8">
         <div class="hidden md:block basis-1/2">
