@@ -80,7 +80,9 @@
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
       <div class="xl:grid xl:grid-cols-2 xl:gap-8">
         <div class="space-y-8">
-          <img class="h-40" src="{{ asset('Logo_institut_blanc.png') }}" alt="Company name">
+          <a href="https://www.institut-ecocitoyen.fr/pres.php" target="_blank">
+            <img class="h-40" src="{{ asset('Logo_institut_blanc.png') }}" alt="Institut écocitoyen">
+          </a>
           <div class="flex space-x-6">
             <a href="https://www.facebook.com/institutecocitoyen" class="text-white hover:text-gray-200">
               <span class="sr-only">Facebook</span>
@@ -100,12 +102,6 @@
                     <path fill-rule="evenodd" d="M22.23 0H1.77C.792 0 0 .774 0 1.727v20.546C0 23.227.792 24 1.77 24h20.46C23.208 24 24 23.227 24 22.273V1.727C24 .774 23.208 0 22.23 0zM7.12 20.452H3.56V9h3.56v11.452zM5.34 7.603a2.065 2.065 0 110-4.13 2.065 2.065 0 010 4.13zm15.112 12.849h-3.562v-5.631c0-1.343-.025-3.073-1.872-3.073-1.872 0-2.16 1.462-2.16 2.97v5.734H9.3V9h3.418v1.561h.048c.475-.9 1.635-1.848 3.366-1.848 3.598 0 4.263 2.367 4.263 5.445v6.294z" clip-rule="evenodd"/>
                 </svg>
             </a>            
-            <a href="https://github.com/coralinesoul/observatoire-app" class="text-white hover:text-gray-200">
-              <span class="sr-only">GitHub</span>
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-              </svg>
-            </a>
           </div>
         </div>
           <div class="md:grid md:grid-cols-2 md:gap-8 p-6 justify-self-end">
@@ -119,7 +115,7 @@
                   <a href="/catalogue/mes-etudes" class="text-sm leading-6 text-white hover:text-gray-200">Ajout d'une étude</a>
                 </li>
                 <li>
-                  <a href="/catalogue/demande" class="text-sm leading-6 text-white hover:text-gray-200">Demande de compte</a>
+                  <a href="/demande" class="text-sm leading-6 text-white hover:text-gray-200">Demande de compte</a>
                 </li>
               </ul>
             </div>
@@ -127,7 +123,7 @@
               <h3 class="text-sm font-semibold leading-6 text-white">Informations</h3>
               <ul role="list" class="mt-6 space-y-4">
                 <li>
-                  <a href="#" class="text-sm leading-6 text-white hover:text-gray-200">Contact</a>
+                  <a href="/a-propos" class="text-sm leading-6 text-white hover:text-gray-200">Contact</a>
                 </li>
                 <li>
                   <a href="/" class="text-sm leading-6 text-white hover:text-gray-200">L'observatoire</a>
