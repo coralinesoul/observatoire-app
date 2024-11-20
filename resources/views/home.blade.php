@@ -7,7 +7,7 @@
             <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Le golfe de Fos</h1>
             <br>
             <p class="font-serif">
-                C’ est un territoire à haut potentiel économique, social et environnemental caractérisé par la coexistence de trois types d'espaces très distincts.
+                C’ est un territoire à haut potentiel <span class="font-bold text-blue1">économique, social et environnemental</span> caractérisé par la coexistence de trois types d'espaces très distincts.
             </p>
             <br>
             <div class="flex justify-between p-10">
@@ -25,15 +25,15 @@
                 </div>
             </div>
             <p class="font-serif">
-                Dans cet environnement particulier, les rejets atmosphériques, les sites et sols pollués situés sur le littoral, les effluents marins et l’utilisation de l’eau de mer dans le cadre de procédés industriels peuvent, impacter les écosystèmes marins à court ou long-terme. 
+                Dans cet environnement particulier, <span class="font-bold text-blue1">les rejets atmosphériques</span>, <span class="font-bold text-blue1">les sites et sols pollués</span> situés sur le littoral, <span class="font-bold text-blue1">les effluents marins</span> et <span class="font-bold text-blue1">l’utilisation de l’eau de mer dans le cadre de procédés industriels</span> peuvent, impacter les écosystèmes marins à court ou long-terme. 
                 <br>
-                Le développement économique du golfe, intégrant les grands projets sur le nautisme, les activités halieutiques, touristiques et industrialo-portuaires, répond à des enjeux forts, parfois paradoxaux, qui nécessitent de développer des instruments de gestion environnementale coordonnés et adaptés aux spécificités du milieu marin, fondés sur la connaissance précise des paramètres d’équilibre écologique. 
+                Le développement économique du golfe, intégrant les grands projets sur le nautisme, les activités halieutiques, touristiques et industrialo-portuaires, répond à des enjeux forts, parfois paradoxaux, qui nécessitent de développer des instruments de gestion environnementale <span class="font-bold text-blue1">coordonnés et adaptés aux spécificités du milieu marin</span>, fondés sur la connaissance précise des paramètres d’équilibre écologique. 
                 <br>
-                Dans ce cadre, des mesures régulières sont réalisées par plusieurs acteurs institutionnels, scientifiques, citoyens... Les résultats et l'interprétation des différents travaux ont permis d'acquérir des connaissances sur la présence, la réactivité et la toxicité de certains polluants dans le golfe. 
+                Dans ce cadre, <span class="font-bold text-blue1">des mesures régulières</span> sont réalisées par plusieurs acteurs institutionnels, scientifiques, citoyens... Les résultats et l'interprétation des différents travaux ont permis d'acquérir des connaissances sur la présence, la réactivité et la toxicité de <span class="font-bold text-blue1">certains polluants</span> dans le golfe. 
                 <br>
-                Les conclusions montrent qu'une attention particulière doit être portée aux principales familles de polluants "classiques", comme à celles des polluants "émergents". 
+                Les conclusions montrent qu'une <span class="font-bold text-blue1">attention particulière</span> doit être portée aux principales familles de <span class="font-bold text-blue1">polluants "classiques"</span>, comme à celles des <span class="font-bold text-blue1">polluants "émergents"</span>. 
                 <br>
-                Pour organiser la collaboration entre les différents acteurs et mieux répondre aux besoins de connaissance, de gestion et d'amélioration de l'état des milieux, l'Observatoire du golfe de Fos a été mis en œuvre depuis 2022.
+                Pour organiser <span class="font-bold text-blue1">la collaboration</span> entre les différents acteurs et mieux répondre aux <span class="font-bold text-blue1">besoins de connaissance, de gestion et d'amélioration de l'état des milieux</span>, l'Observatoire du golfe de Fos a été mis en œuvre depuis 2022.
             </p>
         </div>
         <div class="basis-1/2 p-10">
