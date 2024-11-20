@@ -2,12 +2,7 @@
     <h1 class="text-3xl font-bold tracking-wide text-blue1 my-8">Mettre en lien, informer, partager</h1>
     <br>
     <p class="font-serif">
-        L’observatoire a pour objectif d’impliquer un large panel d’acteurs et d’actrices locaux réunis dans un 
-        comité de pilotage permettant ainsi d’animer la réflexion sur les 
-        objectifs à fixer et sur les moyens mis en œuvre pour les atteindre. 
-        Ainsi, l’observatoire peut aussi appuyer des demandes de financements d’études et/ou de suivi. Ce comité offre un espace pour remonter des informations : 
-        d’éventuelles anomalies ou des changements. 
-        Il s'agit donc d'un outil de concertation entre des personnes et des structures très distinctes.
+        L’Observatoire a pour objectif d’impliquer un large panel d’actrices et d’acteurs locaux, rassemblés dans un Comité de Pilotage permettant ainsi d’animer la réflexion sur les objectifs à fixer et sur les moyens mis en œuvre pour les atteindre.  Une périodicité annuelle de ces Comités de Pilotages complétés par des réunions techniques autour des projets en cours permettront de faciliter le partage de connaissance, la collaboration entre les acteurs et l’accès à l’information pour tous.
     </p>
     <br>
     <div class="flex justify-between p-10">
