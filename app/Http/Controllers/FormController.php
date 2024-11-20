@@ -61,7 +61,12 @@ class FormController extends Controller
     }
     public function store (FormEtudeRequest $request){
         
-        $data = $request->validated();
+        // Création d'une nouvelle instance d'étude (vide)
+        $etude = new Etude();
+
+        // Extraction et préparation des données
+        $data = $this->extractData($etude, $request);
+
 
         // Ajout de l'ID de l'utilisateur authentifié
         $data['user_id'] = Auth::id();
