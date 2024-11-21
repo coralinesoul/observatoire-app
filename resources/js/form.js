@@ -183,3 +183,50 @@ window.toggleStopYear = function() {
 
 toggleStopYear();
 
+window.onload = () => {
+    const svg = document.querySelector('#svg-container svg'); // Le SVG
+    const selectedZones = new Set(); // Set pour stocker les zones sélectionnées
+    const zoneList = document.querySelector('#zone-list'); // Affichage des zones
+    const hiddenInputs = document.querySelector('#hidden-inputs'); // Champs masqués
+
+    if (!svg) {
+        console.error('SVG introuvable');
+        return;
+    }
+
+    // Gérer les clics sur les zones
+    svg.addEventListener('click', (event) => {
+        const zone = event.target.closest('g'); // Trouve le <g> parent si un élément est cliqué
+        if (!zone) return; // Ignore si on clique hors des zones
+
+        const zoneId = zone.id; // ID de la zone
+        const zoneName = zone.getAttribute('data-name'); // Nom de la zone (attribut data-name)
+
+        // Si la zone est déjà sélectionnée, on la désélectionne
+        if (selectedZones.has(zoneId)) {
+            selectedZones.delete(zoneId); // Supprime du Set
+            document.querySelector(`input[value="${zoneId}"]`)?.remove(); // Supprime l'input masqué
+            zone.querySelector('path').setAttribute('fill', '#185064'); // Réinitialise la couleur
+        } else {
+            // Sinon, on ajoute la zone
+            selectedZones.add(zoneId);
+            const input = document.createElement('input'); // Crée un input masqué
+            input.type = 'hidden';
+            input.name = 'zones[]';
+            input.value = zoneId;
+            hiddenInputs.appendChild(input);
+
+            // Change la couleur pour indiquer la sélection
+            zone.querySelector('path').setAttribute('fill', '#1d9fbf');
+        }
+
+        // Met à jour la liste affichée
+        if (selectedZones.size > 0) {
+            zoneList.textContent = Array.from(selectedZones)
+                .map((id) => document.querySelector(`#${id}`).getAttribute('data-name'))
+                .join(', ');
+        } else {
+            zoneList.textContent = 'Aucune';
+        }
+    });
+};

@@ -136,6 +136,7 @@ class FormController extends Controller
 
     public function update(Etude $etude, FormEtudeRequest $request)
     {
+        dd($request);
         $this->authorize('update', $etude);
         
         $etude->update($this->extractData($etude, $request));
@@ -153,7 +154,7 @@ class FormController extends Controller
         $etude->sources()->sync($sources);
     
         // Gérer les autres relations de la même manière (zones, types, etc.)
-        $etude->zones()->sync($request->validated('zones'));
+
         $etude->themes()->sync($request->validated('themes'));
         $etude->parametres()->sync($request->validated('parametres'));
         $etude->matrices()->sync($request->validated('matrices'));
@@ -173,8 +174,22 @@ class FormController extends Controller
                 $contacts[] = $contact->id;
             }
         }
+
         $etude->contacts()->sync($contacts);
+        $zoneIds = array_map(function ($zone) {
+            // Si vous envoyez des valeurs comme 'zone11', vous les nettoyez ici
+            return (int) str_replace('zone', '', $zone);
+        }, $request->validated('zones'));
     
+        // Vérification que les zones existent dans la base de données
+        $validZones = Zone::whereIn('id', $zoneIds)->pluck('id')->toArray();
+        if (count($validZones) !== count($zoneIds)) {
+            return back()->withErrors(['zones' => 'Une ou plusieurs zones sélectionnées sont invalides.']);
+        }
+    
+        // Synchronisation des zones
+        $etude->zones()->sync($validZones);
+        dd($etude);
         // Gestion des liens
         if ($request->has('link_name')) {
             $existingLinks = $etude->liens->keyBy('id');
