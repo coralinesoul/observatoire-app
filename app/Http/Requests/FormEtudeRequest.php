@@ -35,7 +35,7 @@ class FormEtudeRequest extends FormRequest
             'frequence'=> ['nullable'],
             'sources' => 'required|array|min:1',
             'sources.*.name' => 'required|string|max:255',
-            'zones'=>['array','exists:zones,id','required','regex:/^zone\d+$/'],
+            'zones'=>['array','exists:zones,id','required'],
             'themes'=>['array','exists:themes,id','required'],
             'parametres'=>['array','exists:parametres,id','nullable'],
             'matrices'=>['array','exists:matrices,id','nullable'],

@@ -49,11 +49,11 @@ class FormController extends Controller
         return view('catalogue.edit',[
             'etude'=>$etude,
             'sources'=>Source::select('id','name')->get(),
-            'zones'=>Zone::select('id','name')->get(),
             'themes'=>Theme::select('id','name')->get(),
             'types'=>Type::select('id','name')->get(),
             'liens' => $etude->liens()->orderBy('position')->get(),
             'contacts' => $etude->contacts()->get(),
+            'zones' => $etude->zones()->pluck('id')->toArray(),
             'parametres' => Parametre::select('*')->get(),
             'matrices' => Matrice::select('*')->get(),
             'fichiers' => $etude->fichiers()->get(),
@@ -136,7 +136,6 @@ class FormController extends Controller
 
     public function update(Etude $etude, FormEtudeRequest $request)
     {
-        dd($request);
         $this->authorize('update', $etude);
         
         $etude->update($this->extractData($etude, $request));
@@ -159,6 +158,7 @@ class FormController extends Controller
         $etude->parametres()->sync($request->validated('parametres'));
         $etude->matrices()->sync($request->validated('matrices'));
         $etude->types()->sync($request->validated('types'));
+        $etude->zones()->sync($request->validated('zones'));
     
         // Gestion des contacts
         $contacts = [];
@@ -176,20 +176,7 @@ class FormController extends Controller
         }
 
         $etude->contacts()->sync($contacts);
-        $zoneIds = array_map(function ($zone) {
-            // Si vous envoyez des valeurs comme 'zone11', vous les nettoyez ici
-            return (int) str_replace('zone', '', $zone);
-        }, $request->validated('zones'));
-    
-        // Vérification que les zones existent dans la base de données
-        $validZones = Zone::whereIn('id', $zoneIds)->pluck('id')->toArray();
-        if (count($validZones) !== count($zoneIds)) {
-            return back()->withErrors(['zones' => 'Une ou plusieurs zones sélectionnées sont invalides.']);
-        }
-    
-        // Synchronisation des zones
-        $etude->zones()->sync($validZones);
-        dd($etude);
+
         // Gestion des liens
         if ($request->has('link_name')) {
             $existingLinks = $etude->liens->keyBy('id');
