@@ -199,7 +199,7 @@ window.onload = () => {
         const zone = event.target.closest('g'); // Trouve le <g> parent si un élément est cliqué
         if (!zone) return; // Ignore si on clique hors des zones
 
-        const zoneId = zone.id; // ID de la zone
+        const zoneId = zone.getAttribute("id"); // Utilisation de l'ID réel de la zone
         const zoneName = zone.getAttribute('data-name'); // Nom de la zone (attribut data-name)
 
         // Si la zone est déjà sélectionnée, on la désélectionne
@@ -212,9 +212,9 @@ window.onload = () => {
             selectedZones.add(zoneId);
             const input = document.createElement('input'); // Crée un input masqué
             input.type = 'hidden';
-            input.name = 'zones[]';
-            input.value = zoneId;
-            hiddenInputs.appendChild(input);
+            input.name = 'zones[]'; // Ce nom permet de transmettre un tableau de zones
+            input.value = zoneId; // Utilisation de l'ID réel de la zone
+            hiddenInputs.appendChild(input); // Ajoute l'input dans le conteneur caché
 
             // Change la couleur pour indiquer la sélection
             zone.querySelector('path').setAttribute('fill', '#1d9fbf');
@@ -223,10 +223,13 @@ window.onload = () => {
         // Met à jour la liste affichée
         if (selectedZones.size > 0) {
             zoneList.textContent = Array.from(selectedZones)
-                .map((id) => document.querySelector(`#${id}`).getAttribute('data-name'))
+                .map((zoneId) => document.querySelector(`[id="${zoneId}"]`).getAttribute('data-name')) // Modification ici
                 .join(', ');
         } else {
             zoneList.textContent = 'Aucune';
         }
     });
 };
+
+
+
