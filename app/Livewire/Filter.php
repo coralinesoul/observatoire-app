@@ -52,7 +52,22 @@ class Filter extends Component
         $this->filteredGp = $this->parametres->pluck('groupe')->unique();
         $this->filteredGpM = $this->matrices->pluck('groupe')->unique();
         $this->types = Type::all();
+
+        // Vérifier si les filtres sont enregistrés dans la session
+        $this->selectedSource = session()->get('selectedSource', []);
+        $this->selectedTheme = session()->get('selectedTheme', []);
+        $this->selectedParametre = session()->get('selectedParametre', []);
+        $this->selectedMatrice = session()->get('selectedMatrice', []);
+        $this->selectedGp = session()->get('selectedGp', []);
+        $this->selectedGpM = session()->get('selectedGpM', []);
+        $this->selectedZone = session()->get('selectedZone', []);
+        $this->selectedType = session()->get('selectedType', []);
+        $this->selectedReglementaire = session()->get('selectedReglementaire', []);
+        $this->selectedFrequence = session()->get('selectedFrequence', []);
+        $this->selectedStartyear = session()->get('selectedStartyear', 1960);
+        $this->selectedStopyear = session()->get('selectedStopyear', 2024);
     }
+
 
     public function updateSelectedZone($zoneId)
     {
@@ -143,7 +158,8 @@ class Filter extends Component
 
     public function getSelect()
     {
-        // Récupérer les études filtrées par source 'IECP' avec pagination
+
+        // Récupérer les études filtrées avec pagination
         return Etude::with('sources', 'themes', 'parametres', 'matrices', 'zones', 'types')
             ->when(!empty($this->selectedSource), function ($query) {
                 $query->whereHas('sources', function ($query) {
@@ -206,6 +222,7 @@ class Filter extends Component
                 $query->whereIn('frequence', $this->selectedFrequence);
             })
             ->paginate(16);
+
     }
     public function removeSelection($type, $value)
     {
@@ -241,6 +258,30 @@ class Filter extends Component
         $this->selectedStopyear = 2024;
         $this->updateFilteredOptions();
     }
+
+    public function saveFiltersInSession()
+    {
+        session()->put('filteredGp', $this->filteredGp);
+        session()->put('filteredGpM', $this->filteredGpM);
+        session()->put('selectedSource', $this->selectedSource);
+        session()->put('selectedTheme', $this->selectedTheme);
+        session()->put('selectedGp', $this->selectedGp);
+        session()->put('selectedParametre', $this->selectedParametre);
+        session()->put('selectedGpM', $this->selectedGpM);
+        session()->put('selectedMatrice', $this->selectedMatrice);
+        session()->put('selectedZone', $this->selectedZone);
+        session()->put('selectedType', $this->selectedType);
+        session()->put('selectedStartyear', $this->selectedStartyear);
+        session()->put('selectedStopyear', $this->selectedStopyear);
+        session()->put('selectedReglementaire', $this->selectedReglementaire);
+        session()->put('selectedFrequence', $this->selectedFrequence);
+    }
+ 
+    public function onStudyPageClicked()
+    {
+        $this->saveFiltersInSession();
+    }
+
 
 
 
