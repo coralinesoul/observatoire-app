@@ -358,7 +358,10 @@
             <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-min">
                 @foreach ($etudes as $etude)
                     <li class="col-span-1 divide-y divide-gray-200 rounded-none bg-blue2 bg-opacity-5 shadow-md hover:bg-white h-80">
-                        <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" class="block h-full w-full" title="{{$etude->title}}">
+                        <a href="{{route('catalogue.find', ['slug'=>$etude->slug, 'etude'=>$etude->id])}}" 
+                            class="block h-full w-full" 
+                            title="{{$etude->title}}"
+                            wire:click="onStudyPageClicked">
                         <div class="flex w-full items-center justify-between space-x-6 p-6">
                             <div class="flex-1">
                                 <div class='flex-1'>
