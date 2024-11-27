@@ -51,9 +51,21 @@ class Filter extends Component
         $this->matrices = Matrice::all();
         $this->filteredGp = $this->parametres->pluck('groupe')->unique();
         $this->filteredGpM = $this->matrices->pluck('groupe')->unique();
-        $this->zones = Zone::all();
         $this->types = Type::all();
     }
+
+    public function updateSelectedZone($zoneId)
+    {
+        // Si la zone est déjà dans la liste, la retirer (désélectionner)
+        if (in_array($zoneId, $this->selectedZone)) {
+            $this->selectedZone = array_values(array_diff($this->selectedZone, [$zoneId]));
+        } else {
+            // Si la zone n'est pas dans la liste, l'ajouter (sélectionner)
+            $this->selectedZone[] = $zoneId;
+            $this->selectedZone = array_values($this->selectedZone); // Réindexe l'array
+        }
+    }
+    
 
     public function updateFilteredOptions()
     {
