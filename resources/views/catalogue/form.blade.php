@@ -298,9 +298,9 @@
     </div>
     <div class="mt-4">
         <label class="text-base font-medium text-blue1" for="reglementaire">L'étude est t'elle réglementaire ?<span class="text-red-600">*</span></label>
-            <input type="radio" name="reglementaire" value="1" id="oui" @checked(old('reglementaire', $etude->reglementaire) == 0)></input>
+            <input type="radio" name="reglementaire" value="1" id="oui" @checked(old('reglementaire', $etude->reglementaire) == 1)>
             <label for="oui">oui</label>
-            <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 1)></input>
+            <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 0)>
             <label for="non" class="mr-1">non</label>
             <span class="relative group">
                 <i class="fas fa-info-circle text-gray-500 ml-2 cursor-pointer"></i>
