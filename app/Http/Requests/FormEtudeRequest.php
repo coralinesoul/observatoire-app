@@ -30,7 +30,7 @@ class FormEtudeRequest extends FormRequest
             'resume'=>['required'],
             'active'=>['required'],
             'reglementaire'=>['required'],
-            'startyear'=>['required','integer'],
+            'startyear' => ['required', 'integer', 'min:1960', 'max:' . date('Y')],
             'stopyear' => ['nullable', 'integer'],
             'frequence'=> ['nullable'],
             'sources' => 'required|array|min:1',

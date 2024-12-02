@@ -253,7 +253,7 @@
     </div>
 
     <br>
-    <div class="grid grid-cols-1 lg:grid-cols-3 justify-center">
+    <div class="grid grid-cols-1 lg:grid-cols-4 justify-center">
         <div class="item-center">
             <label class="m-1 block text-base font-medium text-blue1" for="active">L'étude est-elle toujours active ?<span class="text-red-600">*</span></label>
             <input type="radio" name="active" value="1" id="oui" @checked(old('active', $etude->active) == 1) onchange="toggleStopYear()">
@@ -273,7 +273,6 @@
                 <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
             @enderror
         </div>
-    
         <div class="place-items-center" id="stopyear-container" style="display: none;">
             <label class="block text-base font-medium text-blue1" for="stopyear">Année de fin</label>
             <input class="flex items-center rounded-md border min-w-32 border-[#e0e0e0] bg-white py-3 px-6 mb-6 text-base outline-gray-500 text-[#6B7280]" 
@@ -283,6 +282,8 @@
             @enderror
         </div>
     </div>
+    <p class="text-sm">Les études qui ne sont pas encore commencées ne seront pas prise en compte dans le catalogue</p>
+    <br>
     <div class="mt-4">
         <label class="text-base font-medium text-blue1" for="frequence">Fréquence des relevés<span class="text-red-600">*</span> </label>
             <select class="rounded-md border border-[#e0e0e0] bg-white p-1 text-base text-[#6B7280]" name="frequence" value="{{ old('frequence', $etude->frequence) }}">
@@ -291,6 +292,7 @@
                 <option value="mensuelle">mensuelle</option>
                 <option value="plurianuelle">plurianuelle</option>
                 <option value="anuelle">anuelle</option>
+                <option value="anuelle">non applicable</option>
             </select>
             @error('stopyear')
                 <div class="rounded-md my-1 text-red-700 bg-red-100 border border-red-300 p-2">{{$message}}</div>
