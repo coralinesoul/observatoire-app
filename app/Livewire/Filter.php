@@ -31,7 +31,6 @@ class Filter extends Component
     public $selectedGpM = [];
     public $selectedZone = [];
     public $selectedType = [];
-    public $selectedReglementaire = [];
     public $selectedFrequence = [];
     public $selectedStartyear = 1960;
     public $selectedStopyear = 2024;
@@ -62,7 +61,6 @@ class Filter extends Component
         $this->selectedGpM = session()->get('selectedGpM', []);
         $this->selectedZone = session()->get('selectedZone', []);
         $this->selectedType = session()->get('selectedType', []);
-        $this->selectedReglementaire = session()->get('selectedReglementaire', []);
         $this->selectedFrequence = session()->get('selectedFrequence', []);
         $this->selectedStartyear = session()->get('selectedStartyear', 1960);
         $this->selectedStopyear = session()->get('selectedStopyear', 2024);
@@ -215,9 +213,6 @@ class Filter extends Component
                     });
                 });
             })
-            ->when(!empty($this->selectedReglementaire), function ($query) {
-                $query->whereIn('reglementaire', $this->selectedReglementaire);
-            })
             ->when(!empty($this->selectedFrequence), function ($query) {
                 $query->whereIn('frequence', $this->selectedFrequence);
             })
@@ -239,8 +234,6 @@ class Filter extends Component
             $this->selectedZone = array_filter($this->selectedZone, fn($v) => $v != $value);
         } elseif ($type == 'selectedType') {
             $this->selectedType = array_filter($this->selectedType, fn($v) => $v != $value);
-        } elseif ($type == 'selectedReglementaire') {
-            $this->selectedReglementaire = array_filter($this->selectedReglementaire, fn($v) => $v != $value);
         } elseif ($type == 'selectedFrequence') {
             $this->selectedFrequence = array_filter($this->selectedFrequence, fn($v) => $v != $value);
         } elseif ($type == 'selectedGp') {
@@ -273,7 +266,6 @@ class Filter extends Component
         session()->put('selectedType', $this->selectedType);
         session()->put('selectedStartyear', $this->selectedStartyear);
         session()->put('selectedStopyear', $this->selectedStopyear);
-        session()->put('selectedReglementaire', $this->selectedReglementaire);
         session()->put('selectedFrequence', $this->selectedFrequence);
     }
  

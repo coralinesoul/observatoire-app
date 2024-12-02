@@ -255,7 +255,7 @@
     <br>
     <div class="grid grid-cols-1 lg:grid-cols-3 justify-center">
         <div class="item-center">
-            <label class="m-1 block text-base font-medium text-blue1" for="active">L'étude est t'elle toujours active ?<span class="text-red-600">*</span></label>
+            <label class="m-1 block text-base font-medium text-blue1" for="active">L'étude est-elle toujours active ?<span class="text-red-600">*</span></label>
             <input type="radio" name="active" value="1" id="oui" @checked(old('active', $etude->active) == 1) onchange="toggleStopYear()">
             <label for="oui">oui</label>
             <input type="radio" name="active" value="0" id="non" @checked(old('active', $etude->active) == 0) onchange="toggleStopYear()">
@@ -297,7 +297,7 @@
             @enderror
     </div>
     <div class="mt-4">
-        <label class="text-base font-medium text-blue1" for="reglementaire">L'étude est t'elle réglementaire ?<span class="text-red-600">*</span></label>
+        <label class="text-base font-medium text-blue1" for="reglementaire">L'étude est-elle réglementaire ?<span class="text-red-600">*</span></label>
             <input type="radio" name="reglementaire" value="1" id="oui" @checked(old('reglementaire', $etude->reglementaire) == 1)>
             <label for="oui">oui</label>
             <input type="radio" name="reglementaire" value="0" id="non" @checked(old('reglementaire', $etude->reglementaire) == 0)>
