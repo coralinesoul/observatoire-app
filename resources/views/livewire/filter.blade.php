@@ -12,7 +12,7 @@
             !empty($selectedGpM) ||
             !empty($selectedGp) ||
             !empty($selectedFrequence) || 
-            ($selectedStartyear != 1960 || $selectedStopyear != 2024)
+            ($selectedStartyear != 1960 || $selectedStopyear != date('Y'))
         )
             <div>
                 <ul class="text-gray-500 text-sm flex flex-wrap gap-1">
@@ -92,7 +92,7 @@
                             </span>
                         </li>
                     @endforeach
-                    @if($selectedStartyear != 1960 || $selectedStopyear != 2024)
+                    @if($selectedStartyear != 1960 || $selectedStopyear != date('Y'))
                         <li class="my-1">
                             <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
                                 {{ $selectedStartyear }} - {{ $selectedStopyear }}
@@ -175,15 +175,15 @@
             @vite('resources/js/filters.js')
             <div class="range_container">
                 <div class="sliders_control">
-                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" min="1960" max="2024"/>
-                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions"  min="1960" max="2024"/>
+                    <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" min="1960" max="{{ date('Y') }}"/>
+                    <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions"  min="1960" max="{{ date('Y') }}"/>
                 </div>
                 <div class="form_control">
                     <div class="form_control_container">
-                        <input class="form_control_container__time__input" wire:model="selectedStartyear" wire:change="updateFilteredOptions" type="number" id="fromInput" min="1960" max="2024"/>
+                        <input class="form_control_container__time__input" wire:model="selectedStartyear" wire:change="updateFilteredOptions" type="number" id="fromInput" min="1960" max="{{ date('Y') }}"/>
                     </div>
                     <div class="form_control_container">
-                        <input class="form_control_container__time__input" wire:model="selectedStopyear" wire:change="updateFilteredOptions" type="number" id="toInput" min="0" max="2024"/>
+                        <input class="form_control_container__time__input" wire:model="selectedStopyear" wire:change="updateFilteredOptions" type="number" id="toInput" min="0" max="{{ date('Y') }}"/>
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ class Filter extends Component
     public $selectedType = [];
     public $selectedFrequence = [];
     public $selectedStartyear = 1960;
-    public $selectedStopyear = 2024;
+    public $selectedStopyear;
 
 
     public $filteredParametres;
@@ -63,7 +63,7 @@ class Filter extends Component
         $this->selectedType = session()->get('selectedType', []);
         $this->selectedFrequence = session()->get('selectedFrequence', []);
         $this->selectedStartyear = session()->get('selectedStartyear', 1960);
-        $this->selectedStopyear = session()->get('selectedStopyear', 2024);
+        $this->selectedStopyear = session()->get('selectedStopyear', date('Y'));
     }
 
 
@@ -199,7 +199,7 @@ class Filter extends Component
                     $query->whereIn('id', $this->selectedType);
                 });
             })
-            ->when($this->selectedStartyear != 1960 || $this->selectedStopyear != 2024, function ($query) {
+            ->when($this->selectedStartyear != 1960 || $this->selectedStopyear != date('Y'), function ($query) {
                 $query->where(function ($query) {
                     $query->where(function ($query) {
                         // Exclut les études qui commencent et se terminent après `stopyear`
@@ -248,7 +248,7 @@ class Filter extends Component
     public function resetYears()
     {
         $this->selectedStartyear = 1960;
-        $this->selectedStopyear = 2024;
+        $this->selectedStopyear = date('Y');
         $this->updateFilteredOptions();
     }
 
@@ -273,9 +273,6 @@ class Filter extends Component
     {
         $this->saveFiltersInSession();
     }
-
-
-
 
     public function render()
     {
