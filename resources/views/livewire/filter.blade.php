@@ -8,8 +8,7 @@
             !empty($selectedParametre) || 
             !empty($selectedMatrice) ||  
             !empty($selectedZone) || 
-            !empty($selectedType) || 
-            !empty($selectedReglementaire) || 
+            !empty($selectedType) ||  
             !empty($selectedGpM) ||
             !empty($selectedGp) ||
             !empty($selectedFrequence) || 
@@ -82,18 +81,6 @@
                             <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
                                 {{ \App\Models\Type::find($typeId)->name }}
                                 <button wire:click="removeSelection('selectedType', {{ $typeId }})" class="text-red-500 ml-2">&times;</button>
-                            </span>
-                        </li>
-                    @endforeach
-                    @foreach($selectedReglementaire as $reglementaire)
-                        <li class="my-1">
-                            <span class="inline-flex items-center rounded-md border border-gray-500 px-1.5 py-0.5 text-sm">
-                                @if($reglementaire == 'true')
-                                    Réglementaire
-                                @else
-                                    Non réglementaire
-                                @endif
-                                <button wire:click="removeSelection('selectedReglementaire', '{{ $reglementaire }}')" class="text-red-500 ml-2">&times;</button>
                             </span>
                         </li>
                     @endforeach
@@ -343,14 +330,6 @@
                 @endforeach
             </div>
             <br>
-            <div>
-                <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Etude réglementaire</h2>
-                <input type="checkbox" id="optionOui" name="selectedReglementaire" value="true" wire:model="selectedReglementaire" wire:change="updateFilteredOptions">
-                <label for="optionOui">Oui</label>
-                
-                <input type="checkbox" id="optionNon" name="selectedReglementaire" value="false" wire:model="selectedReglementaire" wire:change="updateFilteredOptions">
-                <label for="optionNon">Non</label>
-            </div>
         </div>
     </div>
     <div class=" w-4/5">
