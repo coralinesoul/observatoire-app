@@ -38,6 +38,9 @@ class CatalogueController extends Controller
     }
     public function user_tab()
     {
+        session()->forget('selectedThemes');
+        session()->forget('selectedParametres');
+        session()->forget('selectedMatrices');
         if (Auth::user()->is_super_user) {
             $etudes = Etude::orderBy('updated_at', 'desc')->get();
         } else {

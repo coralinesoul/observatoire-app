@@ -131,6 +131,10 @@ class FormController extends Controller
                         ->subject('Nouvelle étude créée');
             });
 
+            session()->forget('selectedThemes');
+            session()->forget('selectedParametres');
+            session()->forget('selectedMatrices');
+
             return redirect()->route('catalogue.find',['slug'=> $etude->slug, 'etude'=>$etude->id])->with('success',"L'étude a bien été répertoriée");
     }
 
@@ -210,6 +214,10 @@ class FormController extends Controller
                 $linkToRemove->delete();
             }
         }
+
+        session()->forget('selectedThemes');
+        session()->forget('selectedParametres');
+        session()->forget('selectedMatrices');
     
         return redirect()->route('catalogue.find', ['slug' => $etude->slug, 'etude' => $etude->id])
             ->with('success', "L'étude a bien été modifiée");
