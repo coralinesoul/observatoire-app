@@ -50,7 +50,7 @@
                     @foreach($filteredParametres as $parametre)
                         <div class="flex items-center">
                             <input type="checkbox" id="parametre_{{ $parametre->id }}" name="parametres[]" value="{{ $parametre->id }}"
-                            wire:model="selectedParametres" wire:change="updateFilteredOptions" class="h-4 w-4 text-blue2 border-gray-300 rounded focus:ring-blue2"
+                            wire:model="selectedParametres" wire:click="saveFiltersInSession" wire:change="updateFilteredOptions" class="h-4 w-4 text-blue2 border-gray-300 rounded focus:ring-blue2"
                                 @if(in_array($parametre->id, $selectedParametres)) checked @endif>
                             <label for="parametre_{{ $parametre->id }}" class="ml-2 text-sm text-gray-700">{{ $parametre->name }}</label>
                         </div>
@@ -76,7 +76,7 @@
                     @foreach($filteredMatrices as $matrice)
                         <div class="flex items-center">
                             <input type="checkbox" id="matrice_{{ $matrice->id }}" name="matrices[]" value="{{ $matrice->id }}"
-                            wire:model="selectedMatrices" wire:change="updateFilteredOptions" class="h-4 w-4 text-blue2 border-gray-300 rounded focus:ring-blue2"
+                            wire:model="selectedMatrices" wire:click="saveFiltersInSession" wire:change="updateFilteredOptions" class="h-4 w-4 text-blue2 border-gray-300 rounded focus:ring-blue2"
                                 @if(in_array($matrice->id, $selectedMatrices)) checked @endif>
                             <label for="matrice_{{ $matrice->id }}" class="ml-2 text-sm text-gray-700">{{ $matrice->name }}</label>
                         </div>
