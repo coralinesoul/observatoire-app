@@ -185,59 +185,109 @@ toggleStopYear();
 
 window.onload = () => {
     const svg = document.querySelector('#svg-container svg'); // Le SVG
-    const selectedZones = new Set(); // Set pour stocker les zones sélectionnées
     const zoneList = document.querySelector('#zone-list'); // Affichage des zones sélectionnées
     const hiddenInputs = document.querySelector('#hidden-inputs'); // Champs masqués
     const zoneNameHover = document.querySelector('#zone-name-hover');
+
+    // Initialiser selectedZones depuis sessionStorage ou tableau vide
+    const selectedZones = new Set(JSON.parse(sessionStorage.getItem('selectedZones') || '[]') || []);
     if (!svg) {
         console.error('SVG introuvable');
         return;
     }
-        // Gérer les survols sur les zones
-        svg.addEventListener('mouseover', (event) => {
-            const zone = event.target.closest('g'); // Trouve le <g> parent si un élément est survolé
-            if (!zone) return; // Ignore si on survole un autre élément non-zone
-    
-            const zoneName = zone.getAttribute('data-name'); // Récupère le nom de la zone à partir de data-name
-    
-            if (zoneName) {
-                // Affiche le nom et positionne le span
-                zoneNameHover.textContent = zoneName;
-                const boundingBox = zone.getBoundingClientRect();
-                zoneNameHover.style.left = `${boundingBox.left + boundingBox.width / 2}px`; // Position horizontale
-                zoneNameHover.style.top = `${boundingBox.top - 25}px`; // Position verticale (au-dessus de la zone)
-                zoneNameHover.classList.remove('hidden'); // Affiche le span
+
+    const oldZones = window.oldZones || []; // Récupérer les anciennes zones depuis une variable globale ou tableau vide
+    const hiddenInputsContainer = document.getElementById('hidden-inputs');
+
+    if (oldZones.length > 0) {
+        const selectedZoneNames = [];
+        
+        oldZones.forEach(zoneId => {
+            // Ajouter les inputs cachés pour chaque zone sélectionnée
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'zones[]';
+            hiddenInput.value = zoneId;
+            hiddenInputsContainer.appendChild(hiddenInput);
+
+            // Ajouter le nom de la zone dans la liste affichée
+            const zoneElement = document.querySelector(`[data-id="${zoneId}"]`);
+            if (zoneElement) {
+                selectedZoneNames.push(zoneElement.getAttribute('data-name'));
+                zoneElement.classList.add('selected'); // Ajoute une classe CSS pour indiquer qu'elle est sélectionnée
             }
         });
-    
-        svg.addEventListener('mouseout', (event) => {
-            zoneNameHover.classList.add('hidden'); // Masque le nom lorsque la souris quitte la zone
-        });
+
+        // Mettre à jour l'affichage des zones sélectionnées
+        if (selectedZoneNames.length > 0) {
+            zoneList.textContent = selectedZoneNames.join(', ');
+        } else {
+            zoneList.textContent = 'Aucune';
+        }
+    }
+
+    // Gérer les survols sur les zones
+    svg.addEventListener('mouseover', (event) => {
+        const zone = event.target.closest('g'); // Trouve le <g> parent si un élément est survolé
+        if (!zone) return; // Ignore si on survole un autre élément non-zone
+
+        const zoneName = zone.getAttribute('data-name'); // Récupère le nom de la zone à partir de data-name
+
+        if (zoneName) {
+            // Affiche le nom et positionne le span
+            zoneNameHover.textContent = zoneName;
+            const boundingBox = zone.getBoundingClientRect();
+            zoneNameHover.style.left = `${boundingBox.left + boundingBox.width / 2}px`; // Position horizontale
+            zoneNameHover.style.top = `${boundingBox.top - 25}px`; // Position verticale (au-dessus de la zone)
+            zoneNameHover.classList.remove('hidden'); // Affiche le span
+        }
+    });
+
+    svg.addEventListener('mouseout', (event) => {
+        zoneNameHover.classList.add('hidden'); // Masque le nom lorsque la souris quitte la zone
+    });
+
     // Zones déjà sélectionnées (passées par le backend via @json)
     const preSelectedZones = window.preSelectedZones || []; // Utilisation de la variable passée depuis Blade
-    console.log('Pré-sélection des zones :', preSelectedZones); // Log initial des zones pré-sélectionnées
+    console.log('Pré-sélection des zones :', preSelectedZones);
+
     // Ajouter les zones déjà sélectionnées au Set et aux inputs cachés
     preSelectedZones.forEach(zoneId => {
-        selectedZones.add(String(zoneId));
+        selectedZones.add(String(zoneId)); // Ajouter l'ID de la zone au Set
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'zones[]'; // Assurez-vous que le nom correspond à ce que vous attendez en backend
         input.value = zoneId;
         hiddenInputs.appendChild(input);
         // Mettre à jour la couleur de la zone
-        const zone = document.querySelector(`#zone${zoneId}`); // Ajout du préfixe 'zone' pour la validité du sélecteur
+        const zone = document.querySelector(`#zone${zoneId}`);
         if (zone) {
             zone.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#1d9fbf'); // Change la couleur de chaque élément path
-            });            
+                path.setAttribute('fill', '#1d9fbf'); // Change la couleur de la zone
+            });
         } else {
             console.warn(`Zone introuvable pour ID : #zone${zoneId}`);
         }
     });
-    console.log('Zones sélectionnées après initialisation :', Array.from(selectedZones)); // Log après initialisation
+
+    // Appliquer la couleur aux zones sélectionnées depuis sessionStorage
+    selectedZones.forEach(zoneId => {
+        const zone = document.querySelector(`#zone${zoneId}`);
+        if (zone) {
+            zone.querySelectorAll('path').forEach(path => {
+                path.setAttribute('fill', '#1d9fbf'); // Change la couleur de la zone
+            });
+        } else {
+            console.warn(`Zone introuvable pour ID : #zone${zoneId}`);
+        }
+    });
+
+    console.log('Zones sélectionnées après initialisation :', Array.from(selectedZones));
+
     // Met à jour la liste affichée des zones sélectionnées
     const updateZoneList = () => {
         console.log('Mise à jour de la liste des zones. Zones actuelles :', Array.from(selectedZones));
+        sessionStorage.setItem('selectedZones', JSON.stringify(Array.from(selectedZones))); // Sauvegarde en sessionStorage
         if (selectedZones.size > 0) {
             zoneList.textContent = Array.from(selectedZones)
                 .map(zoneId => {
@@ -250,6 +300,7 @@ window.onload = () => {
         }
     };
     updateZoneList();
+
     // Gérer les clics sur les zones
     svg.addEventListener('click', (event) => {
         const zone = event.target.closest('g'); // Trouve le <g> parent si un élément est cliqué
@@ -260,7 +311,7 @@ window.onload = () => {
             selectedZones.delete(zoneId);
             document.querySelector(`input[value="${zoneId}"]`)?.remove(); // Supprime l'input masqué
             zone.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#185064'); // Réinitialise la couleur de chaque élément path
+                path.setAttribute('fill', '#185064'); // Réinitialise la couleur
             });
         } else {
             console.log(`Sélection de la zone : ${zoneId}`);
@@ -270,10 +321,15 @@ window.onload = () => {
             input.name = 'zones[]';
             input.value = zoneId;
             hiddenInputs.appendChild(input);
-            zone.querySelector('path').setAttribute('fill', '#1d9fbf'); // Change la couleur
+            zone.querySelectorAll('path').forEach(path => {
+                path.setAttribute('fill', '#1d9fbf'); // Change la couleur de la zone
+            });
         }
         updateZoneList();
     });
 };
+
+
+
 
 
