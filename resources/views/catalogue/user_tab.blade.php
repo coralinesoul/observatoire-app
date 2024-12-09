@@ -1,6 +1,14 @@
 @extends('base')
 @section('title', 'Mes études')
 @section('content')
+
+<script>
+    // Effacer les données stockées dans sessionStorage lors du chargement de la page
+    window.onload = function() {
+        sessionStorage.removeItem('selectedZones');
+    };
+</script>
+
 <div class="flex flex-col">
     <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">

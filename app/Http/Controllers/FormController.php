@@ -89,6 +89,7 @@ class FormController extends Controller
         $etude-> matrices()->sync($request->validated('matrices'));
         $etude-> types()->sync($request->validated('types'));
         
+        
         if (!empty($request->link_name)) {
             foreach ($request->link_name as $index => $linkName) {
                 $linkUrl = $request->link_url[$index] ?? null;
@@ -131,6 +132,7 @@ class FormController extends Controller
                         ->subject('Nouvelle étude créée');
             });
 
+            session()->forget('selectedZones');
             session()->forget('selectedThemes');
             session()->forget('selectedParametres');
             session()->forget('selectedMatrices');
@@ -156,7 +158,6 @@ class FormController extends Controller
         }
         $etude->sources()->sync($sources);
     
-        // Gérer les autres relations de la même manière (zones, types, etc.)
 
         $etude->themes()->sync($request->validated('themes'));
         $etude->parametres()->sync($request->validated('parametres'));
@@ -214,7 +215,7 @@ class FormController extends Controller
                 $linkToRemove->delete();
             }
         }
-
+        session()->forget('selectedZones');
         session()->forget('selectedThemes');
         session()->forget('selectedParametres');
         session()->forget('selectedMatrices');

@@ -7,6 +7,7 @@
     @endphp
 <script>
     window.preSelectedZones = @json($zonesIds);
+    window.oldZones = @json(old('zones', []));
 </script>
 
 
