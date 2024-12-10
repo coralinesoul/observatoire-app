@@ -41,6 +41,7 @@ class CatalogueController extends Controller
         session()->forget('selectedThemes');
         session()->forget('selectedParametres');
         session()->forget('selectedMatrices');
+        session()->forget('pdfs');
 
         if (Auth::user()->is_super_user) {
             $etudes = Etude::orderBy('updated_at', 'desc')->get();
