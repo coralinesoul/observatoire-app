@@ -4,29 +4,34 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 class FileAdd extends Component
 {
-    public $pdfs = [];
+    public $pdfs = []; // PDFs en cours de téléchargement
+    public $uploadedPdfs = []; // PDFs déjà téléchargés
 
     protected $listeners = ['fileUploaded', 'removePdfFromList'];
 
+    // Lors du montage, récupérer les PDF de la session
+    public function mount()
+    {
+        // Charger les PDFs depuis la session, ou un tableau vide si aucun fichier n'est trouvé
+        $this->pdfs = Session::get('pdfs', []);
+        $this->uploadedPdfs = Session::get('uploadedPdfs', []);
+    }
+
+    // Fonction pour ajouter un PDF
     public function addPdf()
     {
-        // Ajouter un identifiant unique à chaque PDF pour garder la cohérence
-        $this->pdfs[] = ['id' =>  Str::uuid()->toString(), 'tempFilePath' => '', 'originalFileName' => ''];
+        $this->pdfs[] = ['id' => Str::uuid()->toString(), 'tempFilePath' => '', 'originalFileName' => ''];
+
     }
 
-    public function removePdfFromList($id)
-    {
-        $this->pdfs = array_values(array_filter($this->pdfs, function ($pdf) use ($id) {
-            return $pdf['id'] !== $id;
-        }));
-    }
-
+    // Fonction pour gérer l'upload du fichier PDF
     public function fileUploaded($payload)
     {
-        // Chercher l'entrée PDF à mettre à jour par rapport à l'ID et ajouter le chemin et le nom
+        // Ajouter les détails du fichier (chemin et nom)
         foreach ($this->pdfs as &$pdf) {
             if (empty($pdf['tempFilePath'])) {
                 $pdf['tempFilePath'] = $payload['tempFilePath'];
@@ -34,11 +39,14 @@ class FileAdd extends Component
                 break;
             }
         }
+
+        // Mettre à jour la session avec les PDFs téléchargés
+        Session::put('uploadedPdfs', $this->pdfs);
     }
 
+    // Fonction pour rendre la vue du composant
     public function render()
     {
         return view('livewire.file-add');
     }
 }
-
