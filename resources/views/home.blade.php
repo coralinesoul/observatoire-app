@@ -1,5 +1,7 @@
 @extends('base')
-@section ('title',"L'observatoire")
+@section ('title','Présentation - Observatoire du Golfe de Fos')
+@section('meta_description', "Découvrez le Golfe de Fos et le rôle de son observatoire crée en 2022 pour organiser la collaboration entre les différents acteurs 
+et mieux répondre aux besoins de connaissance, de gestion et d'amélioration de l'état des milieux.")
 @section ('content')
 
     <div class="flex flex-col lg:flex-row">
