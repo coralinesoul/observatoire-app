@@ -1,5 +1,6 @@
 @extends('base')
-@section ('title',"L'observatoire")
+@section('title', 'A propos - Observatoire du Golfe de Fos')
+@section('meta_description', 'L\'institut écocitoyen coordonne les travaux de l\'observatoire du Golfe de Fos et met à disposition ses ressources. Il centralise les données et produit de nouvelles connaissances envionnementales.')
 @section ('content')
 
     <div class=" p-10 sm:px-8 md:px-20 lg:px-30">
