@@ -1,2 +1,9 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /login/
+Disallow: /mes-etudes/
+Disallow: /password/
+Disallow: /private/
+Allow: /
+
+Sitemap: https://observatoire-golfe-fos.fr/sitemap.xml

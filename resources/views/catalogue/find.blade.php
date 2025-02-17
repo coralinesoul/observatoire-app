@@ -1,6 +1,7 @@
 
 @extends('base')
 @section('title', $etude->title)
+@section('meta_description', $etude->resume)
 @section('content')
 
 <!-- Main grid container with two columns -->

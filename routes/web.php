@@ -5,7 +5,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
+use App\Models\Etude;
 use App\Http\Controllers\PasswordResetController;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('daily'))
+        ->add(Url::create('/a-propos')->setPriority(0.8)->setChangeFrequency('monthly'))
+        ->add(Url::create('/catalogue')->setPriority(0.9)->setChangeFrequency('weekly'));
+
+    $etudes = Etude::all();
+    foreach ($etudes as $etude) {
+        $sitemap->add(Url::create("/catalogue/{$etude->slug}-{$etude->id}")
+            ->setPriority(0.7)
+            ->setChangeFrequency('monthly'));
+        }
+
+    return $sitemap->toResponse(request());
+});
+
 
 Route::get('/', [CatalogueController::class, 'home'])->name('home');
 Route::get('/a-propos', [CatalogueController::class, 'about'])->name('about');
