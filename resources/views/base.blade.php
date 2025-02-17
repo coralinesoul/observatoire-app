@@ -19,74 +19,136 @@
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N9JRF6DD"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N9JRF6DD"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-    <nav class="bg-white p-4 mx-8">
-        <div class="w-full px-8 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="w-60 h-auto pr-8">
-                <a href="{{ route('home') }}">
-                  <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto">
-                </a>
-            </div>
-    
-            <!-- Menu de Navigation -->
-            <div class="hidden md:flex space-x-4 items-center">
-                <a 
-                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('catalogue.index') ? 'text-blue1 font-bold' : '' }}" 
-                    aria-current="page" 
-                    href="{{ route('catalogue.index') }}"
-                >
-                    Le catalogue
-                </a>
-                <a 
-                    class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('home') ? 'text-blue1 font-bold' : '' }}" 
-                    href="{{ route('home') }}"
-                >
-                    L'observatoire
-                </a>
-                <a 
+
+
+  <nav class="bg-white p-4 mx-8">
+    <div class="w-full px-8 flex items-center justify-between">
+        <!-- Logo avec une taille minimale et marge à gauche -->
+        <div class="w-72 h-auto pr-8 ml-4">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('Logo.png') }}" alt="Logo" class="object-contain w-full h-auto min-w-32">
+            </a>
+        </div>
+
+        <!-- Menu de Navigation (version desktop) -->
+        <div class="hidden md:flex space-x-4 items-center justify-center">
+            <a 
+                class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('catalogue.index') ? 'text-blue1 font-bold' : '' }}" 
+                href="{{ route('catalogue.index') }}"
+            >
+                Le catalogue
+            </a>
+            <a 
                 class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('home') ? 'text-blue1 font-bold' : '' }}" 
+                href="{{ route('home') }}"
+            >
+                L'observatoire
+            </a>
+            <a 
+                class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded {{ request()->routeIs('about') ? 'text-blue1 font-bold' : '' }}" 
                 href="{{ route('about') }}"
             >
                 A propos
             </a>
-            </div>
-            
-    
-            <!-- Actions d'authentification -->
-            <div class="hidden md:flex items-center space-x-4 ml-auto">
-                @auth
-                    <a href="{{ route('catalogue.user_tab') }}" class=" text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </a>
-                    <form action="{{ route('auth.logout') }}" method="post">
-                        @method("delete")
-                        @csrf
-                        <button type="submit" class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded"> Se déconnecter</button>
-                    </form>
-                @endauth
-                @guest
-                    <a href="{{ route('auth.login') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> Se connecter</a>
-                @endguest
-            </div>
+        </div>
+        
+        <!-- Actions d'authentification (version desktop) -->
+        <div class="hidden md:flex items-center space-x-4 ml-auto">
+            @auth
+                <a href="{{ route('catalogue.user_tab') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </a>
+                <form action="{{ route('auth.logout') }}" method="post">
+                    @method("delete")
+                    @csrf
+                    <button type="submit" class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded"> Se déconnecter</button>
+                </form>
+            @endauth
+            @guest
+                <a href="{{ route('auth.login') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded"> Se connecter</a>
+            @endguest
+        </div>
 
-    </nav>
-    <div class="w-full px-8">
-        <hr class="border-blue2 border-t-4 rounded">
+        <!-- Bouton de menu mobile -->
+        <div class="md:hidden flex justify-between items-center">
+            <button class="text-blue2 p-2" id="menu-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
     </div>
-    <br>
-    <div class="w-full px-8">
-        @if (session('success'))
-            <div class="rounded-md text-green-700 bg-green-100 border border-green-300 p-2">
-                {{ session('success') }}
-            </div>
-        @endif
+
+    <!-- Menu mobile (caché par défaut) -->
+    <div class="md:hidden flex flex-col items-center space-y-4 mt-4 hidden" id="mobile-menu">
+        <!-- Ligne 1 : Le catalogue -->
+        <a 
+            class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded text-center {{ request()->routeIs('catalogue.index') ? 'text-blue1 font-bold' : '' }}" 
+            href="{{ route('catalogue.index') }}"
+        >
+            Le catalogue
+        </a>
+
+        <!-- Ligne 2 : L'observatoire -->
+        <a 
+            class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded text-center {{ request()->routeIs('home') ? 'text-blue1 font-bold' : '' }}" 
+            href="{{ route('home') }}"
+        >
+            L'observatoire
+        </a>
+
+        <!-- Ligne 3 : À propos -->
+        <a 
+            class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded text-center {{ request()->routeIs('about') ? 'text-blue1 font-bold' : '' }}" 
+            href="{{ route('about') }}"
+        >
+            A propos
+        </a>
+
+        <!-- Actions d'authentification mobile -->
+        @auth
+            <a href="{{ route('catalogue.user_tab') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded text-center"> {{ \Illuminate\Support\Facades\Auth::user()->name }} </a>
+            <form action="{{ route('auth.logout') }}" method="post">
+                @method("delete")
+                @csrf
+                <button type="submit" class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded text-center"> Se déconnecter</button>
+            </form>
+        @endauth
+        @guest
+            <a href="{{ route('auth.login') }}" class="text-blue2 hover:bg-gray-100 px-3 py-2 rounded text-center"> Se connecter</a>
+        @endguest
     </div>
-    <livewire:cookie-banner />
-    <div class="w-full min-h-96 px-8">
-        @yield('content')
-    </div>
+  </nav>
+
+  <script>
+      // Script pour basculer le menu mobile
+      document.getElementById('menu-toggle').addEventListener('click', function() {
+          const menu = document.getElementById('mobile-menu');
+          menu.classList.toggle('hidden');
+      });
+  </script>
+
+  <div class="w-full px-8">
+      <hr class="border-blue2 border-t-4 rounded">
+  </div>
+  <br>
+
+  <div class="w-full px-8">
+      @if (session('success'))
+          <div class="rounded-md text-green-700 bg-green-100 border border-green-300 p-2">
+              {{ session('success') }}
+          </div>
+      @endif
+  </div>
+  <livewire:cookie-banner />
+  <div class="w-full min-h-96 px-8">
+      @yield('content')
+  </div>
 </body>
+
+
 <footer class="bg-blue2 mt-6" aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
