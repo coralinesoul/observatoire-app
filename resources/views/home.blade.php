@@ -12,7 +12,7 @@ et mieux répondre aux besoins de connaissance, de gestion et d'amélioration de
                 C’ est un territoire à haut potentiel <span class="font-bold text-blue1">économique, social et environnemental</span> caractérisé par la coexistence de trois types d'espaces très distincts.
             </p>
             <br>
-            <div class="flex justify-between p-10">
+            <div class="flex justify-between p-10 -mx-10">
                 <div class="text-center">
                     <i class="fa-solid fa-city text-blue2 text-4xl md:text-6xl lg:text-7xl"></i>
                     <h2 class="text-blue1 font-bold text-md md:text-lg">Milieux urbains</h2>
@@ -29,9 +29,11 @@ et mieux répondre aux besoins de connaissance, de gestion et d'amélioration de
             <p class="font-serif">
                 Dans cet environnement particulier, <span class="font-bold text-blue1">les rejets atmosphériques</span>, <span class="font-bold text-blue1">les sites et sols pollués</span> situés sur le littoral, <span class="font-bold text-blue1">les effluents marins</span> et <span class="font-bold text-blue1">l’utilisation de l’eau de mer dans le cadre de procédés industriels</span> peuvent, impacter les écosystèmes marins à court ou long-terme. 
                 <br>
+                <br>
                 Le développement économique du golfe, intégrant les grands projets sur le nautisme, les activités halieutiques, touristiques et industrialo-portuaires, répond à des enjeux forts, parfois paradoxaux, qui nécessitent de développer des instruments de gestion environnementale <span class="font-bold text-blue1">coordonnés et adaptés aux spécificités du milieu marin</span>, fondés sur la connaissance précise des paramètres d’équilibre écologique. 
                 <br>
                 Dans ce cadre, <span class="font-bold text-blue1">des mesures régulières</span> sont réalisées par plusieurs acteurs institutionnels, scientifiques, citoyens... Les résultats et l'interprétation des différents travaux ont permis d'acquérir des connaissances sur la présence, la réactivité et la toxicité de <span class="font-bold text-blue1">certains polluants</span> dans le golfe. 
+                <br>
                 <br>
                 Les conclusions montrent qu'une <span class="font-bold text-blue1">attention particulière</span> doit être portée aux principales familles de <span class="font-bold text-blue1">polluants "classiques"</span>, comme à celles des <span class="font-bold text-blue1">polluants "émergents"</span>. 
                 <br>

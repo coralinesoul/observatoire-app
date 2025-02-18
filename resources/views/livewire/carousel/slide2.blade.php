@@ -1,4 +1,4 @@
-<div class="px-8 md:px-28">
+<div class="px-20">
     <h1 class="text-3xl font-bold tracking-wide text-blue1">Produire de la connaissance</h1>
     <br>
     <div class="flex flex-wrap mt-8">

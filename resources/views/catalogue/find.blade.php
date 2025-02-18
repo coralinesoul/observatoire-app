@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Main grid container with two columns -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+<div class="grid grid-cols-1 px-10 md:px-0 md:grid-cols-3 gap-4 mt-4">
     <!-- Left text block (2/3 of the width) -->
     <div class="md:col-span-2">
         <h1 class="text-blue1 font-bold text-2xl mt-2">{{$etude->title}}</h1>
@@ -54,7 +54,7 @@
         </div>    
     </div>
     <br>
-    <div class="flex flex-wrap items-center mt-2 gap-x-6 gap-y-2"> <!-- gap-x-4 for spacing between items -->
+    <div class="flex flex-wrap px-5 items-center mt-2 gap-x-6 gap-y-2"> <!-- gap-x-4 for spacing between items -->
         <div class="flex-grow flex items-center">
             <p class="text-base font-medium text-blue2 mr-2">Fréquence des relevés :</p>
             <p class="text-gray-900 font-serif">{{ $etude->frequence}}</p>
