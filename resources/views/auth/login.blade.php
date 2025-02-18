@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("content")
-    <div class="flex justify-center h-dvh p-10">
+    <div class="flex justify-center h-dvh py-10 md:p-10">
         <form class="w-1/2 flex flex-col items-center" action="{{ route('auth.login') }}" method="post">
             @csrf
             <div class="w-full">

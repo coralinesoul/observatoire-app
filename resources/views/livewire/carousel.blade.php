@@ -41,7 +41,7 @@
 
         <!-- Flèche gauche -->
         <button @click="goToPrevious()"
-            class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue1 text-white rounded-full p-2 hover:bg-blue2 focus:outline-none">
+            class="absolute top-1/2 left-6 mx-6 transform -translate-y-1/2 bg-opacity-30 bg-blue1 text-white rounded-full p-2 hover:bg-blue2 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
@@ -49,7 +49,7 @@
 
         <!-- Flèche droite -->
         <button @click="goToNext()"
-            class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue1 text-white rounded-full p-2 hover:bg-blue2 focus:outline-none">
+            class="absolute top-1/2 right-6 mx-6 transform -translate-y-1/2 bg-opacity-30 bg-blue1 text-white rounded-full p-2 hover:bg-blue2 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>

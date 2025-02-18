@@ -1,4 +1,4 @@
-<div class="px-2">
+<div class="px-20">
     <h1 class="text-3xl font-bold tracking-wide text-blue1 mb-8">Centraliser les données</h1>
     <br>
     <livewire:etude-counter />
