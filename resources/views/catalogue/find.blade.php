@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Main grid container with two columns -->
-<div class="grid grid-cols-1 px-10 md:px-0 md:grid-cols-3 gap-4 mt-4">
+<div class="grid grid-cols-1 mx-4 md:mx-0 lg:grid-cols-3 gap-4 mt-4">
     <!-- Left text block (2/3 of the width) -->
     <div class="md:col-span-2">
         <h1 class="text-blue1 font-bold text-2xl mt-2">{{$etude->title}}</h1>
@@ -39,7 +39,7 @@
 
     </div>
 
-    <div class="md:col-span-1 flex justify-end">
+    <div class="md:col-span-1 flex justify-center">
         <img src="{{ asset($etude->imageUrl()) }}" alt="Image" class="rounded-lg w-full md:w-auto md:max-w-[80%] max-h-96 object-contain">
     </div>
 </div>
