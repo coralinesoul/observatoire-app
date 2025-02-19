@@ -184,6 +184,7 @@
                       <li><a href="/demande" class="text-sm leading-6 text-white hover:text-gray-200">Demande de compte</a></li>
                   </ul>
               </div>
+              <br>
               <div>
                   <h3 class="text-sm font-semibold leading-6 text-white">Informations</h3>
                   <ul role="list" class="mt-6 space-y-4">
