@@ -82,7 +82,7 @@
     </div>
 
     <!-- Menu mobile (caché par défaut) -->
-    <div class="lg:hidden flex flex-col items-center space-y-4 mt-4" id="mobile-menu">
+    <div class="hidden flex flex-col items-center space-y-4 mt-4" id="mobile-menu">
         <!-- Ligne 1 : Le catalogue -->
         <a 
             class="text-blue2 font-medium text-lg hover:bg-gray-100 px-3 py-2 rounded text-center {{ request()->routeIs('catalogue.index') ? 'text-blue1 font-bold' : '' }}" 

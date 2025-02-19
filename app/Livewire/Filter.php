@@ -16,12 +16,15 @@ class Filter extends Component
 {
     use WithPagination;
 
+    protected $listeners = ['toggleFilter' => 'toggle'];
+
     public $sources;
     public $themes;
     public $parametres;
     public $matrices;
     public $zones;
     public $types;
+    public $isOpen = false;
 
     public $selectedSource = [];
     public $selectedTheme = [];
@@ -64,6 +67,11 @@ class Filter extends Component
         $this->selectedFrequence = session()->get('selectedFrequence', []);
         $this->selectedStartyear = session()->get('selectedStartyear', 1960);
         $this->selectedStopyear = session()->get('selectedStopyear', date('Y'));
+    }
+
+    public function toggle()
+    {
+        $this->isOpen = !$this->isOpen;
     }
 
 
