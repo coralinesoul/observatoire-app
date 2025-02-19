@@ -115,7 +115,7 @@
     <!-- Conteneur principal -->
     <div class="flex w-full">
         <!-- Panneau des filtres -->
-        <div id="filter-panel" class="relative bg-blue2 bg-opacity-5 w-4/5 h-full max-w-[340px] z-50 shadow-md p-6 md:block md:h-auto md:z-auto md:shadow-none hidden">
+        <div id="filter-panel" class="relative bg-blue2 bg-opacity-5 w-4/5 h-full max-w-[340px] z-50 shadow-md p-6 md:block md:h-auto md:z-auto hidden">
             <!-- Bouton de fermeture (visible uniquement en mobile) -->
             <button onclick="document.getElementById('filter-panel').classList.toggle('hidden')"
                 class="md:hidden p-2 absolute top-0 right-0">
@@ -452,7 +452,7 @@
                     </div>
                     <br>
             </div>
-        <div class=" w-full md:w-4/5 mx-8 md:mx-0">
+        <div class=" w-full md:w-4/5 mx-8 md:mr-0">
             @if(!empty($etudes)&& count($etudes) > 0)
                 <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-min">
                     @foreach ($etudes as $etude)
