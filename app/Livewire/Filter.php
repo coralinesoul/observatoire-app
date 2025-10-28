@@ -224,7 +224,7 @@ class Filter extends Component
             ->when(!empty($this->selectedFrequence), function ($query) {
                 $query->whereIn('frequence', $this->selectedFrequence);
             })
-            ->paginate(16);
+            ->paginate(12);
 
     }
     public function removeSelection($type, $value)
