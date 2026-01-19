@@ -283,71 +283,23 @@
                     @endif
                     <br>
                     <div>
-                        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Sources</h2>
-                        @foreach ($sources as $source)
-                            <input type="checkbox" id="{{$source->id}}" name="selectedSource" value="{{$source->id}}" wire:model="selectedSource" wire:change="updateFilteredOptions">
-                            <label>{{$source->name}}</label>
-                            <br>
-                        @endforeach
-                    </div>
-                    <br>
-                    <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Dates</h2>       
-                    <br>
-                    @vite('resources/js/filters.js')
-                    <div class="range_container">
-                        <div class="sliders_control">
-                            <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" min="1960" max="{{ date('Y') }}"/>
-                            <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions"  min="1960" max="{{ date('Y') }}"/>
-                        </div>
-                        <div class="form_control">
-                            <div class="form_control_container">
-                                <input class="form_control_container__time__input" wire:model="selectedStartyear" wire:change="updateFilteredOptions" type="number" id="fromInput" min="1960" max="{{ date('Y') }}"/>
-                            </div>
-                            <div class="form_control_container">
-                                <input class="form_control_container__time__input" wire:model="selectedStopyear" wire:change="updateFilteredOptions" type="number" id="toInput" min="0" max="{{ date('Y') }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <br>
-                    <div>
-                        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Fréquence des relevés</h2>
-                        <input type="checkbox" id="optionPonctuelle" name="selectedFrequence" value="ponctuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
-                        <label for="optionPonctuelle">Ponctuelle</label>
-                        <br>
-                        
-                        <input type="checkbox" id="optionQuotidienne" name="selectedFrequence" value="quotidienne" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
-                        <label for="optionQuotidienne">Quotidienne</label>
-                        <br>
-                        
-                        <input type="checkbox" id="optionMensuelle" name="selectedFrequence" value="mensuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
-                        <label for="optionMensuelle">Mensuelle</label>
-                        <br>
-                        <input type="checkbox" id="optionPluriannuelle" name="selectedFrequence" value="pluriannuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
-                        <label for="optionPluriannuelle">Pluriannuelle</label>
-                        <br>
-                        <input type="checkbox" id="optionAnnuelle" name="selectedFrequence" value="annuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
-                        <label for="optionAnnuelle">Annuelle</label>
-                    </div>
-                    <br>
-                    <div>
-                        <label class="m-1 block text-base font-medium text-blue1" for="zone">Zones géographiques</label>
+                        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1" for="zone">Zones géographiques</label>
                         <div id="svg-container" class="w-64 h-auto relative"
-                        x-data="{ 
-                            selectedZone: @entangle('selectedZone'), 
-                            hoverZone: '', 
-                            cursorPos: { x: 0, y: 0 }
-                        }"
-                        x-on:mousemove="cursorPos = { x: $event.x, y: $event.y }">
-                    
-                    <!-- Le span qui s'affiche au survol de la zone -->
-                    <span x-show="hoverZone"
-                            x-text="hoverZone"
-                            class="absolute text-white bg-black opacity-75 rounded p-2"
-                            :style="{
-                                transform: `translate(${cursorPos.x -40}px, ${cursorPos.y -600}px)`
-                            }">
-                    </span> 
+                            x-data="{ 
+                                selectedZone: @entangle('selectedZone'), 
+                                hoverZone: '', 
+                                cursorPos: { x: 0, y: 0 }
+                                }"
+                            x-ref="container"
+                            x-on:mousemove="const r = $refs.container.getBoundingClientRect();
+                            cursorPos = { x: $event.clientX - r.left, y: $event.clientY - r.top };">
+
+                            <span x-show="hoverZone"
+                                x-text="hoverZone"
+                                class="absolute text-white bg-black opacity-75 rounded p-2 pointer-events-none"
+                                :style="`left:${cursorPos.x + 12}px; top:${cursorPos.y + 12}px;`">
+                            </span>
+                            
                             <svg xmlns="http://www.w3.org/2000/svg"  class="w-full h-auto" viewBox="0 0 2480 3507" width="100%" height="auto">
                                 <g id="zone9" data-name="Grand Large" 
                                     wire:click="updateSelectedZone(9)" wire:model="selectedZone" wire:change="updateFilteredOptions"
@@ -442,6 +394,55 @@
                         </div>
                     </div>
                     <br>
+                    <div>
+                        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Sources</h2>
+                        @foreach ($sources as $source)
+                            <input type="checkbox" id="{{$source->id}}" name="selectedSource" value="{{$source->id}}" wire:model="selectedSource" wire:change="updateFilteredOptions">
+                            <label>{{$source->name}}</label>
+                            <br>
+                        @endforeach
+                    </div>
+                    <br>
+                    <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Dates</h2>       
+                    <br>
+                    @vite('resources/js/filters.js')
+                    <div class="range_container">
+                        <div class="sliders_control">
+                            <input id="fromSlider" type="range" wire:model="selectedStartyear" wire:change="updateFilteredOptions" min="1960" max="{{ date('Y') }}"/>
+                            <input id="toSlider" type="range" wire:model="selectedStopyear" wire:change="updateFilteredOptions"  min="1960" max="{{ date('Y') }}"/>
+                        </div>
+                        <div class="form_control">
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" wire:model="selectedStartyear" wire:change="updateFilteredOptions" type="number" id="fromInput" min="1960" max="{{ date('Y') }}"/>
+                            </div>
+                            <div class="form_control_container">
+                                <input class="form_control_container__time__input" wire:model="selectedStopyear" wire:change="updateFilteredOptions" type="number" id="toInput" min="0" max="{{ date('Y') }}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div>
+                        <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Fréquence des relevés</h2>
+                        <input type="checkbox" id="optionPonctuelle" name="selectedFrequence" value="ponctuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
+                        <label for="optionPonctuelle">Ponctuelle</label>
+                        <br>
+                        
+                        <input type="checkbox" id="optionQuotidienne" name="selectedFrequence" value="quotidienne" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
+                        <label for="optionQuotidienne">Quotidienne</label>
+                        <br>
+                        
+                        <input type="checkbox" id="optionMensuelle" name="selectedFrequence" value="mensuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
+                        <label for="optionMensuelle">Mensuelle</label>
+                        <br>
+                        <input type="checkbox" id="optionPluriannuelle" name="selectedFrequence" value="pluriannuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
+                        <label for="optionPluriannuelle">Pluriannuelle</label>
+                        <br>
+                        <input type="checkbox" id="optionAnnuelle" name="selectedFrequence" value="annuelle" wire:model="selectedFrequence" wire:change="updateFilteredOptions">
+                        <label for="optionAnnuelle">Annuelle</label>
+                    </div>
+                    <br>
+
                     <div>
                         <h2 class="text-base font-medium tracking-wide text-blue2 mt-1">Types de données produites</h2>
                         @foreach ($types as $type)
