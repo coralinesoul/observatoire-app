@@ -46,6 +46,5 @@ et mieux répondre aux besoins de connaissance, de gestion et d'amélioration de
     </div>
     
     <livewire:carousel />
-    <br>
-    <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Rapport d'activité</h1>
+
 @endsection
