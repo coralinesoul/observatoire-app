@@ -36,7 +36,7 @@ class AuthController extends Controller
     
         // Envoi de l'email avec la vue Blade 'emails.demande_validation'
         Mail::send('emails.demande_validation', $details, function($message) {
-            $message->to('coraline.soul@institut-ecocitoyen.fr')
+            $message->to('contact@observatoire-golfe-fos.fr')
                     ->subject('Nouvelle demande de création de compte');
         });
     
@@ -74,7 +74,7 @@ class AuthController extends Controller
 
         // Envoyer l'email
         Mail::raw("Nouvelle demande de compte :\n\nEmail: {$request->email}\nStructure: {$request->structure}\nRésumé: {$request->resume}", function ($message) use ($request) {
-            $message->to('coraline.soul@institut-ecocitoyen.fr')
+            $message->to('contact@observatoire-golfe-fos.fr')
                     ->subject('Nouvelle demande de création de compte');
         });
 

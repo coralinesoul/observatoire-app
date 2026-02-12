@@ -128,7 +128,7 @@ class FormController extends Controller
             ];
 
             Mail::send('emails.etude_creee', $details, function($message) {
-                $message->to('coraline.soul@institut-ecocitoyen.fr')
+                $message->to('contact@observatoire-golfe-fos.fr')
                         ->subject('Nouvelle étude créée');
             });
 
