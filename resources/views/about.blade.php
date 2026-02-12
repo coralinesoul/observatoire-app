@@ -10,7 +10,7 @@
             <p class="font-serif">
                 Créé en 2010, l’Institut Écocitoyen est un centre de recherche scientifique sur l’<span class="font-bold text-blue1">effet des pollutions sur l’environnement et la santé humaine</span>. Grâce à un partenariat historique avec les organismes universitaires de la région (LCE, MIO, CEREGE, IMBE...), l’Institut crée une interface entre <span class="font-bold text-blue1">enjeux territoriaux et travaux de recherche</span>. Son expérience sur l’ensemble des domaines environnementaux et sanitaires autour du golfe de Fos et sa localisation à Fos-sur-Mer lui confère une place centrale dans le dispositif de cet Observatoire.
                 <br>
-                Il anime et organise le <span class="font-bold text-blue1">Comité de Pilotage de l’Observatoire</span>, réalise la maîtrise d’oeuvre d’études spécifiques au golfe de Fos et assure la <span class="font-bold text-blue1">centralisation des connaissances</span> sur les milieux marins et littoraux et la <span class="font-bold text-blue1">bancarisation</span> des données correspondantes. 
+                Il anime et organise le <span class="font-bold text-blue1">Comité de Pilotage de l’Observatoire</span>, réalise la maîtrise d’oeuvre d’études spécifiques au golfe de Fos et assure la <span class="font-bold text-blue1">centralisation des connaissances</span> sur les milieux marins et littoraux et la <span class="font-bold text-blue1">bancarisation</span> des données correspondantes.
                 <br>
                 Les moyens matériels de l’Institut comprennent notamment deux sondes multi-paramètres (type CTD), un courantomètre ADCP, une bouteille Niskin de prélèvement d’eau, une benne à sédiments Van Veen, un filet à plancton, un filet manta pour les microplastiques, . Il dispose également d’un laboratoire de préparation d’échantillons et d’observation microscopique (loupe binoculaire et microscope optique) et de moyens de stockage et de conservation d’échantillons, qui pourront être <span class="font-bold text-blue1">mis à disposition en fonction des disponibilités, et des ressources</span>.
             </p>
@@ -73,20 +73,20 @@
             <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Nous contacter</h1>
             <br>
             <p class="font-serif">
-                Institut Ecocitoyen pour la Connaissance des Pollutions
+                Institut Ecocitoyen pour la Connaissance des Pollutions de FOS
             </br>
                 Centre de Vie la Fossette - RD 268</br>
                 13270 Fos-sur-Mer </br>
                 France </br>
                 Mails : contact@observatoire-golfe.fr </br>
-                
+
                 <br>
                 Pour toutes demandes, veuillez vous adresser au standard au 04 90 55 49 94.
             </p>
         </div>
     </div>
-    
-</div>    
+
+</div>
     <div class="px-28">
         <h1 class="text-3xl font-bold tracking-wide text-blue2 mt-1">Soutiens financiers</h1>
         <br>
@@ -101,7 +101,7 @@
             <a href="https://www.marseille-port.fr" target="_blank">
                 <img class="w-60 h-auto" src="{{ asset('/Logo_partenaires/GPMM.png') }}" alt="GPMM">
             </a>
-        </div>        
+        </div>
         <br>
     </div>
 @endsection
