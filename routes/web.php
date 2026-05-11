@@ -33,14 +33,14 @@ Route::get('/a-propos', [CatalogueController::class, 'about'])->name('about');
 
 // API route for sources autocomplete
 Route::get('/api/sources', function (Request $request) {
-    $term = strtolower($request->query('term')); 
+    $term = strtolower($request->query('term'));
     return \App\Models\Source::whereRaw('LOWER(name) LIKE ?', ["{$term}%"])->get();
 });
 
 // Authentication routes
 Route::get('/demande', [AuthController::class, 'showDemandeForm'])->name('auth.demande_compte');
 Route::post('/demande', [AuthController::class, 'submitDemande'])->name('auth.demande.submit');
-Route::get('/demande/validate', [AuthController::class, 'validateDemande'])->name('auth.demande.validate');
+Route::get('/demande/validate', [AuthController::class, 'validateDemande'])->name('auth.demande.validate')->middleware('signed');
 
 Route::get('/password/forgot', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
